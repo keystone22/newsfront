@@ -4,7 +4,32 @@ A finite front page. Fixed slots per section, filled by random draw from
 whatever the feeds are carrying. No ranking, no engagement data, no
 personalization of any kind.
 
-## Running it
+## Where it runs
+
+The scheduled draw runs on **GitHub Actions**, not on any machine of Frank's:
+`.github/workflows/edition.yml` pulls the feeds 4x/day, exports the page and
+commits it. GitHub Pages serves `docs/index.html`. Cost is zero — Actions
+minutes are unlimited on a public repo, and this app uses no API keys at all.
+
+`workflow_dispatch` is enabled, so the "Run workflow" button (including in the
+GitHub phone app) forces an off-schedule draw.
+
+Two things about that setup that are easy to get wrong:
+
+* **`news.db` is committed, and must stay that way.** Every run gets a fresh
+  runner, so the database is the only thing carrying dedup history between
+  editions. Ignore it and the paper repeats itself. `prune()` keeps it bounded
+  at twice the longest recency window.
+* **GitHub cron is UTC and has no DST handling**, so the four draw times drift
+  by an hour in winter. They are also set to `:17` rather than the hour —
+  GitHub delays scheduled jobs under load, and the top of the hour is worst.
+
+Rejected: **PythonAnywhere's free tier cannot run this.** Its outbound access is
+allowlisted — 38 of the 43 feed hosts are blocked, only the Google News ones get
+through — and the free tier has **no scheduled tasks at all**, so nothing would
+ever refresh. The cheapest plan that fixes both is Developer at $10/month.
+
+## Running it locally
 
 Pull the feeds and draw a new front page:
 
