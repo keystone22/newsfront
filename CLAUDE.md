@@ -146,8 +146,12 @@ Two traps this shipped with:
 Phases 0, 1 and 2 shipped Aug 23, 2026. **Not built, deliberately:** Comics
 (needs an image-card layout) and Wildcard (Phase 3).
 
-Spec: `news-aggregator-spec.md`, in the repo (it was moved out of
-`~/Documents/Claude Projects/` on Aug 23, 2026 — the old path is empty).
+Spec: `news-aggregator-spec.md`, sitting in the working directory but
+**deliberately gitignored** — this repo is public and the spec names personal
+subscriptions and interests (Frank's call, Aug 23 2026). It moved here from
+`~/Documents/Claude Projects/` the same day; that old path is now empty, so this
+is the only copy. It is therefore NOT backed up by the repo — worth knowing if
+the folder is ever rebuilt from a clone.
 
 ## Note on memory
 

@@ -106,6 +106,46 @@ WIRE_JUNK = (
     r"|^about .+\([A-Z0-9.]{2,10}\)\s*$)"            # Reuters fund/company profile page
 )
 
+# Sport arriving in a NEWS section. Frank's report, Aug 23 2026: "I see sports
+# in top news. Not expected." He was right, and three of the ten Top News slots
+# were football, baseball and golf that day.
+#
+# The cause is that the wire queries have NO WORKING TOPIC FILTER. Measured the
+# same day: "site:apnews.com+sports" returns 100 items including a robotics
+# story about a "100m sprint and high jump", because the trailing keyword is a
+# soft relevance hint to Google, not a filter. The Top News queries carry no
+# keyword at all, so they return everything the wire published -- and 11-12% of
+# that is sport (AP 11 of 88, Reuters 10 of 89). NYT and Guardian US measured
+# ZERO, because those feeds are edited front pages rather than firehoses.
+#
+# The structural fix the rest of this file prefers -- filter on the URL path,
+# as OPINION does -- is IMPOSSIBLE here: a Google News link is a
+# news.google.com redirect, and the entry carries only the bare domain
+# ("https://www.reuters.com") with no path. Verified against the live feed.
+# So this is a title test, and like WIRE_JUNK it is scoped to the wire sources
+# ONLY. Applied globally it would gut the Sports section: swept across every
+# stored article it matched 28 rows outside the wires, and all but one were
+# ESPN and Guardian Football pieces sitting correctly in Sports.
+#
+# High-precision terms only. Deliberately EXCLUDED as ordinary English that
+# happens to be sporting: "open", "champions", "coach", "athletic", "season",
+# "win", "match", "final" on its own -- each of which appears in real news.
+# Swept 2026-08-23 across all stored articles: 22 caught in the wire news
+# sections, every one genuine sport, no false positives.
+WIRE_SPORT = (
+    r"\b(nfl|nba|mlb|nhl|ncaa|fifa|uefa|pga|atp|wta"
+    r"|premier league|la ?liga|serie a|bundesliga|champions league|world cup"
+    r"|formula one|f1 (?:race|team|season)|grand prix"
+    r"|touchdown|quarterback|home run|innings|midfielder|striker"
+    r"|preseason|playoffs?|semi-?final|quarter-?final"
+    r"|mixed doubles|u\.s\. open|wimbledon|the masters"
+    r"|scoreless|shutout|batting|pitcher|linebacker)\b"
+)
+
+# What a wire feeding a NEWS section gets: hub-page junk plus sport.
+# AP Sports deliberately gets WIRE_JUNK alone -- sport is the point there.
+WIRE_NEWS = f"(?:{WIRE_JUNK})|(?:{WIRE_SPORT})"
+
 # ---------------------------------------------------------------------------
 # Sections
 # ---------------------------------------------------------------------------
@@ -140,14 +180,14 @@ SOURCES = [
     #     to a 24h window because a stale lead story is worse than a thin one.
     ("NYT",                "Top News",        "https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml",        1,   24,  None),
     ("Guardian US",        "Top News",        "https://www.theguardian.com/us-news/rss",                          1,   24,  None),
-    ("AP",                 "Top News",        GN + "when:1d+site:apnews.com",                                     1,   24,  WIRE_JUNK),
-    ("Reuters",            "Top News",        GN + "when:1d+site:reuters.com",                                    1,   24,  WIRE_JUNK),
+    ("AP",                 "Top News",        GN + "when:1d+site:apnews.com",                                     1,   24,  WIRE_NEWS),
+    ("Reuters",            "Top News",        GN + "when:1d+site:reuters.com",                                    1,   24,  WIRE_NEWS),
 
     # --- World
     ("NYT World",          "World",           "https://rss.nytimes.com/services/xml/rss/nyt/World.xml",           1,   48,  None),
     ("Guardian World",     "World",           "https://www.theguardian.com/world/rss",                            1,   48,  None),
-    ("AP World",           "World",           GN + "when:2d+site:apnews.com+world",                               1,   48,  WIRE_JUNK),
-    ("Reuters World",      "World",           GN + "when:2d+site:reuters.com+world",                              1,   48,  WIRE_JUNK),
+    ("AP World",           "World",           GN + "when:2d+site:apnews.com+world",                               1,   48,  WIRE_NEWS),
+    ("Reuters World",      "World",           GN + "when:2d+site:reuters.com+world",                              1,   48,  WIRE_NEWS),
 
     # --- Europe
     ("Euronews",           "Europe",          "https://www.euronews.com/rss",                                     1,   48,  None),

@@ -6,3 +6,9 @@ __pycache__/
 # GitHub runner each time, so the database is the only thing carrying dedup
 # history between editions -- ignore it and the paper repeats itself. fetch.py
 # prunes it to stay small.
+
+# The spec is kept LOCAL and out of the repo (Frank's call, Aug 23 2026). This
+# repository is public, and while the spec holds no credentials it does name
+# personal subscriptions and interests. Ignored rather than merely uncommitted,
+# so a later `git add -A` cannot sweep it up by accident.
+news-aggregator-spec.md
