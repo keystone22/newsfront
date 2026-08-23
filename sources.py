@@ -217,8 +217,25 @@ WIRE_SERVICES_DEAD = {
                 "https://feeds.apnews.com/rss/apf-topnews"],
 }
 
+# Slots on a SECTION page -- the fuller view behind each front-page heading.
+#
+# The front page's "max 1 per source" cannot fill ten slots from four sources,
+# so a section page deals differently: ONE card per source per round, source
+# order reshuffled each round, until the quota is full. That is the same
+# anti-crowding rule generalised -- the front page is simply a single round --
+# and it degrades gracefully, because a source that runs out of candidates just
+# stops being dealt to while the others carry on.
+#
+# 10 is safe in every section as measured on 2026-08-23. The thinnest candidate
+# pool is Italy at 46 across 4 sources (16/13/9/8), which fills ten slots inside
+# three rounds; the widest source list is Sports at 8, so even there every
+# source is dealt to in round one. What the rule buys is visible in Top News:
+# Reuters and AP carry 152 of its 183 candidates and would take all ten slots on
+# volume alone, where round-robin gives NYT and Guardian US two apiece.
+SECTION_QUOTA = 10
+
 # Shown in the page footer, so it can't go stale in the template.
-PHASE = 1
+PHASE = 2
 
 # How many days an article stays suppressed after being shown, so a fresh draw
 # doesn't repeat yesterday's front page. Phase 3 tunes this.

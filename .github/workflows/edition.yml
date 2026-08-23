@@ -46,7 +46,10 @@ jobs:
         run: |
           git config user.name  "newsfront-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add docs/index.html news.db
+          # -A over the whole directory, not docs/index.html: the export writes
+          # one page per section, and a section retired from sources.py has its
+          # stale page DELETED, which only -A stages.
+          git add -A docs news.db
           # A draw with genuinely nothing new leaves both files untouched.
           if git diff --staged --quiet; then
             echo "nothing changed; no commit"

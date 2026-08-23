@@ -30,10 +30,10 @@
 
     {% for s in sections %}
     <section class="section">
-      <div class="shead">
+      <a class="shead" href="{{ s.slug }}.html">
         <span class="sname">{{ s.name }}</span>
-        <span class="squota">{{ s.stories|length }} / {{ s.quota }}</span>
-      </div>
+        <span class="squota">{{ s.stories|length }} / {{ s.quota }}<span class="more">all {{ section_quota }} &rarr;</span></span>
+      </a>
       {% for a in s.stories %}
       <article class="story">
         <div class="meta">
@@ -53,7 +53,8 @@
         Each bar is one section, split by how much of its candidate pool each source
         supplied &mdash; not by what reached the page. The gap between a wide band and
         a single slot is the per-source cap doing its job. Sources are named below only
-        where something needs explaining.</p>
+        where something needs explaining. Tap any section heading for {{ section_quota }}
+        drawn from the same pool.</p>
       <div class="rows">
         {% for s in sections %}
         <div class="row">
@@ -94,7 +95,8 @@
 
       <p class="foot">
         Random sample within cap. No ranking, no click data, no personalization.<br>
-        Phase {{ phase }} &middot; {{ source_count }} feeds &middot; {{ section_count }} sections &middot; front page only.
+        Phase {{ phase }} &middot; {{ source_count }} feeds &middot; {{ section_count }} sections &middot;
+        {{ section_quota }} more behind each heading.
       </p>
     </section>
 

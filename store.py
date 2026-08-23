@@ -15,6 +15,10 @@ MIGRATIONS = [
     # from "this feed had nothing new", which look identical at 0 candidates.
     ("sources", "last_error",    "TEXT"),
     ("sources", "last_success",  "TEXT"),
+    # Section pages (Phase 2). Deliberately NOT indexed: prune() bounds
+    # `articles` at twice the longest recency window -- under a thousand
+    # rows -- so a scan costs less than the index would.
+    ("articles", "section_slot", "INTEGER NOT NULL DEFAULT 0"),
 ]
 
 

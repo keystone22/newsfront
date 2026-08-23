@@ -1,0 +1,347 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Standing Order">
+<title>Top News &mdash; The Standing Order</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+:root{
+  color-scheme:light;
+  --ground:#EEF0F3; --surface:#FFFFFF; --ink:#15181E; --muted:#626B7A;
+  --accent:#0F5C4E; --accent-soft:#0F5C4E1F; --pool:#0F5C4E38; --rule:#D8DCE2; --rule-soft:#E6E9ED;
+  --serif:"Newsreader",Georgia,"Times New Roman",serif;
+  --sans:"IBM Plex Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--ground); color:var(--ink);
+  font-family:var(--sans); font-size:16px; line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1080px; margin:0 auto; padding:20px 16px 56px;}
+@media(min-width:760px){ .wrap{padding:36px 32px 72px;} }
+
+.masthead{background:var(--surface); border:1px solid var(--rule); padding:20px 18px 0; margin-bottom:20px;}
+.brand{font-family:var(--serif); font-weight:600; font-size:2rem; line-height:1.05;
+       letter-spacing:-.02em; margin:0; text-wrap:balance;}
+@media(min-width:760px){ .brand{font-size:2.6rem;} }
+.tagline{font-size:.82rem; color:var(--muted); margin:6px 0 16px;}
+.strip{display:grid; grid-template-columns:repeat(2,1fr); border-top:1px solid var(--rule);
+       font-family:var(--mono); font-variant-numeric:tabular-nums;}
+@media(min-width:620px){ .strip{grid-template-columns:repeat(4,1fr);} }
+.strip div{padding:10px 0 12px; border-right:1px solid var(--rule-soft);}
+.strip div:last-child{border-right:0}
+@media(max-width:619px){
+  .strip div:nth-child(2n){border-right:0}
+  .strip div:nth-child(-n+2){border-bottom:1px solid var(--rule-soft)}
+}
+.k{display:block; font-family:var(--sans); font-size:.63rem; font-weight:600;
+   text-transform:uppercase; letter-spacing:.09em; color:var(--muted); margin-bottom:3px;}
+.v{font-size:.95rem; font-weight:500;}
+.v .u{color:var(--muted); font-size:.78rem;}
+
+.sections{display:grid; gap:20px;}
+@media(min-width:900px){ .sections{grid-template-columns:1fr 1fr; align-items:start;} }
+.section{background:var(--surface); border:1px solid var(--rule);}
+.shead{display:flex; align-items:baseline; justify-content:space-between; gap:12px;
+       padding:12px 18px; border-bottom:2px solid var(--ink);
+       color:inherit; text-decoration:none;}
+a.shead:hover .sname{color:var(--accent);}
+a.shead:focus-visible{outline:2px solid var(--accent); outline-offset:-2px;}
+.more{display:inline-block; margin-left:9px; color:var(--muted); font-weight:400;}
+a.shead:hover .more{color:var(--accent);}
+.sname{font-weight:600; font-size:.78rem; text-transform:uppercase; letter-spacing:.13em;}
+.squota{font-family:var(--mono); font-size:.75rem; font-weight:500; color:var(--accent);
+        font-variant-numeric:tabular-nums; white-space:nowrap;}
+.story{padding:15px 18px; border-bottom:1px solid var(--rule-soft);}
+.story:last-child{border-bottom:0}
+.meta{display:flex; align-items:center; gap:8px; margin-bottom:6px; font-family:var(--mono);
+      font-size:.68rem; color:var(--muted); font-variant-numeric:tabular-nums;}
+.src{font-weight:600; color:var(--accent); letter-spacing:.02em;}
+.dot{opacity:.45}
+.hl{font-family:var(--serif); font-size:1.18rem; line-height:1.28; font-weight:500;
+    letter-spacing:-.005em; text-wrap:balance; margin:0;}
+.hl a{color:var(--ink); text-decoration:none; border-bottom:1px solid transparent;}
+.hl a:hover{border-bottom-color:var(--accent);}
+.hl a:focus-visible{outline:2px solid var(--accent); outline-offset:3px;}
+.empty{padding:15px 18px; color:var(--muted); font-size:.88rem;}
+
+.mech{margin-top:0; background:var(--surface); border:1px solid var(--rule); padding:18px;}
+.mech h2{font-size:.78rem; font-weight:600; text-transform:uppercase;
+         letter-spacing:.13em; margin:0 0 4px;}
+.mech .sub{font-size:.85rem; color:var(--muted); margin:0 0 18px; max-width:62ch;}
+.rows{display:grid; gap:14px;}
+.row{display:grid; gap:7px;}
+.rtop{display:flex; justify-content:space-between; align-items:baseline; gap:10px;
+      font-family:var(--mono); font-size:.75rem; font-variant-numeric:tabular-nums;}
+.rtop b{font-family:var(--sans); font-size:.8rem; font-weight:600;}
+.rtop span{color:var(--muted);}
+.bar{display:flex; height:7px; background:var(--rule-soft); overflow:hidden;}
+.bar i{display:block; height:100%; background:var(--accent);}
+.legend{display:flex; flex-wrap:wrap; gap:6px 14px; font-family:var(--mono);
+        font-size:.68rem; color:var(--muted); font-variant-numeric:tabular-nums;}
+.legend span{display:inline-flex; align-items:center; gap:5px;}
+.sw{width:9px; height:9px; flex:none; background:var(--accent);}
+.foot{margin-top:20px; font-family:var(--mono); font-size:.68rem; color:var(--muted);
+      line-height:1.7; font-variant-numeric:tabular-nums;}
+.warn{margin-top:18px; padding:13px 15px; background:var(--accent-soft);
+      border-left:3px solid var(--accent); font-size:.86rem; max-width:64ch;}
+
+.legend span.bad{color:#B3261E;}
+.legend span.bad .sw{background:#B3261E;}
+.legend span.flag{color:var(--ink);}
+.note{font-size:.78rem; color:var(--muted); margin:2px 0 0; max-width:60ch; line-height:1.5;}
+
+
+/* ---- section pages -------------------------------------------------------
+   The spec asks for "slightly more breathing room, same card pattern", so the
+   section page runs ONE column at every width rather than the front page's two,
+   and its cards carry more padding and a larger headline. */
+.one-col{grid-template-columns:1fr !important;}
+.back{display:inline-block; font-family:var(--mono); font-size:.72rem; font-weight:500;
+      color:var(--accent); text-decoration:none; margin-bottom:12px;}
+.back:hover{text-decoration:underline;}
+.back:focus-visible{outline:2px solid var(--accent); outline-offset:3px;}
+.story.wide{padding:19px 18px;}
+@media(min-width:760px){ .story.wide{padding:22px 24px;} }
+.story.wide .hl{font-size:1.3rem;}
+@media(min-width:760px){ .story.wide .hl{font-size:1.42rem; max-width:44ch;} }
+
+/* Says WHY a story leads the page. A fact about the draw, not a recommendation. */
+.tag{font-family:var(--sans); font-size:.6rem; font-weight:600; text-transform:uppercase;
+     letter-spacing:.08em; color:var(--accent); background:var(--accent-soft);
+     padding:2px 6px; margin-left:2px;}
+
+/* A GRID, not wrapped flex: flex sizes each link to its own text, so the
+   dividers between "Tech & Hobbies" and "Sports" land in different places and
+   the block reads as misaligned. */
+.jumps{display:grid; grid-template-columns:repeat(2,1fr);}
+@media(min-width:620px){ .jumps{grid-template-columns:repeat(3,1fr);} }
+.jumps a{padding:12px 18px; font-size:.82rem;
+         font-weight:500; color:var(--ink); text-decoration:none;
+         border-bottom:1px solid var(--rule-soft); border-right:1px solid var(--rule-soft);}
+.jumps a:hover{color:var(--accent); background:var(--accent-soft);}
+.jumps a:focus-visible{outline:2px solid var(--accent); outline-offset:-2px;}
+
+/* Two bars per source: what it supplied, and what it got. The point of the page
+   is the gap between them, so they sit one above the other at the same scale.
+   Scoped to .split -- the FRONT page's .mech .bar is a horizontal stacked bar,
+   and an unscoped flex-direction here silently turns it on its side. */
+.split .bar{flex-direction:column; height:auto; gap:2px; background:none;}
+.split .bar i{height:7px; background:var(--pool);}
+.split .bar i.slot{background:var(--accent);}
+.rtop b.bad{color:#B3261E;}
+.key{display:flex; flex-wrap:wrap; align-items:center; gap:5px 16px; margin:14px 0 0;
+     font-family:var(--mono); font-size:.68rem; color:var(--muted);}
+.key .sw{background:var(--pool);}
+.key .sw.slot{background:var(--accent); margin-left:10px;}
+
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="masthead">
+    <a class="back" href="index.html">&larr; The Standing Order</a>
+    <h1 class="brand">Top News</h1>
+    <p class="tagline">The full section for this edition &mdash; 10 slots,
+      dealt one per source per round.</p>
+    <div class="strip">
+      <div><span class="k">Edition</span><span class="v">23 Aug 11:42 AM</span></div>
+      <div><span class="k">Stories</span><span class="v">10 <span class="u">of 10</span></span></div>
+      <div><span class="k">Candidates</span><span class="v">210</span></div>
+      <div><span class="k">Sources</span><span class="v">4</span></div>
+    </div>
+  </div>
+
+  <div class="sections one-col">
+
+    <section class="section">
+      <div class="shead static">
+        <span class="sname">Top News</span>
+        <span class="squota">10 / 10</span>
+      </div>
+      
+      <article class="story wide">
+        <div class="meta">
+          <span class="src">Reuters</span><span class="dot">&bull;</span><span>15h ago</span>
+          
+          <span class="tag">on the front page</span>
+        </div>
+        <p class="hl"><a href="https://news.google.com/rss/articles/CBMipgFBVV95cUxQMWZoNlFGUDRWWmYwNkxpbmVpalQzVjVwRUlZa3ZWUjJlaDQ1bWdiMWowNloyeDkzRHd0S0xicHBCdjF2WHJrQnJIY2dJNXBRUGcwRzlYWG9zN3paVFJTT1RCQXM3a2dZaElhUHAteTNFM2lvRS1xQmlGRzBHWnAtbnU4NmloZFIzVGNVSC1ENDBNbzBNODZtTWtILVlnOVR4eXRhZWJR?oc=5" target="_blank" rel="noopener noreferrer">Ipswich earn cathartic win to mark Premier League return</a></p>
+      </article>
+      
+      <article class="story wide">
+        <div class="meta">
+          <span class="src">AP</span><span class="dot">&bull;</span><span>17h ago</span>
+          
+          <span class="tag">on the front page</span>
+        </div>
+        <p class="hl"><a href="https://news.google.com/rss/articles/CBMiqAFBVV95cUxORHZXbzN0SWVtVng2TnN4U3ZBREhYdk10Nko0OG4wSzlLMm56WTlnb1N4X0ZPUkpQR2doVmU4Y05qY01SdXJmX1dpTmsySXp3Ry10NXpaaTEwcE9tdmhybmRwNlV5UTlmNmV0dU5sMDRNRExGb3BYeTlyVV9NTFdtdFM3amJEMFZsNE04bTV0aC16TjBDS3JkbTVxY3o3Y3NRYmMyc1NGdWs?oc=5" target="_blank" rel="noopener noreferrer">Mobility tests can tell doctors a lot about how you’re aging, but there are many other factors</a></p>
+      </article>
+      
+      <article class="story wide">
+        <div class="meta">
+          <span class="src">NYT</span><span class="dot">&bull;</span><span>6h ago</span>
+          
+          <span class="tag">on the front page</span>
+        </div>
+        <p class="hl"><a href="https://www.nytimes.com/2026/08/23/us/politics/ohio-politics-voter-anger.html" target="_blank" rel="noopener noreferrer">Angry Ohio Voters Could Turn Their State Purple Again</a></p>
+      </article>
+      
+      <article class="story wide">
+        <div class="meta">
+          <span class="src">AP</span><span class="dot">&bull;</span><span>8h ago</span>
+          
+          
+        </div>
+        <p class="hl"><a href="https://news.google.com/rss/articles/CBMimgFBVV95cUxNUXExMkQxUFpYXzdodkpKUzRLTERRTHZYMWtFd0tYLXpueG1oWmlOU3YyblVfYzFhM3ZQMk03ckxvOTJ5ZGdEa1hjOVRkVDlZbUFZdUc0bndmQzh5WU11SWJzSlYxaTRaM19fTkVDQVp1RmZsWms0NURhQ0k2cVNHZGRScjBHUUV2NDFpUkpGeWEzNk52ZG9hQm53?oc=5" target="_blank" rel="noopener noreferrer">Good Good Golf pulls video after criticism that it depicts violence against women</a></p>
+      </article>
+      
+      <article class="story wide">
+        <div class="meta">
+          <span class="src">Guardian US</span><span class="dot">&bull;</span><span>20h ago</span>
+          
+          
+        </div>
+        <p class="hl"><a href="https://www.theguardian.com/us-news/2026/aug/22/omaha-nebraska-school-district-shock-gloves-police" target="_blank" rel="noopener noreferrer">Nebraska school district asks police to stop using shock gloves on students</a></p>
+      </article>
+      
+      <article class="story wide">
+        <div class="meta">
+          <span class="src">NYT</span><span class="dot">&bull;</span><span>56m ago</span>
+          
+          
+        </div>
+        <p class="hl"><a href="https://www.nytimes.com/2026/08/23/world/canada/canada-us-trade-war-trump-carney.html" target="_blank" rel="noopener noreferrer">U.S.-Canada Trade War: What to Know About Tariffs and the Negotiations</a></p>
+      </article>
+      
+      <article class="story wide">
+        <div class="meta">
+          <span class="src">Reuters</span><span class="dot">&bull;</span><span>26m ago</span>
+          
+          
+        </div>
+        <p class="hl"><a href="https://news.google.com/rss/articles/CBMiowFBVV95cUxPRjNVZGtrb21ta0FoWGJMMVhPS3ZwRTNnWHdEZTA5aTUwbjhkMEZqYkd6eU5wcmh3VmxBNDRyc1BVLTlrWXlVM1dleXhWTF9tNXBnZzRxcUZZRW1KcW5qbDVFaUxWM0xRbEpoZ0RIamNFS2dMT042NGF3OUlrTTlCRWdzcXRrZ2NQNGhsTkoxTUdJNFdsTG5EUF9xcllTdmZWTWtj?oc=5" target="_blank" rel="noopener noreferrer">D-backs&#39; manager: Ketel Marte &#39;free to do whatever&#39; while on IL</a></p>
+      </article>
+      
+      <article class="story wide">
+        <div class="meta">
+          <span class="src">Guardian US</span><span class="dot">&bull;</span><span>22h ago</span>
+          
+          
+        </div>
+        <p class="hl"><a href="https://www.theguardian.com/us-news/2026/aug/22/ohio-mosque-attack-fbi-trump" target="_blank" rel="noopener noreferrer">A mosque in Ohio was attacked for the third time. Members doubt Trump’s FBI will call it a hate crime</a></p>
+      </article>
+      
+      <article class="story wide">
+        <div class="meta">
+          <span class="src">Reuters</span><span class="dot">&bull;</span><span>19h ago</span>
+          
+          
+        </div>
+        <p class="hl"><a href="https://news.google.com/rss/articles/CBMirAFBVV95cUxNaFNLWWo0NHRKemdFYkxoaWw3OWFDcjU5aFZ0VjdOSFdpdThLQ2pKQVUxTWVzNXd1X0hhM0dWQUZIejBMRUEySWsyUEdqc3d5UzhkWnkwenpRdTgweDhlbFFhVHFPaEdIRU9Cc3NhaGVlQzRDelRXRkpEUlJ2eW5va3Z6MEwxMGVNa192bm40SFJYbEFfRFV5b0ZoUzdpNXVFVThWWGpjeVFULWZv?oc=5" target="_blank" rel="noopener noreferrer">Gunmen abduct worshippers from Nigeria mosque, police say</a></p>
+      </article>
+      
+      <article class="story wide">
+        <div class="meta">
+          <span class="src">AP</span><span class="dot">&bull;</span><span>just now</span>
+          
+          
+        </div>
+        <p class="hl"><a href="https://news.google.com/rss/articles/CBMimAFBVV95cUxNVUpEM0MwOHJxRV9tR2NuUkV6NFFBSzFwRHM3dmp2Z2U1TlBaTVRWY1ZDNDg2U0NTX0V0dlJVSkVNZF9FV1dDY2F4ZFBaMkhuVjl1MHRVYXZPZm1SUlRCOEZoa1lTZ0toek0wYVJIN2d0eTEtSXFYLVdOVFNOdHZYM0pzZXNKb2NscjNFLThoX1hpZmgzcHJoTQ?oc=5" target="_blank" rel="noopener noreferrer">Wildfire approaches Reno, Nevada, forcing thousands to evacuate their neighborhoods</a></p>
+      </article>
+      
+    </section>
+
+    <nav class="section jump">
+      <div class="shead static"><span class="sname">Other sections</span></div>
+      <div class="jumps">
+        <a href="world.html">World</a><a href="europe.html">Europe</a><a href="italy.html">Italy</a><a href="science.html">Science</a><a href="tech-hobbies.html">Tech &amp; Hobbies</a><a href="arts-culture.html">Arts &amp; Culture</a><a href="sports.html">Sports</a><a href="human-interest.html">Human Interest</a>
+      </div>
+    </nav>
+
+    <section class="section mech split">
+      <h2>How this page was drawn</h2>
+      <p class="sub">210 candidates from 4 sources, filling
+        10 slots. The 3 stories already on the front page
+        lead this one, and the rest are
+        dealt <b>one per source per round</b>, with the source order reshuffled each round.
+        That is the front page's per-source cap generalised &mdash; the front page is a single
+        round of it &mdash; and it is why a source holding most of the pool below still takes
+        only a slot or two.</p>
+      <div class="rows">
+        
+        <div class="row">
+          <div class="rtop">
+            <b class="">Reuters</b>
+            <span>89 candidates
+                  &rarr; 3 slots</span>
+          </div>
+          <div class="bar">
+            <i style="width:42.4%"></i>
+            <i class="slot" style="width:30.0%"></i>
+          </div>
+        </div>
+        
+        <div class="row">
+          <div class="rtop">
+            <b class="">AP</b>
+            <span>88 candidates
+                  &rarr; 3 slots</span>
+          </div>
+          <div class="bar">
+            <i style="width:41.9%"></i>
+            <i class="slot" style="width:30.0%"></i>
+          </div>
+        </div>
+        
+        <div class="row">
+          <div class="rtop">
+            <b class="">Guardian US</b>
+            <span>18 candidates
+                  &rarr; 2 slots</span>
+          </div>
+          <div class="bar">
+            <i style="width:8.6%"></i>
+            <i class="slot" style="width:20.0%"></i>
+          </div>
+        </div>
+        
+        <div class="row">
+          <div class="rtop">
+            <b class="">NYT</b>
+            <span>15 candidates
+                  &rarr; 2 slots</span>
+          </div>
+          <div class="bar">
+            <i style="width:7.1%"></i>
+            <i class="slot" style="width:20.0%"></i>
+          </div>
+        </div>
+        
+      </div>
+      <p class="key"><i class="sw"></i>share of the candidate pool
+         <i class="sw slot"></i>share of the 10 slots</p>
+
+      
+
+      <p class="foot">
+        Random draw within the round-robin. No ranking, no click data, no personalization.<br>
+        Nothing here is marked as shown &mdash; the dedup window applies to the front page,
+        so a story can sit in its section for as long as its source's window allows.<br>
+        Phase 2 &middot; 43 feeds &middot; 9 sections.
+      </p>
+    </section>
+
+  </div>
+</div>
+</body>
+</html>

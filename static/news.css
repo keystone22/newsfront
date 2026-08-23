@@ -1,7 +1,7 @@
 :root{
   color-scheme:light;
   --ground:#EEF0F3; --surface:#FFFFFF; --ink:#15181E; --muted:#626B7A;
-  --accent:#0F5C4E; --accent-soft:#0F5C4E1F; --rule:#D8DCE2; --rule-soft:#E6E9ED;
+  --accent:#0F5C4E; --accent-soft:#0F5C4E1F; --pool:#0F5C4E38; --rule:#D8DCE2; --rule-soft:#E6E9ED;
   --serif:"Newsreader",Georgia,"Times New Roman",serif;
   --sans:"IBM Plex Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
   --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
@@ -38,7 +38,12 @@ body{
 @media(min-width:900px){ .sections{grid-template-columns:1fr 1fr; align-items:start;} }
 .section{background:var(--surface); border:1px solid var(--rule);}
 .shead{display:flex; align-items:baseline; justify-content:space-between; gap:12px;
-       padding:12px 18px; border-bottom:2px solid var(--ink);}
+       padding:12px 18px; border-bottom:2px solid var(--ink);
+       color:inherit; text-decoration:none;}
+a.shead:hover .sname{color:var(--accent);}
+a.shead:focus-visible{outline:2px solid var(--accent); outline-offset:-2px;}
+.more{display:inline-block; margin-left:9px; color:var(--muted); font-weight:400;}
+a.shead:hover .more{color:var(--accent);}
 .sname{font-weight:600; font-size:.78rem; text-transform:uppercase; letter-spacing:.13em;}
 .squota{font-family:var(--mono); font-size:.75rem; font-weight:500; color:var(--accent);
         font-variant-numeric:tabular-nums; white-space:nowrap;}
@@ -80,3 +85,47 @@ body{
 .legend span.bad .sw{background:#B3261E;}
 .legend span.flag{color:var(--ink);}
 .note{font-size:.78rem; color:var(--muted); margin:2px 0 0; max-width:60ch; line-height:1.5;}
+
+
+/* ---- section pages -------------------------------------------------------
+   The spec asks for "slightly more breathing room, same card pattern", so the
+   section page runs ONE column at every width rather than the front page's two,
+   and its cards carry more padding and a larger headline. */
+.one-col{grid-template-columns:1fr !important;}
+.back{display:inline-block; font-family:var(--mono); font-size:.72rem; font-weight:500;
+      color:var(--accent); text-decoration:none; margin-bottom:12px;}
+.back:hover{text-decoration:underline;}
+.back:focus-visible{outline:2px solid var(--accent); outline-offset:3px;}
+.story.wide{padding:19px 18px;}
+@media(min-width:760px){ .story.wide{padding:22px 24px;} }
+.story.wide .hl{font-size:1.3rem;}
+@media(min-width:760px){ .story.wide .hl{font-size:1.42rem; max-width:44ch;} }
+
+/* Says WHY a story leads the page. A fact about the draw, not a recommendation. */
+.tag{font-family:var(--sans); font-size:.6rem; font-weight:600; text-transform:uppercase;
+     letter-spacing:.08em; color:var(--accent); background:var(--accent-soft);
+     padding:2px 6px; margin-left:2px;}
+
+/* A GRID, not wrapped flex: flex sizes each link to its own text, so the
+   dividers between "Tech & Hobbies" and "Sports" land in different places and
+   the block reads as misaligned. */
+.jumps{display:grid; grid-template-columns:repeat(2,1fr);}
+@media(min-width:620px){ .jumps{grid-template-columns:repeat(3,1fr);} }
+.jumps a{padding:12px 18px; font-size:.82rem;
+         font-weight:500; color:var(--ink); text-decoration:none;
+         border-bottom:1px solid var(--rule-soft); border-right:1px solid var(--rule-soft);}
+.jumps a:hover{color:var(--accent); background:var(--accent-soft);}
+.jumps a:focus-visible{outline:2px solid var(--accent); outline-offset:-2px;}
+
+/* Two bars per source: what it supplied, and what it got. The point of the page
+   is the gap between them, so they sit one above the other at the same scale.
+   Scoped to .split -- the FRONT page's .mech .bar is a horizontal stacked bar,
+   and an unscoped flex-direction here silently turns it on its side. */
+.split .bar{flex-direction:column; height:auto; gap:2px; background:none;}
+.split .bar i{height:7px; background:var(--pool);}
+.split .bar i.slot{background:var(--accent);}
+.rtop b.bad{color:#B3261E;}
+.key{display:flex; flex-wrap:wrap; align-items:center; gap:5px 16px; margin:14px 0 0;
+     font-family:var(--mono); font-size:.68rem; color:var(--muted);}
+.key .sw{background:var(--pool);}
+.key .sw.slot{background:var(--accent); margin-left:10px;}

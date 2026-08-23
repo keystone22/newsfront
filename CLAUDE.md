@@ -25,7 +25,7 @@ happened; it does not recommend anything.
 | `sources.py` | feed list, caps, windows, quotas, filters — **the only file to edit for editorial changes** |
 | `fetch.py` | pulls feeds, prunes, filters, draws an edition. Runs standalone on a schedule |
 | `news.py` | Flask app; **read-only, never touches the network** |
-| `export.py` | renders the current edition to one ~21 KB self-contained file |
+| `export.py` | renders the current edition to 10 self-contained files in `docs/` |
 | `store.py` | DB connection + migrations, shared so fetch and news cannot drift |
 
 Port **5051** (FinanceHub owns 5050). `news.db` is disposable *locally* — but
@@ -93,15 +93,61 @@ workflow" button in the GitHub phone app.
   "4 scheduled tasks/day on free tier" is wrong. Developer at $10/mo is the
   cheapest that works — not currently needed.
 
+## Section pages (Phase 2, Aug 23 2026)
+
+Every front-page heading links to `/<slug>.html` — the full section, `SECTION_QUOTA`
+(10) stories drawn from the same pool. Built by `draw_sections()` in `fetch.py`,
+stored in `articles.section_slot`, rendered by `templates/section.html`.
+
+**The cap rule is a ROUND-ROBIN, and the front page is one round of it.** "Max 1
+per source" cannot fill ten slots from four sources, so a section page deals one
+card per source per round until the quota is full. Measured on the live pools:
+every section fills 10/10, the thinnest being Italy at 46 candidates across 4
+sources. **What it buys is visible in Top News** — Reuters and AP carry 152 of
+its 183 candidates and would take all ten slots on volume, where round-robin
+gives NYT and Guardian US two or three apiece.
+
+- **Reshuffle the SOURCE ORDER every round** (`random.sample`), not just the
+  articles within a source. Leaving it fixed hands whichever source sorted first
+  the earliest slot in every round, which is a ranking by source.
+- **Front-page picks are PINNED onto their section page** and lead it. Without
+  this, tapping "World" after reading a World headline can fail to show it,
+  which reads as a bug rather than as randomness. They carry an "on the front
+  page" tag — the ordering is a stated fact, not a hidden signal.
+- **The section draw writes NO `shown_date`.** Dedup is a *front-page* scarcity
+  rule; a section page is the overflow view, the place an article goes when it
+  did **not** win a front-page slot. Suppressing it there would thin the page for
+  no gain — Italy would take the worst of it at 46 candidates against 10 slots ×
+  4 draws a day. Verified by fingerprint: a section draw leaves `shown_date` and
+  `is_current` byte-identical and touches only `section_slot`. This is why the
+  front draw reports a *smaller* candidate pool than the section draw for the
+  same section (Italy 29 vs 46) — that gap is the dedup window, and it is
+  correct.
+- A short section page is a **supply fact, not a failure**: `fetch.py` still
+  exits nonzero only when a FRONT page section comes up short.
+
+**Routes are named after FILES** — `/`, `/index.html`, `/world.html` — because
+`export.py` writes exactly those paths into `docs/`. One set of plain relative
+links then works both locally and on Pages with nothing to rewrite at export
+time. `news.py` asserts at import that no two sections share a slug.
+
+Two traps this shipped with:
+- **`git add docs/index.html` in the workflow would silently never commit the
+  nine new pages.** It is `git add -A docs` — `-A` because a section retired
+  from `sources.py` has its stale page *deleted* by `export.py`, and only `-A`
+  stages a deletion.
+- **CSS added for the section panel must be scoped to `.split`.** An unscoped
+  `.mech .bar{flex-direction:column}` also turns the FRONT page's horizontal
+  stacked bar on its side. Caught in review; verify a `.mech` change by reading
+  `getComputedStyle` on the front page's bar, which must stay `row`.
+
 ## Phase status
 
-Phases 0 and 1 shipped Aug 23, 2026. **Not built, deliberately:** Comics (needs
-an image-card layout), Wildcard (Phase 3), and **section pages showing ~10
-articles — Frank asked for these as a later phase.** Note that section pages
-cannot reuse the front page's cap rule: "max 1 per source" cannot fill 10 slots
-from 3 sources, so that needs its own rule.
+Phases 0, 1 and 2 shipped Aug 23, 2026. **Not built, deliberately:** Comics
+(needs an image-card layout) and Wildcard (Phase 3).
 
-Spec: `~/Documents/Claude Projects/news-aggregator-spec.md`.
+Spec: `news-aggregator-spec.md`, in the repo (it was moved out of
+`~/Documents/Claude Projects/` on Aug 23, 2026 — the old path is empty).
 
 ## Note on memory
 

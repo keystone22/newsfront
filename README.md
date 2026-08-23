@@ -1,14 +1,14 @@
-# NewsFront — Phase 1
+# NewsFront — Phase 2
 
-A finite front page. Fixed slots per section, filled by random draw from
-whatever the feeds are carrying. No ranking, no engagement data, no
-personalization of any kind.
+A finite front page, plus a full page behind each section. Fixed slots, filled
+by random draw from whatever the feeds are carrying. No ranking, no engagement
+data, no personalization of any kind.
 
 ## Where it runs
 
 The scheduled draw runs on **GitHub Actions**, not on any machine of Frank's:
 `.github/workflows/edition.yml` pulls the feeds 4x/day, exports the page and
-commits it. GitHub Pages serves `docs/index.html`. Cost is zero — Actions
+commits it. GitHub Pages serves `docs/`. Cost is zero — Actions
 minutes are unlimited on a public repo, and this app uses no API keys at all.
 
 `workflow_dispatch` is enabled, so the "Run workflow" button (including in the
@@ -16,6 +16,9 @@ GitHub phone app) forces an off-schedule draw.
 
 Two things about that setup that are easy to get wrong:
 
+* **The workflow stages `docs` with `-A`, not `docs/index.html`.** The export
+  writes ten pages — the front page and one per section — and a section retired
+  from `sources.py` has its stale page deleted, which only `-A` stages.
 * **`news.db` is committed, and must stay that way.** Every run gets a fresh
   runner, so the database is the only thing carrying dedup history between
   editions. Ignore it and the paper repeats itself. `prune()` keeps it bounded
@@ -31,18 +34,22 @@ ever refresh. The cheapest plan that fixes both is Developer at $10/month.
 
 ## Running it locally
 
-Pull the feeds and draw a new front page:
+Pull the feeds and draw a new edition — the front page and every section page:
 
     ./venv/bin/python3 fetch.py
 
-Serve the page:
+Serve them:
 
     ./venv/bin/python3 news.py     →  http://127.0.0.1:5051
 
 The two are deliberately separate. `news.py` never touches the network — it only
-reads what `fetch.py` wrote — so the page still serves when a feed is slow or
-down, and the scheduled pull can run as its own process (PythonAnywhere's
-scheduled tasks now, cron on the Mac mini later).
+reads what `fetch.py` wrote — so the pages still serve when a feed is slow or
+down, and the scheduled pull runs as its own process (GitHub Actions now, cron
+on the Mac mini later).
+
+Write the static copy the way GitHub Pages serves it:
+
+    ./venv/bin/python3 export.py   →  docs/index.html + one page per section
 
 ## Changing what appears
 
@@ -51,7 +58,8 @@ Everything editorial lives in `sources.py`:
 * **`SOURCES`** — the feed list. `cap` is the most slots one source may fill in
   its section; `recency_hours` is how far back its articles stay eligible.
 * **`QUOTAS`** — front-page slots per section.
-* **`DEDUP_DAYS`** — how long a shown article is suppressed.
+* **`SECTION_QUOTA`** — slots on a section page. 10.
+* **`DEDUP_DAYS`** — how long a shown article is suppressed. Front page only.
 
 Edit, re-run `fetch.py`, reload. Nothing else needs touching.
 
@@ -64,8 +72,43 @@ Edit, re-run `fetch.py`, reload. Nothing else needs touching.
 | `news.py` | the Flask app; read-only |
 | `store.py` | database connection, shared so the two can't drift |
 | `schema.sql` | table definitions |
-| `templates/front.html`, `static/news.css` | the page |
+| `templates/front.html`, `templates/section.html`, `static/news.css` | the pages |
 | `news.db` | SQLite; disposable — delete it and re-run `fetch.py` |
+
+## Section pages: the same pool, dealt a different way
+
+Every heading on the front page links to that section's own page — ten stories
+instead of one to three, drawn from the same candidate pool. Locally they are
+`http://127.0.0.1:5051/world.html`; on the site they are files in `docs/`.
+
+**The front page's per-source cap cannot be reused here, and the fix is to
+recognise what that cap actually is.** "Max 1 per source" is a single round of
+dealing. A section page keeps dealing: one card per source per round, until ten
+slots are full. Same anti-crowding property, and it degrades gracefully — a
+source that runs out of candidates simply stops being dealt to.
+
+The effect is the point. In Top News, Reuters and AP supply 152 of the 183
+candidates and would take all ten slots if volume decided it; round-robin gives
+NYT and Guardian US two or three each. The panel at the foot of every section
+page draws both bars — share of the pool, and share of the slots — so the gap
+between them is visible rather than asserted.
+
+Three decisions worth keeping:
+
+* **The order of the SOURCES is reshuffled every round**, not just the articles
+  inside each source. Fixed, whichever source sorted first would take the
+  earliest slot in every round — a ranking by source, wearing a shuffle.
+* **Front-page picks are pinned to the top of their section page**, tagged "on
+  the front page". Otherwise you tap a section after reading its headline and
+  the headline is not there, which reads as a bug and not as randomness.
+* **Nothing on a section page is marked as shown.** The dedup window exists so
+  the *front* page does not repeat itself, and the front page is scarce enough
+  for that to matter. A section page is where an article goes when it did *not*
+  win a front-page slot, so suppressing it there costs supply and buys nothing;
+  Italy would take the worst of it, at 46 candidates against 10 slots four times
+  a day. This is why `fetch.py` prints a smaller candidate count for the front
+  draw than the section draw on the same section — that difference *is* the
+  dedup window.
 
 ## Wire services: AP and Reuters, via Google News, no API key
 

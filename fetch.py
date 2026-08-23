@@ -15,6 +15,10 @@ The selection algorithm, in order:
   5. random sample within the capped pool to fill the section quota
   6. backfill from the same pool if the caps could not fill the quota
 
+then, for each SECTION PAGE, a second draw over the same pool: pin that
+section's front-page picks, then deal the remaining slots one per source per
+round until the quota is full. See draw_sections() for why it differs.
+
 No ranking. No recency ordering. No click, view or engagement data is read or
 written anywhere in this file.
 """
@@ -324,6 +328,89 @@ def draw(db):
     return audit
 
 
+def draw_sections(db):
+    """Choose each SECTION page's slots. Returns a per-section audit.
+
+    Deliberately different from draw() in three ways, each for a reason:
+
+      * The cap becomes a ROUND-ROBIN. "Max 1 per source" cannot fill ten slots
+        from four sources. Dealing one card per source per round is that same
+        anti-crowding rule generalised -- the front page is simply a single
+        round of it -- and it degrades gracefully, because a source that runs
+        out just stops being dealt to while the others carry on.
+
+      * The front page's picks are PINNED here. A reader who taps "World" after
+        reading a World headline expects to find it on the page; one that
+        silently drops the story they just read reads as a bug rather than as
+        randomness. They keep their front-page order and lead the section.
+
+      * Nothing is marked SHOWN. Dedup exists so the front page does not repeat
+        itself, and the front page is scarce enough for that to matter. A
+        section page is the overflow view -- the place an article goes when it
+        did NOT win a front-page slot -- so suppressing it here because it
+        appeared here yesterday would thin the page for no gain. Italy would
+        take the worst of it: 46 candidates against 10 slots x 4 draws a day.
+
+    No ranking here either. The only ordering is the pinned front-page picks,
+    which were themselves drawn at random, and the page says so.
+    """
+    quota = cfg.SECTION_QUOTA
+    db.execute("UPDATE articles SET section_slot = 0")
+    audit = []
+
+    for section in cfg.SECTIONS:
+        rows = db.execute("""
+            SELECT a.id, s.name AS source, a.is_current
+              FROM articles a
+              JOIN sources s ON s.id = a.source_id
+             WHERE a.section = ?
+               AND s.active = 1
+               AND a.published_at >= datetime('now', '-' || s.recency_hours || ' hours')
+          ORDER BY a.is_current
+        """, (section,)).fetchall()
+        source_of = {r["id"]: r["source"] for r in rows}
+
+        # The front page's picks, keeping the order they hold there. Sliced to
+        # the quota so a SECTION_QUOTA set below a front-page quota would give a
+        # short page rather than an over-full one.
+        taken = [r["id"] for r in rows if r["is_current"] > 0][:quota]
+        pinned = len(taken)
+
+        # Everything else, grouped by source, shuffled inside each group.
+        queues = {}
+        for r in rows:
+            if r["is_current"] == 0:
+                queues.setdefault(r["source"], []).append(r["id"])
+        for q in queues.values():
+            random.shuffle(q)
+
+        # Deal one per source per round. The ORDER of the sources is reshuffled
+        # every round: leaving it fixed would hand whichever source sorted first
+        # the earliest slot in every round, which is a ranking by source.
+        rounds = 0
+        while len(taken) < quota and queues:
+            rounds += 1
+            for name in random.sample(list(queues), len(queues)):
+                if len(taken) >= quota:
+                    break
+                taken.append(queues[name].pop())
+                if not queues[name]:
+                    del queues[name]
+
+        for pos, aid in enumerate(taken, 1):
+            db.execute("UPDATE articles SET section_slot=? WHERE id=?", (pos, aid))
+
+        per_src = {}
+        for aid in taken:
+            per_src[source_of[aid]] = per_src.get(source_of[aid], 0) + 1
+
+        audit.append(dict(section=section, pool=len(rows), quota=quota,
+                          filled=len(taken), pinned=pinned, rounds=rounds,
+                          by_source=per_src))
+    db.commit()
+    return audit
+
+
 def main():
     db = connect()
     moved = seed_sources(db)
@@ -365,6 +452,18 @@ def main():
         if a["filled"] < a["quota"]:
             print(f"     !! {a['section']} short by {a['quota'] - a['filled']}")
             short += 1
+
+    print("\ndraw sections")
+    for a in draw_sections(db):
+        caps = " ".join(f"{k}={v}" for k, v in sorted(a["by_source"].items()))
+        print(f"     {a['section']:15s} {a['pool']:3d} candidates -> "
+              f"{a['filled']}/{a['quota']}  ({a['pinned']} pinned, "
+              f"{a['rounds']} rounds)   {caps}")
+        # A short section PAGE is a supply fact, not a failure: it means the
+        # pool genuinely holds fewer than SECTION_QUOTA. Only a short FRONT page
+        # fails the run, because that is the page the schedule exists to fill.
+        if a["filled"] < a["quota"]:
+            print(f"     -- {a['section']} page holds {a['filled']}, pool is that thin")
 
     db.close()
     return 1 if short else 0

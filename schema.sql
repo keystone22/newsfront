@@ -27,7 +27,11 @@ CREATE TABLE IF NOT EXISTS articles (
     published_at TEXT,                      -- ISO-8601 UTC
     fetched_at   TEXT    NOT NULL,          -- ISO-8601 UTC
     shown_date   TEXT,                      -- YYYY-MM-DD this article was last drawn onto a front page
-    is_current   INTEGER NOT NULL DEFAULT 0 -- 0 = not shown; otherwise its slot number on the page
+    is_current   INTEGER NOT NULL DEFAULT 0, -- 0 = not on the front page; otherwise its slot there
+    -- Same idea for the section page, drawn separately and with its own rule.
+    -- Two columns rather than one because an article can hold a slot on both:
+    -- the front-page picks are pinned onto their section page deliberately.
+    section_slot INTEGER NOT NULL DEFAULT 0
 );
 
 CREATE INDEX IF NOT EXISTS idx_articles_current ON articles(is_current);

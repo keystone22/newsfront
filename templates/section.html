@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Standing Order">
+<title>{{ name }} &mdash; The Standing Order</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="{{ url_for('static', filename='news.css') }}">
+</head>
+<body>
+<div class="wrap">
+
+  <div class="masthead">
+    <a class="back" href="index.html">&larr; The Standing Order</a>
+    <h1 class="brand">{{ name }}</h1>
+    <p class="tagline">The full section for this edition &mdash; {{ quota }} slots,
+      dealt one per source per round.</p>
+    <div class="strip">
+      <div><span class="k">Edition</span><span class="v">{{ drawn or '—' }}</span></div>
+      <div><span class="k">Stories</span><span class="v">{{ stories|length }} <span class="u">of {{ quota }}</span></span></div>
+      <div><span class="k">Candidates</span><span class="v">{{ pool }}</span></div>
+      <div><span class="k">Sources</span><span class="v">{{ feeds|length }}</span></div>
+    </div>
+  </div>
+
+  <div class="sections one-col">
+
+    <section class="section">
+      <div class="shead static">
+        <span class="sname">{{ name }}</span>
+        <span class="squota">{{ stories|length }} / {{ quota }}</span>
+      </div>
+      {% for a in stories %}
+      <article class="story wide">
+        <div class="meta">
+          <span class="src">{{ a.source }}</span><span class="dot">&bull;</span><span>{{ a.age }}</span>
+          {# Stated rather than hidden: these lead the page because they were
+             drawn onto the front page, and that draw was itself random. #}
+          {% if a.on_front %}<span class="tag">on the front page</span>{% endif %}
+        </div>
+        <p class="hl"><a href="{{ a.url }}" target="_blank" rel="noopener noreferrer">{{ a.title }}</a></p>
+      </article>
+      {% else %}
+      <p class="empty">Nothing in the window. Run <code>fetch.py</code>.</p>
+      {% endfor %}
+    </section>
+
+    <nav class="section jump">
+      <div class="shead static"><span class="sname">Other sections</span></div>
+      <div class="jumps">
+        {% for o in others %}<a href="{{ o.slug }}.html">{{ o.name }}</a>{% endfor %}
+      </div>
+    </nav>
+
+    <section class="section mech split">
+      <h2>How this page was drawn</h2>
+      <p class="sub">{{ pool }} candidates from {{ feeds|length }} sources, filling
+        {{ quota }} slots.
+        {%- if front_quota == 1 %} The story already on the front page leads this one, and the
+        rest are{% elif front_quota %} The {{ front_quota }} stories already on the front page
+        lead this one, and the rest are{% else %} They are{% endif %}
+        dealt <b>one per source per round</b>, with the source order reshuffled each round.
+        That is the front page's per-source cap generalised &mdash; the front page is a single
+        round of it &mdash; and it is why a source holding most of the pool below still takes
+        only a slot or two.</p>
+      <div class="rows">
+        {% for f in feeds %}
+        <div class="row">
+          <div class="rtop">
+            <b class="{{ 'bad' if f.error }}">{{ f.name }}</b>
+            <span>{% if f.error %}unreachable &mdash; {{ f.error }}
+                  {% else %}{{ f.in_window }} candidate{{ '' if f.in_window == 1 else 's' }}
+                  &rarr; {{ f.on_page }} slot{{ '' if f.on_page == 1 else 's' }}{% endif %}</span>
+          </div>
+          <div class="bar">
+            <i style="width:{{ f.share }}%"></i>
+            <i class="slot" style="width:{{ (f.on_page * 100 / quota)|round(1) }}%"></i>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      <p class="key"><i class="sw"></i>share of the candidate pool
+         <i class="sw slot"></i>share of the {{ quota }} slots</p>
+
+      {% if broken %}
+      <p class="note">{{ broken|join(', ') }} did not answer this pull, so the remaining
+        sources were dealt more rounds to keep the page full.</p>
+      {% endif %}
+
+      <p class="foot">
+        Random draw within the round-robin. No ranking, no click data, no personalization.<br>
+        Nothing here is marked as shown &mdash; the dedup window applies to the front page,
+        so a story can sit in its section for as long as its source's window allows.<br>
+        Phase {{ phase }} &middot; {{ source_count }} feeds &middot; {{ section_count }} sections.
+      </p>
+    </section>
+
+  </div>
+</div>
+</body>
+</html>
