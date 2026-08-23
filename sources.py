@@ -1,0 +1,225 @@
+"""The feed list. This is the one file you edit to add or retire a source.
+
+Every entry is seeded into the `sources` table on each run of fetch.py, so
+editing a value here and re-running the fetch is enough to change behaviour.
+Filters are retroactive -- fetch.py drops stored articles that newly match.
+
+Fields
+------
+name            display name, shown above the headline
+section         which section the source feeds
+endpoint        the feed URL
+cap             the most slots this source may fill in its section on one draw.
+                This is the anti-crowding rule: without it a 50-item wire feed
+                takes every slot in the section it shares with a 10-item one.
+recency_hours   how far back this source's articles stay eligible.
+                Wire and daily news get 24-48h. Slower, evergreen publications
+                get much more -- a four-day-old science piece or a month-old
+                Eurozine essay is no worse than a fresh one, and a tight window
+                would simply exclude them almost every day.
+exclude_pattern optional regex matched (case-insensitively) against both the
+                title and the URL. Anything matching never enters the pool.
+
+Every feed below was fetched and verified on 2026-08-23. Verified-dead and
+left out deliberately: Reuters and AP (no public RSS -- see WIRE_SERVICES),
+Boston Globe (only reachable path last updated May 2020), National Geographic
+(404), Wired Ideas (abandoned -- newest item June 19), NYT Sports (empty feed).
+"""
+
+# ---------------------------------------------------------------------------
+# Filters
+# ---------------------------------------------------------------------------
+
+# Commerce. Wired's *main* feed measured 48% affiliate content on 2026-08-23 --
+# coupon pages, product roundups and reviews -- so its section feeds are used
+# instead. This is the safety net for those and for the other magazines.
+COMMERCE = (
+    r"(coupon|promo code|discount code|\d+% off|\$\d+ off"
+    r"|\bbest\b.*\(20\d\d\)|^the \d+ best|\b\d+ best\b"
+    r"|/gallery/|/review/|/coupons/)"
+)
+
+# Travel guides. Frank's call, 2026-08-23: the daily news bulletins stay, the
+# "how to spend 48 hours in Sofia" pieces go. Applied to EVERY source, since a
+# travel guide can arrive from any of them.
+#
+# Two signals, both deliberately narrow because the Italy section is the one
+# most at risk of over-filtering:
+#   * "/travel/" in the URL -- Euronews files travel in its own section, which
+#     is a structural signal with no guesswork in it. Wanted in Rome puts
+#     everything under /news/, so it gets nothing from this half.
+#   * an explicit phrase list. Bare "guide" is deliberately NOT here: it
+#     matches "A guide to the Italian health care system", which is exactly the
+#     practical expat reporting that section is for.
+# "tour" carries a cycling guard so Tour de France coverage stays.
+TRAVEL = (
+    r"(/travel/"
+    r"|travel guide"
+    r"|things to do"
+    r"|where to stay"
+    r"|itinerar"
+    r"|best time to visit"
+    r"|how to spend \d+ (hours|days)"
+    r"|(?<!de )(?<!world )(?<!concert )\btours?\b(?! de france))"
+)
+
+# Opinion and editorial. A spec non-goal: "No opinion/editorial content (op-eds
+# excluded by request)". Every general news feed mixes them in -- NYT's home
+# feed, Guardian's section feeds and Le Monde all did, 12 rows out of 929.
+# Matched on the URL PATH SEGMENT, which is unambiguous, rather than on words
+# in the headline, where "opinion poll" is a news story.
+#
+# "/analysis/" is deliberately NOT here. Reported analysis is not an op-ed, and
+# the distinction is the one the spec actually draws.
+OPINION = r"(/opinion/|/commentisfree/|/editorial|/columnists/|/opinions/)"
+
+# Applied to every source, on top of that source's own exclude_pattern.
+GLOBAL_EXCLUDE = f"(?:{TRAVEL})|(?:{OPINION})"
+
+# --- wire services, via Google News -------------------------------------
+# AP and Reuters killed their public RSS years ago (see WIRE_SERVICES_DEAD).
+# Google News republishes both as a free, keyless feed, filtered by source.
+# Two things to know about it:
+#   * it appends " - AP News" / " - Reuters" to every title; fetch.py strips it
+#   * links go to news.google.com and redirect to the publisher in the browser,
+#     so a click passes through Google. That is the price of not needing an
+#     API key; newsdata.io is the paid-signup alternative if it ever matters.
+# "allinurl:" is NOT supported here -- it returns zero items -- so the topic
+# split is a plain keyword and is therefore approximate.
+GN = "https://news.google.com/rss/search?hl=en-US&gl=US&ceid=US:en&q="
+
+# Google News mixes NON-ARTICLES in with the news: AP topic hub pages ("Ohio",
+# "Formula One", "Joe Biden") and Reuters stock-quote pages ("(QQQP.O) | Stock
+# Price & Latest News"). Measured 2026-08-23: 45 of 336 wire rows, 13%.
+#
+# The 1-3 word test is what catches the hub pages, and it is applied ONLY to
+# these wire sources -- never globally. Measured against the other 639 rows it
+# would have killed ten real headlines: "Salmonella Is Everywhere",
+# "The Barbie Backlash", "Betye Saar obituary", "Feminist cities". A genuine
+# wire headline is essentially never three words, so the trade is safe here and
+# nowhere else.
+WIRE_JUNK = (
+    r"(^(?:\W*\w+){1,3}\W*$"                       # 1-3 words: a topic hub page
+    r"|\|\s*stock price"                            # Reuters quote page
+    r"|^\([A-Z0-9.^]+\)\s*\|"                       # "(TICKER) | ..."
+    r"|\|\s*(latest|scores)|scores, news"           # "MLB | Latest News, Stats..."
+    r"|^about .+\([A-Z0-9.]{2,10}\)\s*$)"            # Reuters fund/company profile page
+)
+
+# ---------------------------------------------------------------------------
+# Sections
+# ---------------------------------------------------------------------------
+
+# Front-page order, like a print paper. Quotas total 15, matching the spec's
+# "~13-15 headlines/day, sized like a print front page".
+SECTIONS = ["Top News", "World", "Europe", "Italy", "Science",
+            "Tech & Hobbies", "Arts & Culture", "Sports", "Human Interest"]
+
+# Top News and World run 3 rather than 2 because each holds FOUR sources, two
+# of which are wires carrying ~100 candidates against NYT's 15. At a quota of 2
+# the two wire slots filled almost every draw and the papers were squeezed out
+# entirely -- the per-source cap limits any ONE source, but cannot spread three
+# ways across two firehoses. Three slots gives the papers a real chance, and
+# matches the spec's own draft (Top 3, World 2-3).
+QUOTAS = {
+    "Top News":        3,
+    "World":           3,
+    "Europe":          2,
+    "Italy":           1,
+    "Science":         2,
+    "Tech & Hobbies":  1,
+    "Arts & Culture":  2,
+    "Sports":          2,
+    "Human Interest":  1,
+}
+
+SOURCES = [
+    # name,                section,           endpoint,                                                          cap, recency, exclude
+
+    # --- Top News: no AP/Reuters wire until Phase 2, so these stand in. Kept
+    #     to a 24h window because a stale lead story is worse than a thin one.
+    ("NYT",                "Top News",        "https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml",        1,   24,  None),
+    ("Guardian US",        "Top News",        "https://www.theguardian.com/us-news/rss",                          1,   24,  None),
+    ("AP",                 "Top News",        GN + "when:1d+site:apnews.com",                                     1,   24,  WIRE_JUNK),
+    ("Reuters",            "Top News",        GN + "when:1d+site:reuters.com",                                    1,   24,  WIRE_JUNK),
+
+    # --- World
+    ("NYT World",          "World",           "https://rss.nytimes.com/services/xml/rss/nyt/World.xml",           1,   48,  None),
+    ("Guardian World",     "World",           "https://www.theguardian.com/world/rss",                            1,   48,  None),
+    ("AP World",           "World",           GN + "when:2d+site:apnews.com+world",                               1,   48,  WIRE_JUNK),
+    ("Reuters World",      "World",           GN + "when:2d+site:reuters.com+world",                              1,   48,  WIRE_JUNK),
+
+    # --- Europe
+    ("Euronews",           "Europe",          "https://www.euronews.com/rss",                                     1,   48,  None),
+    ("Euractiv",           "Europe",          "https://www.euractiv.com/feed/",                                   1,   48,  None),
+    ("Politico Europe",    "Europe",          "https://www.politico.eu/feed/",                                    1,   48,  None),
+    ("Le Monde",           "Europe",          "https://www.lemonde.fr/en/rss/une.xml",                            1,   48,  None),
+    ("Guardian Europe",    "Europe",          "https://www.theguardian.com/world/europe-news/rss",                1,   48,  None),
+    ("NYT Europe",         "Europe",          "https://rss.nytimes.com/services/xml/rss/nyt/Europe.xml",          1,   48,  None),
+
+    # --- Italy: the thinnest section by a wide margin, so three of the four
+    #     sources run long windows to keep a real pool behind a quota of 1.
+    ("ANSA English",       "Italy",           "https://www.ansa.it/english/english_rss.xml",                      1,   48,  None),
+    ("The Local Italy",    "Italy",           "https://feeds.thelocal.com/rss/it",                                1,  168,  None),
+    ("Wanted in Rome",     "Italy",           "https://www.wantedinrome.com/news?format=rss",                     1,   96,  None),
+    ("Guardian Italy",     "Italy",           "https://www.theguardian.com/world/italy/rss",                      1,  168,  None),
+
+    # --- Science: low daily volume everywhere, and science ages well, so the
+    #     windows are wide on purpose.
+    ("NYT Science",        "Science",         "https://rss.nytimes.com/services/xml/rss/nyt/Science.xml",         1,   96,  None),
+    ("Guardian Science",   "Science",         "https://www.theguardian.com/science/rss",                          1,   96,  None),
+    ("Ars Technica Science","Science",        "https://feeds.arstechnica.com/arstechnica/science",                1,  168,  COMMERCE),
+    ("Wired Science",      "Science",         "https://www.wired.com/feed/category/science/latest/rss",           1,  168,  COMMERCE),
+
+    # --- Tech & Hobbies
+    ("Ars Technica",       "Tech & Hobbies",  "https://feeds.arstechnica.com/arstechnica/index",                  1,   48,  COMMERCE),
+    ("Popular Mechanics",  "Tech & Hobbies",  "https://www.popularmechanics.com/rss/all.xml/",                    1,   96,  COMMERCE),
+    ("NYT Technology",     "Tech & Hobbies",  "https://rss.nytimes.com/services/xml/rss/nyt/Technology.xml",      1,   48,  None),
+    ("Wired Business",     "Tech & Hobbies",  "https://www.wired.com/feed/category/business/latest/rss",          1,  168,  COMMERCE),
+    ("Wired Security",     "Tech & Hobbies",  "https://www.wired.com/feed/category/security/latest/rss",          1,  168,  COMMERCE),
+
+    # --- Arts & Culture: upscale, not pop culture. NYT Books rather than NYT
+    #     Arts, per the spec. Eurozine publishes ~2 essays a WEEK, so it needs a
+    #     30-day window to appear at all -- at 48h it contributed nothing.
+    ("NYT Books",          "Arts & Culture",  "https://rss.nytimes.com/services/xml/rss/nyt/Books.xml",           1,   96,  None),
+    ("Guardian Books",     "Arts & Culture",  "https://www.theguardian.com/books/rss",                            1,   96,  None),
+    ("Guardian Art",       "Arts & Culture",  "https://www.theguardian.com/artanddesign/rss",                     1,   96,  None),
+    ("Arts Fuse",          "Arts & Culture",  "https://artsfuse.org/feed/",                                       1,  336,  None),
+    ("Eurozine",           "Arts & Culture",  "https://www.eurozine.com/feed/",                                   1,  720,  None),
+
+    # --- Sports: general first, then Frank's three teams. Team feeds get long
+    #     windows because a single-team blog goes quiet between games.
+    ("ESPN",               "Sports",          "https://www.espn.com/espn/rss/news",                               1,   24,  None),
+    ("ESPN NFL",           "Sports",          "https://www.espn.com/espn/rss/nfl/news",                           1,   48,  None),
+    ("ESPN MLB",           "Sports",          "https://www.espn.com/espn/rss/mlb/news",                           1,   48,  None),
+    ("ESPN College FB",    "Sports",          "https://www.espn.com/espn/rss/ncf/news",                           1,   48,  None),
+    ("AP Sports",          "Sports",          GN + "when:2d+site:apnews.com+sports",                              1,   48,  WIRE_JUNK),
+    ("Eagles (BGN)",       "Sports",          "https://www.bleedinggreennation.com/rss/index.xml",                1,   96,  None),
+    ("Phillies (Good Phight)","Sports",       "https://www.thegoodphight.com/rss/index.xml",                      1,   96,  None),
+    ("Penn State (BSD)",   "Sports",          "https://www.blackshoediaries.com/rss/index.xml",                   1,  168,  None),
+
+    # --- Human Interest: WBUR stands in for the Boston Globe, whose only
+    #     reachable feed stopped updating in May 2020.
+    ("Guardian Life",      "Human Interest",  "https://www.theguardian.com/lifeandstyle/rss",                     1,   48,  COMMERCE),
+    ("NYT Style",          "Human Interest",  "https://rss.nytimes.com/services/xml/rss/nyt/FashionandStyle.xml", 1,   96,  None),
+    ("WBUR",               "Human Interest",  "https://www.wbur.org/feed",                                        1,   48,  None),
+]
+
+# Direct AP/Reuters RSS is gone. Verified 2026-08-23, six URLs, all dead: every
+# Reuters path returns 301/404, and apnews.com/index.rss answers 401
+# Unauthorized -- an authenticated, paid feed. Recorded so nobody re-tests them.
+WIRE_SERVICES_DEAD = {
+    "Reuters": ["https://www.reutersagency.com/feed/",
+                "https://feeds.reuters.com/reuters/topNews",
+                "https://www.reuters.com/arc/outboundfeeds/rss/?outputType=xml"],
+    "AP":      ["https://apnews.com/index.rss",
+                "https://apnews.com/hub/ap-top-news.rss",
+                "https://feeds.apnews.com/rss/apf-topnews"],
+}
+
+# Shown in the page footer, so it can't go stale in the template.
+PHASE = 1
+
+# How many days an article stays suppressed after being shown, so a fresh draw
+# doesn't repeat yesterday's front page. Phase 3 tunes this.
+DEDUP_DAYS = 2

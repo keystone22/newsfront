@@ -1,0 +1,8 @@
+venv/
+__pycache__/
+*.pyc
+
+# news.db is deliberately NOT ignored. The scheduled draw runs on a fresh
+# GitHub runner each time, so the database is the only thing carrying dedup
+# history between editions -- ignore it and the paper repeats itself. fetch.py
+# prunes it to stay small.

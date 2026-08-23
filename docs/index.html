@@ -1,0 +1,453 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Standing Order">
+<title>The Standing Order</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+:root{
+  color-scheme:light;
+  --ground:#EEF0F3; --surface:#FFFFFF; --ink:#15181E; --muted:#626B7A;
+  --accent:#0F5C4E; --accent-soft:#0F5C4E1F; --rule:#D8DCE2; --rule-soft:#E6E9ED;
+  --serif:"Newsreader",Georgia,"Times New Roman",serif;
+  --sans:"IBM Plex Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--ground); color:var(--ink);
+  font-family:var(--sans); font-size:16px; line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1080px; margin:0 auto; padding:20px 16px 56px;}
+@media(min-width:760px){ .wrap{padding:36px 32px 72px;} }
+
+.masthead{background:var(--surface); border:1px solid var(--rule); padding:20px 18px 0; margin-bottom:20px;}
+.brand{font-family:var(--serif); font-weight:600; font-size:2rem; line-height:1.05;
+       letter-spacing:-.02em; margin:0; text-wrap:balance;}
+@media(min-width:760px){ .brand{font-size:2.6rem;} }
+.tagline{font-size:.82rem; color:var(--muted); margin:6px 0 16px;}
+.strip{display:grid; grid-template-columns:repeat(2,1fr); border-top:1px solid var(--rule);
+       font-family:var(--mono); font-variant-numeric:tabular-nums;}
+@media(min-width:620px){ .strip{grid-template-columns:repeat(4,1fr);} }
+.strip div{padding:10px 0 12px; border-right:1px solid var(--rule-soft);}
+.strip div:last-child{border-right:0}
+@media(max-width:619px){
+  .strip div:nth-child(2n){border-right:0}
+  .strip div:nth-child(-n+2){border-bottom:1px solid var(--rule-soft)}
+}
+.k{display:block; font-family:var(--sans); font-size:.63rem; font-weight:600;
+   text-transform:uppercase; letter-spacing:.09em; color:var(--muted); margin-bottom:3px;}
+.v{font-size:.95rem; font-weight:500;}
+.v .u{color:var(--muted); font-size:.78rem;}
+
+.sections{display:grid; gap:20px;}
+@media(min-width:900px){ .sections{grid-template-columns:1fr 1fr; align-items:start;} }
+.section{background:var(--surface); border:1px solid var(--rule);}
+.shead{display:flex; align-items:baseline; justify-content:space-between; gap:12px;
+       padding:12px 18px; border-bottom:2px solid var(--ink);}
+.sname{font-weight:600; font-size:.78rem; text-transform:uppercase; letter-spacing:.13em;}
+.squota{font-family:var(--mono); font-size:.75rem; font-weight:500; color:var(--accent);
+        font-variant-numeric:tabular-nums; white-space:nowrap;}
+.story{padding:15px 18px; border-bottom:1px solid var(--rule-soft);}
+.story:last-child{border-bottom:0}
+.meta{display:flex; align-items:center; gap:8px; margin-bottom:6px; font-family:var(--mono);
+      font-size:.68rem; color:var(--muted); font-variant-numeric:tabular-nums;}
+.src{font-weight:600; color:var(--accent); letter-spacing:.02em;}
+.dot{opacity:.45}
+.hl{font-family:var(--serif); font-size:1.18rem; line-height:1.28; font-weight:500;
+    letter-spacing:-.005em; text-wrap:balance; margin:0;}
+.hl a{color:var(--ink); text-decoration:none; border-bottom:1px solid transparent;}
+.hl a:hover{border-bottom-color:var(--accent);}
+.hl a:focus-visible{outline:2px solid var(--accent); outline-offset:3px;}
+.empty{padding:15px 18px; color:var(--muted); font-size:.88rem;}
+
+.mech{margin-top:0; background:var(--surface); border:1px solid var(--rule); padding:18px;}
+.mech h2{font-size:.78rem; font-weight:600; text-transform:uppercase;
+         letter-spacing:.13em; margin:0 0 4px;}
+.mech .sub{font-size:.85rem; color:var(--muted); margin:0 0 18px; max-width:62ch;}
+.rows{display:grid; gap:14px;}
+.row{display:grid; gap:7px;}
+.rtop{display:flex; justify-content:space-between; align-items:baseline; gap:10px;
+      font-family:var(--mono); font-size:.75rem; font-variant-numeric:tabular-nums;}
+.rtop b{font-family:var(--sans); font-size:.8rem; font-weight:600;}
+.rtop span{color:var(--muted);}
+.bar{display:flex; height:7px; background:var(--rule-soft); overflow:hidden;}
+.bar i{display:block; height:100%; background:var(--accent);}
+.legend{display:flex; flex-wrap:wrap; gap:6px 14px; font-family:var(--mono);
+        font-size:.68rem; color:var(--muted); font-variant-numeric:tabular-nums;}
+.legend span{display:inline-flex; align-items:center; gap:5px;}
+.sw{width:9px; height:9px; flex:none; background:var(--accent);}
+.foot{margin-top:20px; font-family:var(--mono); font-size:.68rem; color:var(--muted);
+      line-height:1.7; font-variant-numeric:tabular-nums;}
+.warn{margin-top:18px; padding:13px 15px; background:var(--accent-soft);
+      border-left:3px solid var(--accent); font-size:.86rem; max-width:64ch;}
+
+.legend span.bad{color:#B3261E;}
+.legend span.bad .sw{background:#B3261E;}
+.legend span.flag{color:var(--ink);}
+.note{font-size:.78rem; color:var(--muted); margin:2px 0 0; max-width:60ch; line-height:1.5;}
+
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="masthead">
+    <h1 class="brand">The Standing Order</h1>
+    <p class="tagline">A finite paper. Fixed slots, random draw, no ranking.</p>
+    <div class="strip">
+      <div><span class="k">Edition</span><span class="v">23 Aug 8:33 AM</span></div>
+      <div><span class="k">Window</span><span class="v">24-720 <span class="u">hrs</span></span></div>
+      <div><span class="k">Sections</span><span class="v">9 <span class="u">of 11</span></span></div>
+      <div><span class="k">Headlines</span><span class="v">17 <span class="u">of 17</span></span></div>
+    </div>
+  </div>
+
+  <div class="sections">
+
+    
+    <section class="section">
+      <div class="shead">
+        <span class="sname">Top News</span>
+        <span class="squota">3 / 3</span>
+      </div>
+      
+      <article class="story">
+        <div class="meta">
+          <span class="src">AP</span><span class="dot">&bull;</span><span>17h ago</span>
+        </div>
+        <p class="hl"><a href="https://news.google.com/rss/articles/CBMinwFBVV95cUxOdEViVlZISGlmWkFKcVE4VXZkdlpqMHZ3NmVBajNET3NPSDkweW5hU25LZkc5aHdRelpjTUhsN28wZTg2ZzVJZjl3SmY0WkNBTDV2T2xoZzJ0b3JhTEZOQWFkVGtZaFBhbl9MQW5QREZIRnFMMTBTVWZIckVVUXR4UlNsdWNNYzRxR0pueUpVbW1QbDRjMzc2VU91QWw2N1k?oc=5" target="_blank" rel="noopener noreferrer">Infantino defies FIFA vice president by going to youth event in Caribbean amid global soccer rift</a></p>
+      </article>
+      
+      <article class="story">
+        <div class="meta">
+          <span class="src">Reuters</span><span class="dot">&bull;</span><span>just now</span>
+        </div>
+        <p class="hl"><a href="https://news.google.com/rss/articles/CBMivwFBVV95cUxNZEtRSXowX3U4YjNkc2Q5UURqaXBPb3BZZkdJQU1WakxIUUVCX3hzdFF0QXhMbUx3bWp5SHpQT1pyTXNTd2NVelFvb3JrVHYwbExzYjR1aU84TlhFWEdUQXpab0U0NEhONVZmcnd1QjUxSE1ROUdRNHlMelk4c1ptQzVKSDQtWG5Bcm5IYWN2Yk5XZkZaMGlPR0JjYTdVTm5nanRvb24tM3VzYWR3aDBUMlVaNHhINEgyeV9LZFFPUQ?oc=5" target="_blank" rel="noopener noreferrer">Russian online retailer Ozon warehouse in Orenburg region hit in drone attack, governor says</a></p>
+      </article>
+      
+      <article class="story">
+        <div class="meta">
+          <span class="src">NYT</span><span class="dot">&bull;</span><span>just now</span>
+        </div>
+        <p class="hl"><a href="https://www.nytimes.com/2026/08/23/world/canada/canadian-goods-trump-tariffs-items-list.html" target="_blank" rel="noopener noreferrer">What Canadian Goods Will Take Trump’s 50% Tariffs? Some Pretty Strange Items.</a></p>
+      </article>
+      
+    </section>
+    
+    <section class="section">
+      <div class="shead">
+        <span class="sname">World</span>
+        <span class="squota">3 / 3</span>
+      </div>
+      
+      <article class="story">
+        <div class="meta">
+          <span class="src">AP World</span><span class="dot">&bull;</span><span>42h ago</span>
+        </div>
+        <p class="hl"><a href="https://news.google.com/rss/articles/CBMingFBVV95cUxPSXJVTUlzZW43bGVHNnMzWmxlXzVxc1NJVlZkQ2RvWHdfaHZfbUVTb2lHUlI4bC02NHVJcFl4dDNraE5RYUJpbjdrQTdadlFiNFpwczUyMnN0QkxJMXBSWGItZ1pVUGRBNW9kdVk4VUk3Ym9KUnZxRTNSV280UV9iMmRtb3JVTjZOUW5QSWdmS2FaLU9MT2lINWJEekZFZw?oc=5" target="_blank" rel="noopener noreferrer">US, South Korean militaries wrap up drill early, a day after North Korea’s missile barrage</a></p>
+      </article>
+      
+      <article class="story">
+        <div class="meta">
+          <span class="src">NYT World</span><span class="dot">&bull;</span><span>39h ago</span>
+        </div>
+        <p class="hl"><a href="https://www.nytimes.com/2026/08/20/world/africa/liberia-trump-deportations.html" target="_blank" rel="noopener noreferrer">First U.S. Deportees to Arrive in Liberia Amid Growing Backlash</a></p>
+      </article>
+      
+      <article class="story">
+        <div class="meta">
+          <span class="src">Guardian World</span><span class="dot">&bull;</span><span>just now</span>
+        </div>
+        <p class="hl"><a href="https://www.theguardian.com/world/2026/aug/23/russia-withdraws-ambassador-uk-kremlin-pressure-ukraine-andrey-kelin" target="_blank" rel="noopener noreferrer">Russia withdraws ambassador to UK as Kremlin ratchets pressure over Ukraine support</a></p>
+      </article>
+      
+    </section>
+    
+    <section class="section">
+      <div class="shead">
+        <span class="sname">Europe</span>
+        <span class="squota">2 / 2</span>
+      </div>
+      
+      <article class="story">
+        <div class="meta">
+          <span class="src">Euractiv</span><span class="dot">&bull;</span><span>24h ago</span>
+        </div>
+        <p class="hl"><a href="https://www.euractiv.com/news/us-canada-fail-to-reach-trade-pact-to-avert-trump-tariffs/" target="_blank" rel="noopener noreferrer">US, Canada fail to reach trade pact to avert Trump tariffs</a></p>
+      </article>
+      
+      <article class="story">
+        <div class="meta">
+          <span class="src">Le Monde</span><span class="dot">&bull;</span><span>just now</span>
+        </div>
+        <p class="hl"><a href="https://www.lemonde.fr/en/international/article/2026/08/23/zelensky-says-elections-too-risky-while-ukraine-fights-russia_6756776_4.html" target="_blank" rel="noopener noreferrer">Zelensky says elections too risky while Ukraine fights Russia</a></p>
+      </article>
+      
+    </section>
+    
+    <section class="section">
+      <div class="shead">
+        <span class="sname">Italy</span>
+        <span class="squota">1 / 1</span>
+      </div>
+      
+      <article class="story">
+        <div class="meta">
+          <span class="src">ANSA English</span><span class="dot">&bull;</span><span>41h ago</span>
+        </div>
+        <p class="hl"><a href="https://www.ansa.it/english/news/sports/2026/08/21/were-starting-from-scratch-knowing-were-still-the-team-to-beat_defa5e1e-1fab-4daa-a569-796002d509bd.html" target="_blank" rel="noopener noreferrer">&#39;We&#39;re starting from scratch, knowing we&#39;re still the team to beat&#39; says Inter&#39;s Chivu</a></p>
+      </article>
+      
+    </section>
+    
+    <section class="section">
+      <div class="shead">
+        <span class="sname">Science</span>
+        <span class="squota">2 / 2</span>
+      </div>
+      
+      <article class="story">
+        <div class="meta">
+          <span class="src">NYT Science</span><span class="dot">&bull;</span><span>2d ago</span>
+        </div>
+        <p class="hl"><a href="https://www.nytimes.com/2026/08/20/science/a-14th-century-skeleton-had-injuries-that-looked-like-a-car-crash-what-killed-him.html" target="_blank" rel="noopener noreferrer">This Skeleton is the First Confirmed Death by Trebuchet</a></p>
+      </article>
+      
+      <article class="story">
+        <div class="meta">
+          <span class="src">Guardian Science</span><span class="dot">&bull;</span><span>2d ago</span>
+        </div>
+        <p class="hl"><a href="https://www.theguardian.com/world/2026/aug/21/python-jodie-foster-snake-cancer-electrochemotherapy" target="_blank" rel="noopener noreferrer">Python named Jodie Foster first snake to receive pioneering cancer treatment</a></p>
+      </article>
+      
+    </section>
+    
+    <section class="section">
+      <div class="shead">
+        <span class="sname">Tech &amp; Hobbies</span>
+        <span class="squota">1 / 1</span>
+      </div>
+      
+      <article class="story">
+        <div class="meta">
+          <span class="src">Popular Mechanics</span><span class="dot">&bull;</span><span>40h ago</span>
+        </div>
+        <p class="hl"><a href="https://www.popularmechanics.com/military/a73355695/b52-crash-hydrogen-bombs-goldsboro-north-carolina/" target="_blank" rel="noopener noreferrer">A B-52 Accidentally Lost Two Hydrogen Bombs Over North Carolina. One Nearly Detonated. One Is Still Buried.</a></p>
+      </article>
+      
+    </section>
+    
+    <section class="section">
+      <div class="shead">
+        <span class="sname">Arts &amp; Culture</span>
+        <span class="squota">2 / 2</span>
+      </div>
+      
+      <article class="story">
+        <div class="meta">
+          <span class="src">Guardian Art</span><span class="dot">&bull;</span><span>26h ago</span>
+        </div>
+        <p class="hl"><a href="https://www.theguardian.com/culture/2026/aug/22/entertainment-guide-week-ahead-teenage-sex-death-tyler-creator-fightland-cinema-theatre-art-music" target="_blank" rel="noopener noreferrer">From Teenage Sex and Death at Camp Miasma to Brandon Flowers: your complete entertainment guide to the week ahead</a></p>
+      </article>
+      
+      <article class="story">
+        <div class="meta">
+          <span class="src">Guardian Books</span><span class="dot">&bull;</span><span>2d ago</span>
+        </div>
+        <p class="hl"><a href="https://www.theguardian.com/books/2026/aug/20/all-of-us-atoms-by-holly-dawson-audiobook-review-an-extraordinary-self-portrait" target="_blank" rel="noopener noreferrer">All of Us Atoms by Holly Dawson audiobook review – an extraordinary self-portrait</a></p>
+      </article>
+      
+    </section>
+    
+    <section class="section">
+      <div class="shead">
+        <span class="sname">Sports</span>
+        <span class="squota">2 / 2</span>
+      </div>
+      
+      <article class="story">
+        <div class="meta">
+          <span class="src">ESPN</span><span class="dot">&bull;</span><span>1h ago</span>
+        </div>
+        <p class="hl"><a href="https://www.espn.com/nfl/story/_/id/49664649/2026-nfl-preseason-week-2-takeaways-analysis-roster-questions" target="_blank" rel="noopener noreferrer">Takeaways from NFL preseason Week 2: QB questions linger for Browns, Vikings, Falcons</a></p>
+      </article>
+      
+      <article class="story">
+        <div class="meta">
+          <span class="src">Phillies (Good Phight)</span><span class="dot">&bull;</span><span>17h ago</span>
+        </div>
+        <p class="hl"><a href="https://www.thegoodphight.com/philadelphia-phillies-prospects/86370/phillies-on-the-pharm-8-22-2026" target="_blank" rel="noopener noreferrer">Phillies on the Pharm: 8/22/2026</a></p>
+      </article>
+      
+    </section>
+    
+    <section class="section">
+      <div class="shead">
+        <span class="sname">Human Interest</span>
+        <span class="squota">1 / 1</span>
+      </div>
+      
+      <article class="story">
+        <div class="meta">
+          <span class="src">Guardian Life</span><span class="dot">&bull;</span><span>47h ago</span>
+        </div>
+        <p class="hl"><a href="https://www.theguardian.com/recipes-from-feed/2026/aug/21/jimi-famurewas-leek-bacon-and-focaccia-breakfast-bake" target="_blank" rel="noopener noreferrer">Jimi Famurewa’s leek, bacon and focaccia breakfast bake – recipe</a></p>
+      </article>
+      
+    </section>
+    
+
+    <section class="section mech">
+      <h2>How this edition was drawn</h2>
+      <p class="sub">43 feeds across 9 sections.
+        Each bar is one section, split by how much of its candidate pool each source
+        supplied &mdash; not by what reached the page. The gap between a wide band and
+        a single slot is the per-source cap doing its job. Sources are named below only
+        where something needs explaining.</p>
+      <div class="rows">
+        
+        <div class="row">
+          <div class="rtop">
+            <b>Top News</b>
+            <span>172 candidates &rarr; 3 shown</span>
+          </div>
+          <div class="bar">
+            <i style="width:45.9%; opacity:1.0"></i><i style="width:37.2%; opacity:0.87"></i><i style="width:9.3%; opacity:0.74"></i><i style="width:7.6%; opacity:0.61"></i>
+          </div>
+          
+          
+        </div>
+        
+        <div class="row">
+          <div class="rtop">
+            <b>World</b>
+            <span>205 candidates &rarr; 3 shown</span>
+          </div>
+          <div class="bar">
+            <i style="width:36.6%; opacity:1.0"></i><i style="width:29.3%; opacity:0.87"></i><i style="width:20.5%; opacity:0.74"></i><i style="width:13.7%; opacity:0.61"></i>
+          </div>
+          
+          
+        </div>
+        
+        <div class="row">
+          <div class="rtop">
+            <b>Europe</b>
+            <span>98 candidates &rarr; 2 shown</span>
+          </div>
+          <div class="bar">
+            <i style="width:51.0%; opacity:1.0"></i><i style="width:17.3%; opacity:0.87"></i><i style="width:15.3%; opacity:0.74"></i><i style="width:11.2%; opacity:0.61"></i><i style="width:5.1%; opacity:0.48"></i><i style="width:0.0%; opacity:0.35"></i>
+          </div>
+          
+          
+          <div class="legend">
+            
+            <span class="bad">
+              <i class="sw"></i>Euractiv
+              unreachable &mdash; HTTP 403
+              
+            </span>
+            
+          </div>
+          
+          <p class="note">Euractiv did not answer this pull, so the
+            remaining sources filled the gap &mdash; which is why a source may appear
+            more than its cap allows.</p>
+          
+          
+        </div>
+        
+        <div class="row">
+          <div class="rtop">
+            <b>Italy</b>
+            <span>46 candidates &rarr; 1 shown</span>
+          </div>
+          <div class="bar">
+            <i style="width:34.8%; opacity:1.0"></i><i style="width:28.3%; opacity:0.87"></i><i style="width:19.6%; opacity:0.74"></i><i style="width:17.4%; opacity:0.61"></i>
+          </div>
+          
+          
+        </div>
+        
+        <div class="row">
+          <div class="rtop">
+            <b>Science</b>
+            <span>50 candidates &rarr; 2 shown</span>
+          </div>
+          <div class="bar">
+            <i style="width:38.0%; opacity:1.0"></i><i style="width:26.0%; opacity:0.87"></i><i style="width:18.0%; opacity:0.74"></i><i style="width:18.0%; opacity:0.61"></i>
+          </div>
+          
+          
+        </div>
+        
+        <div class="row">
+          <div class="rtop">
+            <b>Tech &amp; Hobbies</b>
+            <span>71 candidates &rarr; 1 shown</span>
+          </div>
+          <div class="bar">
+            <i style="width:45.1%; opacity:1.0"></i><i style="width:19.7%; opacity:0.87"></i><i style="width:12.7%; opacity:0.74"></i><i style="width:12.7%; opacity:0.61"></i><i style="width:9.9%; opacity:0.48"></i>
+          </div>
+          
+          
+        </div>
+        
+        <div class="row">
+          <div class="rtop">
+            <b>Arts &amp; Culture</b>
+            <span>64 candidates &rarr; 2 shown</span>
+          </div>
+          <div class="bar">
+            <i style="width:29.7%; opacity:1.0"></i><i style="width:26.6%; opacity:0.87"></i><i style="width:17.2%; opacity:0.74"></i><i style="width:15.6%; opacity:0.61"></i><i style="width:10.9%; opacity:0.48"></i>
+          </div>
+          
+          
+        </div>
+        
+        <div class="row">
+          <div class="rtop">
+            <b>Sports</b>
+            <span>95 candidates &rarr; 2 shown</span>
+          </div>
+          <div class="bar">
+            <i style="width:23.2%; opacity:1.0"></i><i style="width:14.7%; opacity:0.87"></i><i style="width:11.6%; opacity:0.74"></i><i style="width:11.6%; opacity:0.61"></i><i style="width:10.5%; opacity:0.48"></i><i style="width:10.5%; opacity:0.35"></i><i style="width:9.5%; opacity:0.21999999999999997"></i><i style="width:8.4%; opacity:0.08999999999999997"></i>
+          </div>
+          
+          
+        </div>
+        
+        <div class="row">
+          <div class="rtop">
+            <b>Human Interest</b>
+            <span>60 candidates &rarr; 1 shown</span>
+          </div>
+          <div class="bar">
+            <i style="width:43.3%; opacity:1.0"></i><i style="width:31.7%; opacity:0.87"></i><i style="width:25.0%; opacity:0.74"></i>
+          </div>
+          
+          
+        </div>
+        
+      </div>
+
+      
+
+      <p class="foot">
+        Random sample within cap. No ranking, no click data, no personalization.<br>
+        Phase 1 &middot; 43 feeds &middot; 9 sections &middot; front page only.
+      </p>
+    </section>
+
+  </div>
+</div>
+</body>
+</html>

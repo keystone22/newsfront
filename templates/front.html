@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Standing Order">
+<title>The Standing Order</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="{{ url_for('static', filename='news.css') }}">
+</head>
+<body>
+<div class="wrap">
+
+  <div class="masthead">
+    <h1 class="brand">The Standing Order</h1>
+    <p class="tagline">A finite paper. Fixed slots, random draw, no ranking.</p>
+    <div class="strip">
+      <div><span class="k">Edition</span><span class="v">{{ drawn or '—' }}</span></div>
+      <div><span class="k">Window</span><span class="v">{{ window }} <span class="u">hrs</span></span></div>
+      <div><span class="k">Sections</span><span class="v">{{ section_count }} <span class="u">of 11</span></span></div>
+      <div><span class="k">Headlines</span><span class="v">{{ total }} <span class="u">of {{ quota_total }}</span></span></div>
+    </div>
+  </div>
+
+  <div class="sections">
+
+    {% for s in sections %}
+    <section class="section">
+      <div class="shead">
+        <span class="sname">{{ s.name }}</span>
+        <span class="squota">{{ s.stories|length }} / {{ s.quota }}</span>
+      </div>
+      {% for a in s.stories %}
+      <article class="story">
+        <div class="meta">
+          <span class="src">{{ a.source }}</span><span class="dot">&bull;</span><span>{{ a.age }}</span>
+        </div>
+        <p class="hl"><a href="{{ a.url }}" target="_blank" rel="noopener noreferrer">{{ a.title }}</a></p>
+      </article>
+      {% else %}
+      <p class="empty">Nothing in the window. Run <code>fetch.py</code>.</p>
+      {% endfor %}
+    </section>
+    {% endfor %}
+
+    <section class="section mech">
+      <h2>How this edition was drawn</h2>
+      <p class="sub">{{ source_count }} feeds across {{ section_count }} sections.
+        Each bar is one section, split by how much of its candidate pool each source
+        supplied &mdash; not by what reached the page. The gap between a wide band and
+        a single slot is the per-source cap doing its job. Sources are named below only
+        where something needs explaining.</p>
+      <div class="rows">
+        {% for s in sections %}
+        <div class="row">
+          <div class="rtop">
+            <b>{{ s.name }}</b>
+            <span>{{ s.pool }} candidates &rarr; {{ s.stories|length }} shown</span>
+          </div>
+          <div class="bar">
+            {% for f in s.feeds %}<i style="width:{{ f.share }}%; opacity:{{ 1 - loop.index0 * 0.13 }}"></i>{% endfor %}
+          </div>
+          {# The per-source breakdown is a wall at 41 feeds, so it appears only
+             where something needs explaining: a feed that failed, or a source
+             that exceeded its cap because another one did. #}
+          {% if s.broken or s.over_cap %}
+          <div class="legend">
+            {% for f in s.feeds if f.error or f.over_cap %}
+            <span class="{{ 'bad' if f.error else 'flag' }}">
+              <i class="sw"></i>{{ f.name }}
+              {% if f.error %}unreachable &mdash; {{ f.error }}
+              {% else %}{{ f.in_window }} &rarr; {{ f.on_page }} &middot; over cap {{ f.cap }}{% endif %}
+            </span>
+            {% endfor %}
+          </div>
+          {% if s.broken %}
+          <p class="note">{{ s.broken|join(', ') }} did not answer this pull, so the
+            remaining sources filled the gap &mdash; which is why a source may appear
+            more than its cap allows.</p>
+          {% endif %}
+          {% endif %}
+        </div>
+        {% endfor %}
+      </div>
+
+      {% if not drawn %}
+      <div class="warn">No edition drawn yet. Run
+        <code>./venv/bin/python3 fetch.py</code> to pull the feeds.</div>
+      {% endif %}
+
+      <p class="foot">
+        Random sample within cap. No ranking, no click data, no personalization.<br>
+        Phase {{ phase }} &middot; {{ source_count }} feeds &middot; {{ section_count }} sections &middot; front page only.
+      </p>
+    </section>
+
+  </div>
+</div>
+</body>
+</html>
