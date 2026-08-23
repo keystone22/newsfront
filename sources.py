@@ -146,6 +146,20 @@ WIRE_SPORT = (
 # AP Sports deliberately gets WIRE_JUNK alone -- sport is the point there.
 WIRE_NEWS = f"(?:{WIRE_JUNK})|(?:{WIRE_SPORT})"
 
+# Sport arriving in a news section from a NON-wire source, caught the way
+# OPINION is -- on the URL path segment, which is unambiguous and needs no
+# keyword guessing. This is the reliable half of the sport problem: the
+# Guardian's us-news feed carries its tennis and football coverage under
+# /sport/, measured at 4 of 18 rows on 2026-08-23, and that is a fact about
+# the URL rather than a guess about the headline.
+#
+# Scoped to the general news feeds, NOT global. Measured across every stored
+# Sports article it currently matches nothing -- ESPN files under /nfl/ and
+# /mlb/, the Guardian's football feed under /football/, and the team blogs are
+# their own domains -- but that is luck, not structure, and a Guardian Sport
+# feed added later would be killed by a global rule.
+NEWS_SPORT = r"(/sport/|/sports/)"
+
 # ---------------------------------------------------------------------------
 # Sections
 # ---------------------------------------------------------------------------
@@ -178,14 +192,14 @@ SOURCES = [
 
     # --- Top News: no AP/Reuters wire until Phase 2, so these stand in. Kept
     #     to a 24h window because a stale lead story is worse than a thin one.
-    ("NYT",                "Top News",        "https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml",        1,   24,  None),
-    ("Guardian US",        "Top News",        "https://www.theguardian.com/us-news/rss",                          1,   24,  None),
+    ("NYT",                "Top News",        "https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml",        1,   24,  NEWS_SPORT),
+    ("Guardian US",        "Top News",        "https://www.theguardian.com/us-news/rss",                          1,   24,  NEWS_SPORT),
     ("AP",                 "Top News",        GN + "when:1d+site:apnews.com",                                     1,   24,  WIRE_NEWS),
     ("Reuters",            "Top News",        GN + "when:1d+site:reuters.com",                                    1,   24,  WIRE_NEWS),
 
     # --- World
-    ("NYT World",          "World",           "https://rss.nytimes.com/services/xml/rss/nyt/World.xml",           1,   48,  None),
-    ("Guardian World",     "World",           "https://www.theguardian.com/world/rss",                            1,   48,  None),
+    ("NYT World",          "World",           "https://rss.nytimes.com/services/xml/rss/nyt/World.xml",           1,   48,  NEWS_SPORT),
+    ("Guardian World",     "World",           "https://www.theguardian.com/world/rss",                            1,   48,  NEWS_SPORT),
     ("AP World",           "World",           GN + "when:2d+site:apnews.com+world",                               1,   48,  WIRE_NEWS),
     ("Reuters World",      "World",           GN + "when:2d+site:reuters.com+world",                              1,   48,  WIRE_NEWS),
 
@@ -193,9 +207,9 @@ SOURCES = [
     ("Euronews",           "Europe",          "https://www.euronews.com/rss",                                     1,   48,  None),
     ("Euractiv",           "Europe",          "https://www.euractiv.com/feed/",                                   1,   48,  None),
     ("Politico Europe",    "Europe",          "https://www.politico.eu/feed/",                                    1,   48,  None),
-    ("Le Monde",           "Europe",          "https://www.lemonde.fr/en/rss/une.xml",                            1,   48,  None),
-    ("Guardian Europe",    "Europe",          "https://www.theguardian.com/world/europe-news/rss",                1,   48,  None),
-    ("NYT Europe",         "Europe",          "https://rss.nytimes.com/services/xml/rss/nyt/Europe.xml",          1,   48,  None),
+    ("Le Monde",           "Europe",          "https://www.lemonde.fr/en/rss/une.xml",                            1,   48,  NEWS_SPORT),
+    ("Guardian Europe",    "Europe",          "https://www.theguardian.com/world/europe-news/rss",                1,   48,  NEWS_SPORT),
+    ("NYT Europe",         "Europe",          "https://rss.nytimes.com/services/xml/rss/nyt/Europe.xml",          1,   48,  NEWS_SPORT),
 
     # --- Italy: the thinnest section by a wide margin, so three of the four
     #     sources run long windows to keep a real pool behind a quota of 1.
