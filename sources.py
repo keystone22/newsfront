@@ -84,8 +84,20 @@ GLOBAL_EXCLUDE = f"(?:{TRAVEL})|(?:{OPINION})"
 #   * links go to news.google.com and redirect to the publisher in the browser,
 #     so a click passes through Google. That is the price of not needing an
 #     API key; newsdata.io is the paid-signup alternative if it ever matters.
-# "allinurl:" is NOT supported here -- it returns zero items -- so the topic
-# split is a plain keyword and is therefore approximate.
+# "allinurl:" is NOT supported here -- it returns zero items.
+#
+# A TRAILING KEYWORD DOES NOT FILTER. Measured 2026-08-23: "site:apnews.com
+# +sports" returns 100 items including a robotics story about a "100m sprint
+# and high jump", because the keyword is a soft relevance hint to Google, not a
+# filter. Treat any "+topic" below as decoration, not a guarantee.
+#
+# A PATH INSIDE site: DOES filter, and is the only reliable topic control here.
+# Verified: site:reuters.com/world returns 64 items of real world news,
+# /sports 100, /business 37, /technology 2. This is why both Reuters feeds are
+# path-scoped and AP's are not -- every AP path form returns ZERO items,
+# because AP URLs are apnews.com/article/<slug> with no section in them.
+# Negation ("-sports") is worse than useless: it returns junk rows like
+# "- rmb.reuters.com". OR is ignored.
 GN = "https://news.google.com/rss/search?hl=en-US&gl=US&ceid=US:en&q="
 
 # Google News mixes NON-ARTICLES in with the news: AP topic hub pages ("Ohio",
@@ -195,13 +207,13 @@ SOURCES = [
     ("NYT",                "Top News",        "https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml",        1,   24,  NEWS_SPORT),
     ("Guardian US",        "Top News",        "https://www.theguardian.com/us-news/rss",                          1,   24,  NEWS_SPORT),
     ("AP",                 "Top News",        GN + "when:1d+site:apnews.com",                                     1,   24,  WIRE_NEWS),
-    ("Reuters",            "Top News",        GN + "when:1d+site:reuters.com",                                    1,   24,  WIRE_NEWS),
+    ("Reuters",            "Top News",        GN + "when:1d+site:reuters.com/world",                                    1,   24,  WIRE_NEWS),
 
     # --- World
     ("NYT World",          "World",           "https://rss.nytimes.com/services/xml/rss/nyt/World.xml",           1,   48,  NEWS_SPORT),
     ("Guardian World",     "World",           "https://www.theguardian.com/world/rss",                            1,   48,  NEWS_SPORT),
     ("AP World",           "World",           GN + "when:2d+site:apnews.com+world",                               1,   48,  WIRE_NEWS),
-    ("Reuters World",      "World",           GN + "when:2d+site:reuters.com+world",                              1,   48,  WIRE_NEWS),
+    ("Reuters World",      "World",           GN + "when:2d+site:reuters.com/world",                              1,   48,  WIRE_NEWS),
 
     # --- Europe
     ("Euronews",           "Europe",          "https://www.euronews.com/rss",                                     1,   48,  None),

@@ -141,6 +141,28 @@ the keyless route is also the fresher one. Three things to know about it:
 * `allinurl:` is **not supported** by Google News RSS — it returns zero items —
   so the per-topic split is a plain keyword and is therefore approximate.
 
+Sport reaches the news sections through these feeds, and fixing it taught the
+most useful thing about this route: **a trailing keyword does not filter, but a
+path inside `site:` does.** `site:apnews.com+sports` happily returns a robotics
+story about a "100m sprint and high jump"; `site:reuters.com/world` returns 64
+items of real world news and no sport at all. So both Reuters feeds are now
+path-scoped, and Top News went from three sports stories in ten slots to one.
+
+**AP is the exception and cannot be fixed this way** — every AP path form returns
+zero items, because its URLs are `apnews.com/article/<slug>` with no section in
+them. AP therefore still leaks roughly one sports story onto Top News, which is
+a deliberate trade (Frank's call, 2026-08-23): keeping AP's wire coverage is
+worth the occasional stray game report. `WIRE_SPORT` catches about a third of it.
+
+That filter is also a cautionary tale about **measuring recall, not just
+precision**. It was swept for false positives first — 22 caught, every one
+genuine sport — and reported as a fix. It was not: measured properly, by
+fetching `site:reuters.com/sports` as **ground truth** and intersecting against
+our pool, 38% of Reuters' Top News contribution was sport, and the keyword list
+caught a third of it. Sports headlines are mostly team and athlete proper nouns,
+which no word list covers. When a source publishes its own classification, use
+that as the yardstick instead of a list you wrote.
+
 Google News also mixes in non-articles: AP topic hub pages ("Ohio", "Formula
 One", "Joe Biden") and Reuters stock-quote pages. `WIRE_JUNK` removes them,
 measured at 45 of 336 wire rows. Its 1–3 word test applies **only** to the wire

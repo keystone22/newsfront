@@ -58,6 +58,24 @@ see the deployment rule below, where it is not.
   401. They come via **Google News RSS filtered by source** — free, no API key,
   no delay. Both free aggregator tiers are worse (NewsAPI 24h delay and forbids
   non-development use; newsdata.io 12h). AP reads free; **Reuters is metered**.
+- **A trailing keyword in a Google News query does NOT filter.** `site:apnews.com
+  +sports` returns a robotics story about a "100m sprint and high jump" — the
+  keyword is a soft relevance hint, not a filter. **A path inside `site:` DOES**
+  (`site:reuters.com/world` → 64 real world items, `/sports` → 100). Negation
+  (`-sports`) returns junk rows; `OR` is ignored. **AP cannot be path-scoped at
+  all** — every form returns zero, because AP URLs are `apnews.com/article/<slug>`
+  with no section in them. Reuters can, and is.
+- **You cannot filter a wire on the URL, because there is no URL.** A Google News
+  entry carries a `news.google.com` redirect and the bare domain only — no path.
+  This is why the OPINION-style path test works for the Guardian and NYT but not
+  for AP/Reuters, and why sport in Top News needed the query fixed instead.
+- **Measure a filter's RECALL, not just its precision.** A sport keyword list was
+  swept for false positives (22 caught, all genuine) and shipped — and missed
+  two thirds of the sport, because headlines are mostly team and athlete proper
+  nouns. The honest measurement was to fetch `site:reuters.com/sports` as
+  **ground truth** and intersect: 38% of Reuters' Top News was sport, not the
+  11% the keyword net reported. Use the source's own classification when one
+  exists rather than a list you wrote.
 - **Be polite to hosts.** `HOST_DELAY` keeps 2s between hits on the same host —
   the list has seven Guardian feeds, five Google News queries, five NYT.
 
