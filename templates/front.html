@@ -38,6 +38,7 @@
       <article class="story">
         <div class="meta">
           <span class="src">{{ a.source }}</span><span class="dot">&bull;</span><span>{{ a.age }}</span>
+          {% if a.lang %}<span class="lang" title="published in Italian">{{ a.lang }}</span>{% endif %}
         </div>
         <p class="hl"><a href="{{ a.url }}" target="_blank" rel="noopener noreferrer">{{ a.title }}</a></p>
       </article>

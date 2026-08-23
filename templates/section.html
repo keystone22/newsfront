@@ -39,6 +39,7 @@
       <article class="story wide">
         <div class="meta">
           <span class="src">{{ a.source }}</span><span class="dot">&bull;</span><span>{{ a.age }}</span>
+          {% if a.lang %}<span class="lang" title="published in Italian">{{ a.lang }}</span>{% endif %}
           {# Stated rather than hidden: these lead the page because they were
              drawn onto the front page, and that draw was itself random. #}
           {% if a.on_front %}<span class="tag">on the front page</span>{% endif %}

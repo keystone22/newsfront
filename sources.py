@@ -165,12 +165,34 @@ WIRE_NEWS = f"(?:{WIRE_JUNK})|(?:{WIRE_SPORT})"
 # /sport/, measured at 4 of 18 rows on 2026-08-23, and that is a fact about
 # the URL rather than a guess about the headline.
 #
+# "/football/" and "/calcio/" are here for the Italy section, where soccer is the
+# bulk of the leakage -- ANSA English measured 21 of 75 rows (28%) under
+# /sports/, and the Guardian files its Serie A coverage under /football/. This is
+# EXACTLY why the pattern must stay per-source: theguardian.com/football/ is also
+# where Guardian Football lives, which is a SPORTS source and must keep every row.
+#
 # Scoped to the general news feeds, NOT global. Measured across every stored
 # Sports article it currently matches nothing -- ESPN files under /nfl/ and
 # /mlb/, the Guardian's football feed under /football/, and the team blogs are
 # their own domains -- but that is luck, not structure, and a Guardian Sport
 # feed added later would be killed by a global rule.
-NEWS_SPORT = r"(/sport/|/sports/)"
+NEWS_SPORT = r"(/sport/|/sports/|/football/|/calcio/)"
+
+# Italian-language sources need two exclusions the shared patterns cannot reach.
+# ANSA files travel under "/canale_viaggi/", not "/travel/", so GLOBAL_EXCLUDE's
+# TRAVEL half misses it entirely. Rai publishes video and text through one feed
+# and separates them only by path -- 17 of 40 items on 2026-08-23 were video.
+RAI_ANSA_IT = r"(/canale_viaggi/|/sport)"
+RAI_VIDEO   = r"(/video/)"
+
+# Sources published in ITALIAN. Tagged on the page so a headline is recognisable
+# as reading practice before it is clicked. Display only -- language has no
+# effect on the draw, which is why this is a lookup here rather than a column on
+# the sources table.
+LANG = {
+    "ANSA Italian": "IT",
+    "Rai News":     "IT",
+}
 
 # ---------------------------------------------------------------------------
 # Sections
@@ -225,10 +247,26 @@ SOURCES = [
 
     # --- Italy: the thinnest section by a wide margin, so three of the four
     #     sources run long windows to keep a real pool behind a quota of 1.
-    ("ANSA English",       "Italy",           "https://www.ansa.it/english/english_rss.xml",                      1,   48,  None),
-    ("The Local Italy",    "Italy",           "https://feeds.thelocal.com/rss/it",                                1,  168,  None),
-    ("Wanted in Rome",     "Italy",           "https://www.wantedinrome.com/news?format=rss",                     1,   96,  None),
-    ("Guardian Italy",     "Italy",           "https://www.theguardian.com/world/italy/rss",                      1,  168,  None),
+    #     168h, not 48h: ANSA's ENGLISH service publishes in batches and runs
+    #     about two days behind. Measured 2026-08-23 its 75 items spanned
+    #     48-149h old, so a 48h window sat exactly on the newest item and the
+    #     source contributed ~nothing. The Italian feed is live to the minute.
+    ("ANSA English",       "Italy",           "https://www.ansa.it/english/english_rss.xml",                      1,  168,  NEWS_SPORT),
+    ("The Local Italy",    "Italy",           "https://feeds.thelocal.com/rss/it",                                1,  168,  NEWS_SPORT),
+    ("Wanted in Rome",     "Italy",           "https://www.wantedinrome.com/news?format=rss",                     1,   96,  NEWS_SPORT),
+    ("Guardian Italy",     "Italy",           "https://www.theguardian.com/world/italy/rss",                      1,  168,  NEWS_SPORT),
+    #     The Florentine publishes about twice a week: measured 2026-08-23 its
+    #     10 items spanned 268-434h old, so at 168h it contributes NOTHING and
+    #     even 336h reaches only 5. 720h, same reasoning as Eurozine.
+    ("The Florentine",     "Italy",           "https://www.theflorentine.net/feed/",                              1,  720,  NEWS_SPORT),
+    #     Italian-language, for reading practice. ANSA is a wire, so its copy is
+    #     the plainest Italian available here; it is also free, where Repubblica
+    #     truncated to 262-603 words. Its travel channel is excluded by hand --
+    #     the global TRAVEL filter looks for "/travel/" and ANSA files under
+    #     "/canale_viaggi/", so the shared pattern does not reach it.
+    ("ANSA Italian",       "Italy",           "https://www.ansa.it/sito/ansait_rss.xml",                          1,   48,  RAI_ANSA_IT),
+    #     17 of Rai's 40 items are VIDEO, which this is not a place for.
+    ("Rai News",           "Italy",           "https://www.rainews.it/rss/tutti",                                 1,   48,  RAI_VIDEO),
 
     # --- Science: low daily volume everywhere, and science ages well, so the
     #     windows are wide on purpose.

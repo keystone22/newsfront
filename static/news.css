@@ -109,6 +109,11 @@ a.shead:hover .more{color:var(--accent);}
 /* A GRID, not wrapped flex: flex sizes each link to its own text, so the
    dividers between "Tech & Hobbies" and "Sports" land in different places and
    the block reads as misaligned. */
+/* Language marker. Deliberately quieter than .tag -- it is a label on the
+   headline, not a fact about the draw, and it sits inline in the meta row. */
+.lang{font-family:var(--mono); font-size:.6rem; font-weight:600; letter-spacing:.06em;
+      color:var(--muted); border:1px solid var(--rule); padding:0 4px; border-radius:2px;}
+
 .jumps{display:grid; grid-template-columns:repeat(2,1fr);}
 @media(min-width:620px){ .jumps{grid-template-columns:repeat(3,1fr);} }
 .jumps a{padding:12px 18px; font-size:.82rem;

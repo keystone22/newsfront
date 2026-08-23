@@ -122,6 +122,11 @@ a.shead:hover .more{color:var(--accent);}
 /* A GRID, not wrapped flex: flex sizes each link to its own text, so the
    dividers between "Tech & Hobbies" and "Sports" land in different places and
    the block reads as misaligned. */
+/* Language marker. Deliberately quieter than .tag -- it is a label on the
+   headline, not a fact about the draw, and it sits inline in the meta row. */
+.lang{font-family:var(--mono); font-size:.6rem; font-weight:600; letter-spacing:.06em;
+      color:var(--muted); border:1px solid var(--rule); padding:0 4px; border-radius:2px;}
+
 .jumps{display:grid; grid-template-columns:repeat(2,1fr);}
 @media(min-width:620px){ .jumps{grid-template-columns:repeat(3,1fr);} }
 .jumps a{padding:12px 18px; font-size:.82rem;
@@ -154,9 +159,9 @@ a.shead:hover .more{color:var(--accent);}
     <p class="tagline">The full section for this edition &mdash; 10 slots,
       dealt one per source per round.</p>
     <div class="strip">
-      <div><span class="k">Edition</span><span class="v">23 Aug 12:55 PM</span></div>
+      <div><span class="k">Edition</span><span class="v">23 Aug 3:22 PM</span></div>
       <div><span class="k">Stories</span><span class="v">10 <span class="u">of 10</span></span></div>
-      <div><span class="k">Candidates</span><span class="v">64</span></div>
+      <div><span class="k">Candidates</span><span class="v">65</span></div>
       <div><span class="k">Sources</span><span class="v">3</span></div>
     </div>
   </div>
@@ -171,11 +176,22 @@ a.shead:hover .more{color:var(--accent);}
       
       <article class="story wide">
         <div class="meta">
-          <span class="src">WBUR</span><span class="dot">&bull;</span><span>43h ago</span>
+          <span class="src">WBUR</span><span class="dot">&bull;</span><span>46h ago</span>
+          
           
           <span class="tag">on the front page</span>
         </div>
-        <p class="hl"><a href="https://www.wbur.org/news/2026/08/21/lindsay-clancy-defense-rests" target="_blank" rel="noopener noreferrer">The defense rests in the murder trial of Lindsay Clancy</a></p>
+        <p class="hl"><a href="https://www.wbur.org/hereandnow/2026/08/21/trump-white-house-renovations" target="_blank" rel="noopener noreferrer">Trump focused on White House renovations as legal battle over ballroom reaches a critical point</a></p>
+      </article>
+      
+      <article class="story wide">
+        <div class="meta">
+          <span class="src">Guardian Life</span><span class="dot">&bull;</span><span>6h ago</span>
+          
+          
+          
+        </div>
+        <p class="hl"><a href="https://www.theguardian.com/lifeandstyle/2026/aug/23/readers-reply-consumerism-literally-fill-planet-discarded-stuff" target="_blank" rel="noopener noreferrer">Readers reply: Is it inevitable that consumerism will literally fill up the planet?</a></p>
       </article>
       
       <article class="story wide">
@@ -183,49 +199,55 @@ a.shead:hover .more{color:var(--accent);}
           <span class="src">WBUR</span><span class="dot">&bull;</span><span>2d ago</span>
           
           
+          
         </div>
-        <p class="hl"><a href="https://www.wbur.org/endlessthread/2026/08/21/bluetooth-plane-reddit" target="_blank" rel="noopener noreferrer">&#39;Turn Bluetooth off, or we&#39;re turning around.&#39;</a></p>
+        <p class="hl"><a href="https://www.wbur.org/news/2026/08/21/early-in-person-voting-massachusetts-10-years-mail-ballots" target="_blank" rel="noopener noreferrer">It&#39;s the 10th anniversary of early in-person voting in Mass. Some question if (or when) it&#39;s worth it</a></p>
       </article>
       
       <article class="story wide">
         <div class="meta">
-          <span class="src">NYT Style</span><span class="dot">&bull;</span><span>3d ago</span>
+          <span class="src">NYT Style</span><span class="dot">&bull;</span><span>2d ago</span>
+          
           
           
         </div>
-        <p class="hl"><a href="https://www.nytimes.com/2026/08/19/style/tiny-modern-love-stories-she-thought-i-was-a-slob.html" target="_blank" rel="noopener noreferrer">Tiny Love Stories: ‘She Thought I Was a Slob’</a></p>
+        <p class="hl"><a href="https://www.nytimes.com/2026/08/21/style/cait-bailey-mario-carbone-wedding.html" target="_blank" rel="noopener noreferrer">He Saved Her Birthday in His Phone. Years Later, They Sent Save the Dates.</a></p>
       </article>
       
       <article class="story wide">
         <div class="meta">
-          <span class="src">Guardian Life</span><span class="dot">&bull;</span><span>3h ago</span>
+          <span class="src">WBUR</span><span class="dot">&bull;</span><span>46h ago</span>
+          
           
           
         </div>
-        <p class="hl"><a href="https://www.theguardian.com/lifeandstyle/2026/aug/23/aardman-animations-founders-peter-lord-david-sproxton-interview-oscars-wallace-gromit-chicken-run" target="_blank" rel="noopener noreferrer">Aardman’​s Peter Lord and David Sproxton: ‘At the Oscars, I went to the gents and had a pee with Jack Nicholson!’</a></p>
+        <p class="hl"><a href="https://www.wbur.org/hereandnow/2026/08/21/death-diving-norway" target="_blank" rel="noopener noreferrer">Diving into the extreme Norwegian sport of &#39;death diving&#39;</a></p>
       </article>
       
       <article class="story wide">
         <div class="meta">
-          <span class="src">WBUR</span><span class="dot">&bull;</span><span>19h ago</span>
+          <span class="src">NYT Style</span><span class="dot">&bull;</span><span>29h ago</span>
+          
           
           
         </div>
-        <p class="hl"><a href="https://www.wbur.org/news/2026/08/22/bso-musicians-authorize-first-strike-in-the-orchestras-history" target="_blank" rel="noopener noreferrer">BSO musicians vote to authorize first strike in the orchestra&#39;s history</a></p>
+        <p class="hl"><a href="https://www.nytimes.com/2026/08/22/style/meghan-markle-as-ever.html" target="_blank" rel="noopener noreferrer">Meghan’s Brand, As Ever, Will Live On</a></p>
       </article>
       
       <article class="story wide">
         <div class="meta">
-          <span class="src">Guardian Life</span><span class="dot">&bull;</span><span>23h ago</span>
+          <span class="src">Guardian Life</span><span class="dot">&bull;</span><span>just now</span>
+          
           
           
         </div>
-        <p class="hl"><a href="https://www.theguardian.com/technology/2026/aug/22/tiktok-auctions-lab-grown-diamonds" target="_blank" rel="noopener noreferrer">Diamonds for sale: lab-grown gem auctions are all over TikTok right now, but some aren’t happy about it</a></p>
+        <p class="hl"><a href="https://www.theguardian.com/thefilter-us/2026/aug/23/best-womens-trail-road-running-shoes" target="_blank" rel="noopener noreferrer">I tested 15 pairs of women&#39;s running shoes over five months. These are my favorites for every type of surface and runner</a></p>
       </article>
       
       <article class="story wide">
         <div class="meta">
-          <span class="src">NYT Style</span><span class="dot">&bull;</span><span>26h ago</span>
+          <span class="src">NYT Style</span><span class="dot">&bull;</span><span>29h ago</span>
+          
           
           
         </div>
@@ -234,29 +256,22 @@ a.shead:hover .more{color:var(--accent);}
       
       <article class="story wide">
         <div class="meta">
-          <span class="src">NYT Style</span><span class="dot">&bull;</span><span>45h ago</span>
+          <span class="src">Guardian Life</span><span class="dot">&bull;</span><span>2h ago</span>
+          
           
           
         </div>
-        <p class="hl"><a href="https://www.nytimes.com/2026/08/20/style/rachel-cusk-life-of-m-natalie-portman.html" target="_blank" rel="noopener noreferrer">Rachel Cusk on Her Novel ‘Life of M,’ Gossip and Natalie Portman</a></p>
+        <p class="hl"><a href="https://www.theguardian.com/food/2026/aug/23/how-to-make-zaru-soba-cold-soba-noodles-recipe-felicity-cloake" target="_blank" rel="noopener noreferrer">How to make the perfect zaru soba, or cold soba noodles – recipe | Felicity Cloake&#39;s How to make the perfect</a></p>
       </article>
       
       <article class="story wide">
         <div class="meta">
-          <span class="src">WBUR</span><span class="dot">&bull;</span><span>43h ago</span>
+          <span class="src">WBUR</span><span class="dot">&bull;</span><span>46h ago</span>
           
-          
-        </div>
-        <p class="hl"><a href="https://www.wbur.org/hereandnow/2026/08/21/muni-music-transit" target="_blank" rel="noopener noreferrer">Muni Music turns San Francisco&#39;s transit system into melodic art</a></p>
-      </article>
-      
-      <article class="story wide">
-        <div class="meta">
-          <span class="src">Guardian Life</span><span class="dot">&bull;</span><span>6h ago</span>
           
           
         </div>
-        <p class="hl"><a href="https://www.theguardian.com/lifeandstyle/2026/aug/23/achildhood-sexual-abuse-allegation-has-rocked-our-family" target="_blank" rel="noopener noreferrer">A childhood sexual abuse allegation has rocked our family – what can we do about it? | Ask Annalisa Barbieri</a></p>
+        <p class="hl"><a href="https://www.wbur.org/hereandnow/2026/08/21/evergrande-china-sentencing" target="_blank" rel="noopener noreferrer">Founder of China&#39;s biggest property developer sentenced to life in prison</a></p>
       </article>
       
     </section>
@@ -270,7 +285,7 @@ a.shead:hover .more{color:var(--accent);}
 
     <section class="section mech split">
       <h2>How this page was drawn</h2>
-      <p class="sub">64 candidates from 3 sources, filling
+      <p class="sub">65 candidates from 3 sources, filling
         10 slots. The story already on the front page leads this one, and the
         rest are
         dealt <b>one per source per round</b>, with the source order reshuffled each round.
@@ -286,7 +301,7 @@ a.shead:hover .more{color:var(--accent);}
                   &rarr; 4 slots</span>
           </div>
           <div class="bar">
-            <i style="width:40.6%"></i>
+            <i style="width:40.0%"></i>
             <i class="slot" style="width:40.0%"></i>
           </div>
         </div>
@@ -294,11 +309,11 @@ a.shead:hover .more{color:var(--accent);}
         <div class="row">
           <div class="rtop">
             <b class="">Guardian Life</b>
-            <span>19 candidates
+            <span>20 candidates
                   &rarr; 3 slots</span>
           </div>
           <div class="bar">
-            <i style="width:29.7%"></i>
+            <i style="width:30.8%"></i>
             <i class="slot" style="width:30.0%"></i>
           </div>
         </div>
@@ -310,7 +325,7 @@ a.shead:hover .more{color:var(--accent);}
                   &rarr; 3 slots</span>
           </div>
           <div class="bar">
-            <i style="width:29.7%"></i>
+            <i style="width:29.2%"></i>
             <i class="slot" style="width:30.0%"></i>
           </div>
         </div>
@@ -325,7 +340,7 @@ a.shead:hover .more{color:var(--accent);}
         Random draw within the round-robin. No ranking, no click data, no personalization.<br>
         Nothing here is marked as shown &mdash; the dedup window applies to the front page,
         so a story can sit in its section for as long as its source's window allows.<br>
-        Phase 2 &middot; 43 feeds &middot; 9 sections.
+        Phase 2 &middot; 46 feeds &middot; 9 sections.
       </p>
     </section>
 

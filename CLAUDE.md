@@ -50,6 +50,14 @@ see the deployment rule below, where it is not.
 - **Opinion is filtered on the URL path**, never on headline words — "opinion
   poll" is a news story. `/analysis/` is deliberately allowed: reported analysis
   is not an op-ed, and that is the distinction the spec draws.
+- **Corriere della Sera's RSS is DEAD** — frozen at 13 May 2024, all sections,
+  while still answering 200 with 69 items. Don't re-test it. Same class of trap
+  as the Boston Globe feed below.
+- **Compare a source's WINDOW to its actual pace.** ANSA English publishes in
+  batches ~2 days behind the Italian service, so its 48h window sat on the newest
+  item and the source contributed nothing at all until widened to 168h. The
+  Florentine needs 720h for the same reason. A silent source is usually this,
+  not a broken feed.
 - **Verify a feed before relying on it.** From the original draft list: Boston
   Globe's only reachable feed last updated **May 2020**, National Geographic
   404s, Wired Ideas is abandoned, NYT Sports is empty, and WBUR's documented URL

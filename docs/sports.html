@@ -122,6 +122,11 @@ a.shead:hover .more{color:var(--accent);}
 /* A GRID, not wrapped flex: flex sizes each link to its own text, so the
    dividers between "Tech & Hobbies" and "Sports" land in different places and
    the block reads as misaligned. */
+/* Language marker. Deliberately quieter than .tag -- it is a label on the
+   headline, not a fact about the draw, and it sits inline in the meta row. */
+.lang{font-family:var(--mono); font-size:.6rem; font-weight:600; letter-spacing:.06em;
+      color:var(--muted); border:1px solid var(--rule); padding:0 4px; border-radius:2px;}
+
 .jumps{display:grid; grid-template-columns:repeat(2,1fr);}
 @media(min-width:620px){ .jumps{grid-template-columns:repeat(3,1fr);} }
 .jumps a{padding:12px 18px; font-size:.82rem;
@@ -154,9 +159,9 @@ a.shead:hover .more{color:var(--accent);}
     <p class="tagline">The full section for this edition &mdash; 10 slots,
       dealt one per source per round.</p>
     <div class="strip">
-      <div><span class="k">Edition</span><span class="v">23 Aug 12:55 PM</span></div>
+      <div><span class="k">Edition</span><span class="v">23 Aug 3:22 PM</span></div>
       <div><span class="k">Stories</span><span class="v">10 <span class="u">of 10</span></span></div>
-      <div><span class="k">Candidates</span><span class="v">113</span></div>
+      <div><span class="k">Candidates</span><span class="v">125</span></div>
       <div><span class="k">Sources</span><span class="v">8</span></div>
     </div>
   </div>
@@ -171,20 +176,12 @@ a.shead:hover .more{color:var(--accent);}
       
       <article class="story wide">
         <div class="meta">
-          <span class="src">ESPN NFL</span><span class="dot">&bull;</span><span>6h ago</span>
+          <span class="src">ESPN MLB</span><span class="dot">&bull;</span><span>1h ago</span>
+          
           
           <span class="tag">on the front page</span>
         </div>
-        <p class="hl"><a href="https://www.espn.com/nfl/story/_/id/49693030/bills-star-dt-ed-oliver-mourning-tragic-death-son" target="_blank" rel="noopener noreferrer">Bills star DT Oliver mourning tragic death of son</a></p>
-      </article>
-      
-      <article class="story wide">
-        <div class="meta">
-          <span class="src">ESPN College FB</span><span class="dot">&bull;</span><span>10h ago</span>
-          
-          <span class="tag">on the front page</span>
-        </div>
-        <p class="hl"><a href="https://www.espn.com/college-football/story/_/id/49692021/sources-alabama-names-keelon-russell-qb1-opener-vs-ecu" target="_blank" rel="noopener noreferrer">Sources: Alabama names Russell QB1 for opener</a></p>
+        <p class="hl"><a href="https://www.espn.com/mlb/story/_/id/49700505/casey-mize-exits-padres-start-dugout-slip" target="_blank" rel="noopener noreferrer">Padres&#39; Mize hurts ankle on dugout steps, exits</a></p>
       </article>
       
       <article class="story wide">
@@ -192,71 +189,89 @@ a.shead:hover .more{color:var(--accent);}
           <span class="src">Penn State (BSD)</span><span class="dot">&bull;</span><span>4d ago</span>
           
           
+          <span class="tag">on the front page</span>
         </div>
-        <p class="hl"><a href="https://www.blackshoediaries.com/penn-state-football/89176/penn-state-nittany-lions-football-top-10-players-for-2026-3-rocco-becht-matt-campbell-happy-valley" target="_blank" rel="noopener noreferrer">Penn State’s Top 10 Players for 2026: #3 Rocco Becht</a></p>
+        <p class="hl"><a href="https://www.blackshoediaries.com/penn-state-football/89187/only-josiah-zayas-until-penn-state-football-contdown-to-kickoff-17-days-nittany-lions-matt-campbell" target="_blank" rel="noopener noreferrer">Only Josiah Zayas Until Penn State Football</a></p>
       </article>
       
       <article class="story wide">
         <div class="meta">
-          <span class="src">ESPN College FB</span><span class="dot">&bull;</span><span>10h ago</span>
+          <span class="src">Phillies (Good Phight)</span><span class="dot">&bull;</span><span>24h ago</span>
+          
           
           
         </div>
-        <p class="hl"><a href="https://www.espn.com/college-football/story/_/id/49695877/missouri-rb-hardy-ready-season-opener-sources-said" target="_blank" rel="noopener noreferrer">Sources: Mizzou RB Hardy eyes mid-Sept. return</a></p>
+        <p class="hl"><a href="https://www.thegoodphight.com/philadelphia-phillies-prospects/86370/phillies-on-the-pharm-8-22-2026" target="_blank" rel="noopener noreferrer">Phillies on the Pharm: 8/22/2026</a></p>
       </article>
       
       <article class="story wide">
         <div class="meta">
-          <span class="src">AP Sports</span><span class="dot">&bull;</span><span>17h ago</span>
+          <span class="src">ESPN</span><span class="dot">&bull;</span><span>2h ago</span>
+          
           
           
         </div>
-        <p class="hl"><a href="https://news.google.com/rss/articles/CBMitgFBVV95cUxORjFoUXk0MW42bFFyNUFGT0F0MTVVbVkyaWVocklKZTFnOUc2NzNoa0VuYW1HVks3SkxRU0FaOWtmeXVXaUlXdlExUlZCN1FfUEtjbTlYUXVVUUJpQm1SUnhrY2ZCMjRXVnA0bFpwbG1IVFIzUi1VdFVrMkZweWZ6cTZJcEllcFhkZXJtTklIUG56d3BEMmVYeHhwenJJamNxalhNUUR3OVNzY0V3SUwyTVFWNHloQQ?oc=5" target="_blank" rel="noopener noreferrer">Man United and Tottenham make woeful starts in the Premier League to puncture preseason positivity</a></p>
+        <p class="hl"><a href="https://www.espn.com/nfl/story/_/id/49672562/nfl-new-pass-block-push-rush-win-rates-formula-takeaways-analytics" target="_blank" rel="noopener noreferrer">Sorry, Nick Herbig -- we changed our win rates formula: What to know -- and why it hurt his stats</a></p>
       </article>
       
       <article class="story wide">
         <div class="meta">
-          <span class="src">ESPN NFL</span><span class="dot">&bull;</span><span>45h ago</span>
+          <span class="src">Penn State (BSD)</span><span class="dot">&bull;</span><span>4d ago</span>
+          
           
           
         </div>
-        <p class="hl"><a href="https://www.espn.com/nfl/story/_/id/49662894/los-angeles-chargers-akheem-mesidor-ottawa-canada-nfl-players" target="_blank" rel="noopener noreferrer">&#39;We have dogs in Ottawa&#39;: Akheem Mesidor paving way for next generation of Canadian NFL players</a></p>
+        <p class="hl"><a href="https://www.blackshoediaries.com/penn-state-football/89173/only-max-granville-and-ben-brahmer-until-penn-state-football-nittany-lions-countdown-to-kickoff-18-days" target="_blank" rel="noopener noreferrer">Only Max Granville and Ben Brahmer Until Penn State Football</a></p>
       </article>
       
       <article class="story wide">
         <div class="meta">
-          <span class="src">ESPN</span><span class="dot">&bull;</span><span>4h ago</span>
+          <span class="src">ESPN College FB</span><span class="dot">&bull;</span><span>13h ago</span>
+          
           
           
         </div>
-        <p class="hl"><a href="https://www.espn.com/mlb/story/_/id/49697385/skubal-overcomes-rough-1st-fans-11-score-first-win-dodgers" target="_blank" rel="noopener noreferrer">Skubal authors &#39;great outing,&#39; wins 1st as Dodger</a></p>
+        <p class="hl"><a href="https://www.espn.com/college-football/story/_/id/49684579/freeman-say-too-late-notre-dame-add-players" target="_blank" rel="noopener noreferrer">Freeman: &#39;Too late&#39; for Notre Dame to add players</a></p>
       </article>
       
       <article class="story wide">
         <div class="meta">
-          <span class="src">Phillies (Good Phight)</span><span class="dot">&bull;</span><span>14h ago</span>
+          <span class="src">Eagles (BGN)</span><span class="dot">&bull;</span><span>20h ago</span>
+          
           
           
         </div>
-        <p class="hl"><a href="https://www.thegoodphight.com/philadelphia-phillies-game-information/86391/gamethread-8-22-cardinals-at-phillies" target="_blank" rel="noopener noreferrer">Gamethread 8/22: Cardinals at Phillies</a></p>
+        <p class="hl"><a href="https://www.bleedinggreennation.com/philadelphia-eagles-preseason/180253/eagles-rookie-storylines-for-patriots-preseason-game" target="_blank" rel="noopener noreferrer">Eagles rookie storylines for Patriots preseason game</a></p>
       </article>
       
       <article class="story wide">
         <div class="meta">
-          <span class="src">ESPN MLB</span><span class="dot">&bull;</span><span>7h ago</span>
+          <span class="src">ESPN NFL</span><span class="dot">&bull;</span><span>8h ago</span>
+          
           
           
         </div>
-        <p class="hl"><a href="https://www.espn.com/mlb/story/_/id/49696319/rangers-1b-jake-burger-leaves-game-being-hit-pitch" target="_blank" rel="noopener noreferrer">Rangers&#39; Burger hit on wrist by pitch; X-rays clear</a></p>
+        <p class="hl"><a href="https://www.espn.com/nfl/story/_/id/49693030/bills-star-dt-ed-oliver-mourning-tragic-death-son" target="_blank" rel="noopener noreferrer">Bills star DT Oliver mourning tragic death of son</a></p>
       </article>
       
       <article class="story wide">
         <div class="meta">
-          <span class="src">Eagles (BGN)</span><span class="dot">&bull;</span><span>just now</span>
+          <span class="src">ESPN MLB</span><span class="dot">&bull;</span><span>10h ago</span>
+          
           
           
         </div>
-        <p class="hl"><a href="https://www.bleedinggreennation.com/news/180455/eagles-news-tanner-mckee-has-to-be-the-eagles-backup-quarterback-andy-dalton-just-isnt-very-good" target="_blank" rel="noopener noreferrer">Eagles News: “Tanner McKee has to be the Eagles’ backup quarterback. Andy Dalton just isn’t very good.”</a></p>
+        <p class="hl"><a href="https://www.espn.com/mlb/story/_/id/49672418/mlb-2026-little-league-classic-braves-brewers-best-youth-baseball-advice" target="_blank" rel="noopener noreferrer">Have fun! Don&#39;t dig holes in the outfield! MLB players give their Little League advice</a></p>
+      </article>
+      
+      <article class="story wide">
+        <div class="meta">
+          <span class="src">AP Sports</span><span class="dot">&bull;</span><span>34h ago</span>
+          
+          
+          
+        </div>
+        <p class="hl"><a href="https://news.google.com/rss/articles/CBMilAFBVV95cUxNZENSUFlJWnlValF1d2JiMVVROUpYSlFUN1dZMGNMRHVzMUQxalpUOE9GRjFwLUVtSkNnczdEeGtoZUNxaHlEOHktSFd3QWFxanFfMGk5MEd3VERvZzVJRnVRSHJWalZ5SjVOUi1aVzlHb0JKUjlxWU4zc2hERWNPNnZXVU52S3BkTzVOUjhZekZLdks5?oc=5" target="_blank" rel="noopener noreferrer">What to know about Alex Jones&#39; Texas court win and more than $1 billion in damages he still faces</a></p>
       </article>
       
     </section>
@@ -270,7 +285,7 @@ a.shead:hover .more{color:var(--accent);}
 
     <section class="section mech split">
       <h2>How this page was drawn</h2>
-      <p class="sub">113 candidates from 8 sources, filling
+      <p class="sub">125 candidates from 8 sources, filling
         10 slots. The 2 stories already on the front page
         lead this one, and the rest are
         dealt <b>one per source per round</b>, with the source order reshuffled each round.
@@ -282,11 +297,23 @@ a.shead:hover .more{color:var(--accent);}
         <div class="row">
           <div class="rtop">
             <b class="">ESPN</b>
-            <span>25 candidates
+            <span>30 candidates
                   &rarr; 1 slot</span>
           </div>
           <div class="bar">
-            <i style="width:22.1%"></i>
+            <i style="width:24.0%"></i>
+            <i class="slot" style="width:10.0%"></i>
+          </div>
+        </div>
+        
+        <div class="row">
+          <div class="rtop">
+            <b class="">AP Sports</b>
+            <span>22 candidates
+                  &rarr; 1 slot</span>
+          </div>
+          <div class="bar">
+            <i style="width:17.6%"></i>
             <i class="slot" style="width:10.0%"></i>
           </div>
         </div>
@@ -295,22 +322,10 @@ a.shead:hover .more{color:var(--accent);}
           <div class="rtop">
             <b class="">ESPN NFL</b>
             <span>16 candidates
-                  &rarr; 2 slots</span>
-          </div>
-          <div class="bar">
-            <i style="width:14.2%"></i>
-            <i class="slot" style="width:20.0%"></i>
-          </div>
-        </div>
-        
-        <div class="row">
-          <div class="rtop">
-            <b class="">AP Sports</b>
-            <span>16 candidates
                   &rarr; 1 slot</span>
           </div>
           <div class="bar">
-            <i style="width:14.2%"></i>
+            <i style="width:12.8%"></i>
             <i class="slot" style="width:10.0%"></i>
           </div>
         </div>
@@ -322,7 +337,7 @@ a.shead:hover .more{color:var(--accent);}
                   &rarr; 1 slot</span>
           </div>
           <div class="bar">
-            <i style="width:12.4%"></i>
+            <i style="width:11.2%"></i>
             <i class="slot" style="width:10.0%"></i>
           </div>
         </div>
@@ -334,7 +349,7 @@ a.shead:hover .more{color:var(--accent);}
                   &rarr; 1 slot</span>
           </div>
           <div class="bar">
-            <i style="width:10.6%"></i>
+            <i style="width:9.6%"></i>
             <i class="slot" style="width:10.0%"></i>
           </div>
         </div>
@@ -343,18 +358,6 @@ a.shead:hover .more{color:var(--accent);}
           <div class="rtop">
             <b class="">Penn State (BSD)</b>
             <span>11 candidates
-                  &rarr; 1 slot</span>
-          </div>
-          <div class="bar">
-            <i style="width:9.7%"></i>
-            <i class="slot" style="width:10.0%"></i>
-          </div>
-        </div>
-        
-        <div class="row">
-          <div class="rtop">
-            <b class="">ESPN College FB</b>
-            <span>10 candidates
                   &rarr; 2 slots</span>
           </div>
           <div class="bar">
@@ -366,7 +369,19 @@ a.shead:hover .more{color:var(--accent);}
         <div class="row">
           <div class="rtop">
             <b class="">ESPN MLB</b>
-            <span>9 candidates
+            <span>10 candidates
+                  &rarr; 2 slots</span>
+          </div>
+          <div class="bar">
+            <i style="width:8.0%"></i>
+            <i class="slot" style="width:20.0%"></i>
+          </div>
+        </div>
+        
+        <div class="row">
+          <div class="rtop">
+            <b class="">ESPN College FB</b>
+            <span>10 candidates
                   &rarr; 1 slot</span>
           </div>
           <div class="bar">
@@ -385,7 +400,7 @@ a.shead:hover .more{color:var(--accent);}
         Random draw within the round-robin. No ranking, no click data, no personalization.<br>
         Nothing here is marked as shown &mdash; the dedup window applies to the front page,
         so a story can sit in its section for as long as its source's window allows.<br>
-        Phase 2 &middot; 43 feeds &middot; 9 sections.
+        Phase 2 &middot; 46 feeds &middot; 9 sections.
       </p>
     </section>
 

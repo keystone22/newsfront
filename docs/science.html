@@ -122,6 +122,11 @@ a.shead:hover .more{color:var(--accent);}
 /* A GRID, not wrapped flex: flex sizes each link to its own text, so the
    dividers between "Tech & Hobbies" and "Sports" land in different places and
    the block reads as misaligned. */
+/* Language marker. Deliberately quieter than .tag -- it is a label on the
+   headline, not a fact about the draw, and it sits inline in the meta row. */
+.lang{font-family:var(--mono); font-size:.6rem; font-weight:600; letter-spacing:.06em;
+      color:var(--muted); border:1px solid var(--rule); padding:0 4px; border-radius:2px;}
+
 .jumps{display:grid; grid-template-columns:repeat(2,1fr);}
 @media(min-width:620px){ .jumps{grid-template-columns:repeat(3,1fr);} }
 .jumps a{padding:12px 18px; font-size:.82rem;
@@ -154,9 +159,9 @@ a.shead:hover .more{color:var(--accent);}
     <p class="tagline">The full section for this edition &mdash; 10 slots,
       dealt one per source per round.</p>
     <div class="strip">
-      <div><span class="k">Edition</span><span class="v">23 Aug 12:55 PM</span></div>
+      <div><span class="k">Edition</span><span class="v">23 Aug 3:22 PM</span></div>
       <div><span class="k">Stories</span><span class="v">10 <span class="u">of 10</span></span></div>
-      <div><span class="k">Candidates</span><span class="v">50</span></div>
+      <div><span class="k">Candidates</span><span class="v">51</span></div>
       <div><span class="k">Sources</span><span class="v">4</span></div>
     </div>
   </div>
@@ -171,74 +176,92 @@ a.shead:hover .more{color:var(--accent);}
       
       <article class="story wide">
         <div class="meta">
-          <span class="src">NYT Science</span><span class="dot">&bull;</span><span>2d ago</span>
+          <span class="src">Wired Science</span><span class="dot">&bull;</span><span>7d ago</span>
+          
           
           <span class="tag">on the front page</span>
         </div>
-        <p class="hl"><a href="https://www.nytimes.com/2026/08/20/science/trump-space-transportation-policy.html" target="_blank" rel="noopener noreferrer">Trump Announces a New Policy for a ‘Golden Age of Space Transportation’</a></p>
+        <p class="hl"><a href="https://www.wired.com/story/black-hole-stars-are-becoming-less-hypothetical/" target="_blank" rel="noopener noreferrer">Astronomers Discover the Existence of a Black Hole Star</a></p>
       </article>
       
       <article class="story wide">
         <div class="meta">
-          <span class="src">Guardian Science</span><span class="dot">&bull;</span><span>2d ago</span>
+          <span class="src">Ars Technica Science</span><span class="dot">&bull;</span><span>6d ago</span>
+          
           
           <span class="tag">on the front page</span>
         </div>
-        <p class="hl"><a href="https://www.theguardian.com/global-development/2026/aug/21/ebola-outbreak-five-big-questions" target="_blank" rel="noopener noreferrer">Ebola outbreak: five big questions</a></p>
+        <p class="hl"><a href="https://arstechnica.com/science/2026/08/meet-the-only-known-trebuchet-casualty-in-history/" target="_blank" rel="noopener noreferrer">Meet the only known trebuchet casualty in history</a></p>
       </article>
       
       <article class="story wide">
         <div class="meta">
-          <span class="src">Guardian Science</span><span class="dot">&bull;</span><span>3d ago</span>
+          <span class="src">Ars Technica Science</span><span class="dot">&bull;</span><span>5d ago</span>
+          
           
           
         </div>
-        <p class="hl"><a href="https://www.theguardian.com/environment/2026/aug/20/tipping-points-heatwaves-wildfires-permafrost-climate-crisis" target="_blank" rel="noopener noreferrer">The threatening thaw: climate professor on heatwave risks to tipping point of permafrost</a></p>
+        <p class="hl"><a href="https://arstechnica.com/science/2026/08/as-temperatures-get-hotter-pesticides-are-more-dangerous-to-farmworkers/" target="_blank" rel="noopener noreferrer">As temperatures get hotter, pesticides are more dangerous to farmworkers</a></p>
       </article>
       
       <article class="story wide">
         <div class="meta">
-          <span class="src">NYT Science</span><span class="dot">&bull;</span><span>2d ago</span>
+          <span class="src">Guardian Science</span><span class="dot">&bull;</span><span>just now</span>
+          
           
           
         </div>
-        <p class="hl"><a href="https://www.nytimes.com/2026/08/20/climate/climate-saving-old-trees-might-save-lives.html" target="_blank" rel="noopener noreferrer">Climate: Saving Old Trees Might Save Lives</a></p>
+        <p class="hl"><a href="https://www.theguardian.com/science/2026/aug/23/is-this-why-close-encounters-with-intelligent-aliens-have-so-far-eluded-us" target="_blank" rel="noopener noreferrer">Is this why close encounters with intelligent aliens have so far eluded us? | Letters</a></p>
       </article>
       
       <article class="story wide">
         <div class="meta">
-          <span class="src">Wired Science</span><span class="dot">&bull;</span><span>2d ago</span>
+          <span class="src">NYT Science</span><span class="dot">&bull;</span><span>29h ago</span>
+          
           
           
         </div>
-        <p class="hl"><a href="https://www.wired.com/story/the-super-el-nino-wont-fix-the-wests-water-crisis/" target="_blank" rel="noopener noreferrer">The Super El Niño Won’t Fix the West’s Water Crisis</a></p>
+        <p class="hl"><a href="https://www.nytimes.com/2026/08/22/science/gulf-coast-hypoxia-fish.html" target="_blank" rel="noopener noreferrer">Mapping America’s Largest ‘Dead Zone’</a></p>
       </article>
       
       <article class="story wide">
         <div class="meta">
-          <span class="src">Ars Technica Science</span><span class="dot">&bull;</span><span>7d ago</span>
+          <span class="src">Wired Science</span><span class="dot">&bull;</span><span>6d ago</span>
+          
           
           
         </div>
-        <p class="hl"><a href="https://arstechnica.com/science/2026/08/wildfire-smoke-now-bigger-prenatal-threat-than-human-sources-of-air-pollution/" target="_blank" rel="noopener noreferrer">Wildfire smoke now bigger prenatal threat than human sources of air pollution</a></p>
+        <p class="hl"><a href="https://www.wired.com/story/el-nino-quiets-atlantic-hurricane-season/" target="_blank" rel="noopener noreferrer">El Niño and Saharan Dust Silence Atlantic Hurricane Season</a></p>
       </article>
       
       <article class="story wide">
         <div class="meta">
-          <span class="src">Ars Technica Science</span><span class="dot">&bull;</span><span>2d ago</span>
+          <span class="src">Wired Science</span><span class="dot">&bull;</span><span>3h ago</span>
+          
           
           
         </div>
-        <p class="hl"><a href="https://arstechnica.com/science/2026/08/spacexs-orbital-data-centers-would-create-a-new-category-of-e-waste/" target="_blank" rel="noopener noreferrer">SpaceX’s orbital data centers would create a new category of e-waste</a></p>
+        <p class="hl"><a href="https://www.wired.com/story/transistors-changed-everything-heres-how-they-work/" target="_blank" rel="noopener noreferrer">Transistors Changed Everything. Here’s How They Work</a></p>
       </article>
       
       <article class="story wide">
         <div class="meta">
-          <span class="src">Wired Science</span><span class="dot">&bull;</span><span>2h ago</span>
+          <span class="src">Ars Technica Science</span><span class="dot">&bull;</span><span>4d ago</span>
+          
           
           
         </div>
-        <p class="hl"><a href="https://www.wired.com/story/is-expensive-bottled-water-actually-better-for-you/" target="_blank" rel="noopener noreferrer">Is Expensive Bottled Water Actually Better for You?</a></p>
+        <p class="hl"><a href="https://arstechnica.com/space/2026/08/its-christmastime-at-spacex-as-company-salvages-starship-from-indian-ocean/" target="_blank" rel="noopener noreferrer">Against all odds, SpaceX finally tugs Starship into port after 24 days at sea</a></p>
+      </article>
+      
+      <article class="story wide">
+        <div class="meta">
+          <span class="src">Guardian Science</span><span class="dot">&bull;</span><span>4d ago</span>
+          
+          
+          
+        </div>
+        <p class="hl"><a href="https://www.theguardian.com/science/2026/aug/19/french-medical-researcher-covid-ethics" target="_blank" rel="noopener noreferrer">Medical researcher who touted Covid ‘cure’ and was hailed by Dr Oz under fire over ethics</a></p>
       </article>
       
       <article class="story wide">
@@ -246,17 +269,9 @@ a.shead:hover .more{color:var(--accent);}
           <span class="src">NYT Science</span><span class="dot">&bull;</span><span>3d ago</span>
           
           
-        </div>
-        <p class="hl"><a href="https://www.nytimes.com/2026/08/19/science/nasa-swift-telescope-failed-rescue.html" target="_blank" rel="noopener noreferrer">NASA’s Attempt to Save the Swift Telescope Has Failed</a></p>
-      </article>
-      
-      <article class="story wide">
-        <div class="meta">
-          <span class="src">Guardian Science</span><span class="dot">&bull;</span><span>2d ago</span>
-          
           
         </div>
-        <p class="hl"><a href="https://www.theguardian.com/society/2026/aug/21/uk-men-heart-disease-higher-cancer-risk" target="_blank" rel="noopener noreferrer">UK men with heart disease at higher risk of developing and dying from cancer</a></p>
+        <p class="hl"><a href="https://www.nytimes.com/2026/08/19/world/asia/china-rocket-first-stage-recovery-land.html" target="_blank" rel="noopener noreferrer">Chinese Start-Up Lands Reusable Rocket for the First Time</a></p>
       </article>
       
     </section>
@@ -270,7 +285,7 @@ a.shead:hover .more{color:var(--accent);}
 
     <section class="section mech split">
       <h2>How this page was drawn</h2>
-      <p class="sub">50 candidates from 4 sources, filling
+      <p class="sub">51 candidates from 4 sources, filling
         10 slots. The 2 stories already on the front page
         lead this one, and the rest are
         dealt <b>one per source per round</b>, with the source order reshuffled each round.
@@ -283,11 +298,11 @@ a.shead:hover .more{color:var(--accent);}
           <div class="rtop">
             <b class="">NYT Science</b>
             <span>19 candidates
-                  &rarr; 3 slots</span>
+                  &rarr; 2 slots</span>
           </div>
           <div class="bar">
-            <i style="width:38.0%"></i>
-            <i class="slot" style="width:30.0%"></i>
+            <i style="width:37.3%"></i>
+            <i class="slot" style="width:20.0%"></i>
           </div>
         </div>
         
@@ -295,23 +310,23 @@ a.shead:hover .more{color:var(--accent);}
           <div class="rtop">
             <b class="">Wired Science</b>
             <span>13 candidates
-                  &rarr; 2 slots</span>
+                  &rarr; 3 slots</span>
           </div>
           <div class="bar">
-            <i style="width:26.0%"></i>
-            <i class="slot" style="width:20.0%"></i>
+            <i style="width:25.5%"></i>
+            <i class="slot" style="width:30.0%"></i>
           </div>
         </div>
         
         <div class="row">
           <div class="rtop">
             <b class="">Guardian Science</b>
-            <span>9 candidates
-                  &rarr; 3 slots</span>
+            <span>10 candidates
+                  &rarr; 2 slots</span>
           </div>
           <div class="bar">
-            <i style="width:18.0%"></i>
-            <i class="slot" style="width:30.0%"></i>
+            <i style="width:19.6%"></i>
+            <i class="slot" style="width:20.0%"></i>
           </div>
         </div>
         
@@ -319,11 +334,11 @@ a.shead:hover .more{color:var(--accent);}
           <div class="rtop">
             <b class="">Ars Technica Science</b>
             <span>9 candidates
-                  &rarr; 2 slots</span>
+                  &rarr; 3 slots</span>
           </div>
           <div class="bar">
-            <i style="width:18.0%"></i>
-            <i class="slot" style="width:20.0%"></i>
+            <i style="width:17.6%"></i>
+            <i class="slot" style="width:30.0%"></i>
           </div>
         </div>
         
@@ -337,7 +352,7 @@ a.shead:hover .more{color:var(--accent);}
         Random draw within the round-robin. No ranking, no click data, no personalization.<br>
         Nothing here is marked as shown &mdash; the dedup window applies to the front page,
         so a story can sit in its section for as long as its source's window allows.<br>
-        Phase 2 &middot; 43 feeds &middot; 9 sections.
+        Phase 2 &middot; 46 feeds &middot; 9 sections.
       </p>
     </section>
 

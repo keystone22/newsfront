@@ -169,6 +169,41 @@ measured at 45 of 336 wire rows. Its 1–3 word test applies **only** to the wir
 sources — run globally it would have killed ten real headlines, among them
 "Salmonella Is Everywhere" and "Betye Saar obituary".
 
+## The Italy section, and reading in Italian
+
+Seven sources, three of them added 2026-08-23 after The Local's metered paywall
+started biting. Two publish in **Italian** and are tagged `IT` on the page, so a
+headline is recognisable as reading practice before it is clicked.
+
+Verified that day, and worth not re-testing:
+
+| source | verdict |
+|---|---|
+| **Corriere della Sera** | **DEAD.** Feed frozen at 13 May 2024 — it says so itself in `updated`. Every section feed is stale too (`/esteri` ~1.5 years). Returns a healthy 200 with 69 items, which is exactly how a dead feed passes for a live one. |
+| **The Florentine** | Good. English, Florence, free, 4,200+ words served. Publishes ~twice a week — its 10 items spanned 268–434h old, so it needs a **720h** window; at 168h it contributes *nothing*. |
+| **ANSA Italian** | Good. Free, live to the minute, 1,500–2,200 words. Wire copy is the plainest Italian here, which is what makes it the pick for practice. |
+| **Rai News** | Usable, but **17 of its 40 items are video** — excluded on `/video/`. Its URLs carry no topic section, so its sport cannot be filtered structurally. |
+| Repubblica | Cleanest URL sections of any candidate, but articles truncated to 262–603 words. Gated. |
+| Il Post | Returns **403** to us. |
+| Il Fatto / Domani | Fresh, but strongly slanted — against the paper's neutral-by-design grain. |
+| The Local Italy | **Kept.** Metered rather than hard-gated: the articles fetch free server-side at 449–949 words, so the limit is per-reader and invisible from here. |
+
+Two traps found in passing:
+
+* **ANSA's English service runs about two days behind its Italian one**, and
+  publishes in batches. Its 75 items spanned 48–149h old, so the 48h window sat
+  exactly on the newest item and the source contributed **~nothing**. Widened to
+  168h, after which it returned 75 in window and 62 new articles in one pull. If
+  a source looks alive but never appears, compare its window to its actual pace.
+* **ANSA files travel under `/canale_viaggi/`**, so the shared `TRAVEL` pattern —
+  which looks for `/travel/` — never reaches it. Excluded per-source.
+
+Soccer is the bulk of what leaks into Italy: ANSA English measured **21 of 75
+rows (28%)** under `/sports/`, and the Guardian files its Serie A coverage under
+`/football/`. Both are now caught by `NEWS_SPORT`, which is **why that pattern
+must stay per-source** — `theguardian.com/football/` is also where Guardian
+Football lives, and that is a Sports source that must keep every row.
+
 ## Notes from building it
 
 * **Travel guides are filtered everywhere; daily news bulletins are not.**

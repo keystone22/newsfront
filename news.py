@@ -84,6 +84,7 @@ def stories(db, slot_col, section=None):
     """, (section,) if section else ()).fetchall()
     return [dict(title=r["title"], url=r["url"], source=r["source"],
                  section=r["section"], age=age_label(r["published_at"]),
+                 lang=cfg.LANG.get(r["source"]),
                  on_front=r["is_current"] > 0) for r in rows]
 
 

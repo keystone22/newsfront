@@ -122,6 +122,11 @@ a.shead:hover .more{color:var(--accent);}
 /* A GRID, not wrapped flex: flex sizes each link to its own text, so the
    dividers between "Tech & Hobbies" and "Sports" land in different places and
    the block reads as misaligned. */
+/* Language marker. Deliberately quieter than .tag -- it is a label on the
+   headline, not a fact about the draw, and it sits inline in the meta row. */
+.lang{font-family:var(--mono); font-size:.6rem; font-weight:600; letter-spacing:.06em;
+      color:var(--muted); border:1px solid var(--rule); padding:0 4px; border-radius:2px;}
+
 .jumps{display:grid; grid-template-columns:repeat(2,1fr);}
 @media(min-width:620px){ .jumps{grid-template-columns:repeat(3,1fr);} }
 .jumps a{padding:12px 18px; font-size:.82rem;
@@ -152,7 +157,7 @@ a.shead:hover .more{color:var(--accent);}
     <h1 class="brand">The Standing Order</h1>
     <p class="tagline">A finite paper. Fixed slots, random draw, no ranking.</p>
     <div class="strip">
-      <div><span class="k">Edition</span><span class="v">23 Aug 12:55 PM</span></div>
+      <div><span class="k">Edition</span><span class="v">23 Aug 3:22 PM</span></div>
       <div><span class="k">Window</span><span class="v">24-720 <span class="u">hrs</span></span></div>
       <div><span class="k">Sections</span><span class="v">9 <span class="u">of 11</span></span></div>
       <div><span class="k">Headlines</span><span class="v">17 <span class="u">of 17</span></span></div>
@@ -170,23 +175,26 @@ a.shead:hover .more{color:var(--accent);}
       
       <article class="story">
         <div class="meta">
-          <span class="src">Reuters</span><span class="dot">&bull;</span><span>just now</span>
+          <span class="src">Reuters</span><span class="dot">&bull;</span><span>8h ago</span>
+          
         </div>
-        <p class="hl"><a href="https://news.google.com/rss/articles/CBMipAFBVV95cUxNMXR2WHg4Sk1EWmREN2NWcjBGUVNFdW0ya2Rpa25CcFJqT0pZQmFYQ2YwSVVxa0ZsRWNMMEpvMk4zVmZidzNrbWF5MTFKUW5KTThIeXM2alI2aDJKSnhHM3JNWHE2c2JkM2tRTGhDbWNrd05yZ2NkNkZFZUw4ZDRjdDhZNVU0RnBoLXdBVDc4aVE0bGUtSVFrUDBoTWJrZG9ZdDEyeA?oc=5" target="_blank" rel="noopener noreferrer">Wartime election would &#39;destroy&#39; Ukraine, Zelenskiy says</a></p>
+        <p class="hl"><a href="https://news.google.com/rss/articles/CBMiuAFBVV95cUxNd29YcXQzMHVTQVR1SFNUb2tUV1AxR18yZFlfYzlZWXNQNVlBQVV5a21raGM0X3dobTU5cVFIZXAzYnIyVURoc0ZWOW45bFd6WWREOXhaazhiSFB4OHBxSWM4cEJhVVB6WHctM0RQOXBjbkJBdnVnZTB5RlhIY2NuUGpielJhVVNfM0lEZHdJNEEzSmVuWFZuNWlidkZMNlRFbE5LRHNXRDF5MEhfVHF3RWJnajFETktY?oc=5" target="_blank" rel="noopener noreferrer">Peace through strength, Taiwan president says on China battle anniversary</a></p>
       </article>
       
       <article class="story">
         <div class="meta">
-          <span class="src">AP</span><span class="dot">&bull;</span><span>8h ago</span>
+          <span class="src">Guardian US</span><span class="dot">&bull;</span><span>4h ago</span>
+          
         </div>
-        <p class="hl"><a href="https://news.google.com/rss/articles/CBMiogFBVV95cUxNanVEb1RTU09HeEJNa0tIaFVidlhyU0hxUVdldENOZFpkQ3ZQQkNyc2R0TzlRNy1oblNTREpteFJDM2s0aFhWV3Q3blkzNW1FZjFHTGtVOFI4ZjBsc194RDZtUmhvNmVpQkREZzdSdmNpU3pLc0I4VzVKdWxNSkx4cFRnSEt5SnY1VVlfS3BIUjVwZmZQZHFSdWI3TFZDOUx5TGc?oc=5" target="_blank" rel="noopener noreferrer">Eagles&#39; Ja’Quinden Jackson has movement after being taken off in ambulance following injury</a></p>
+        <p class="hl"><a href="https://www.theguardian.com/us-news/2026/aug/23/trump-sowing-election-distrust" target="_blank" rel="noopener noreferrer">Trump laying groundwork to impose national emergency by sowing election distrust</a></p>
       </article>
       
       <article class="story">
         <div class="meta">
-          <span class="src">NYT</span><span class="dot">&bull;</span><span>12h ago</span>
+          <span class="src">AP</span><span class="dot">&bull;</span><span>21h ago</span>
+          
         </div>
-        <p class="hl"><a href="https://www.nytimes.com/2026/08/22/us/gary-indiana-11-day-power-outage.html" target="_blank" rel="noopener noreferrer">‘It’s Been Terrible’: Thousands in Indiana Remain Without Power</a></p>
+        <p class="hl"><a href="https://news.google.com/rss/articles/CBMinAFBVV95cUxNMTRPSG42N2hfX1hDV0FtOUxMeXdvNVM5WUhwRmtDYVR1VnZQc3BCYnBWU0YyWG1VNFdSZ3NZMDVJYTY5dHpLSHFTZUM3WjR3MEM4VDdaNVp3X1JVU0drSGVJNS1FQ0lma19hc0htaG9BbktsaTMtM09GVDRHU25jMDdtTHA5M2ZXMkFvOTl2V3RqMlMzZHAzcEJJTVk?oc=5" target="_blank" rel="noopener noreferrer">A US envoy says Israel did not give a warning to the US ahead of a recent Syria air strike</a></p>
       </article>
       
     </section>
@@ -199,23 +207,26 @@ a.shead:hover .more{color:var(--accent);}
       
       <article class="story">
         <div class="meta">
-          <span class="src">Reuters World</span><span class="dot">&bull;</span><span>37h ago</span>
+          <span class="src">Guardian World</span><span class="dot">&bull;</span><span>5h ago</span>
+          
         </div>
-        <p class="hl"><a href="https://news.google.com/rss/articles/CBMilwFBVV95cUxNb0NsWVpQOWdzUm41bXJWQ0VjdmVBN2JSYmlBZFRidmN1aVFrRDJwQWFPa05seWFwUHBuLVU5Y3hRR05QaG5aR1FEWGxzb2R2NjhKTmlwaVE0eEV5OUJaQmtmb2YxTUxRQlBPVmY2OXhpMXREelVoOWNwVjVDOEpnTXBJeU1rQlVBUlVDb2lEM3pvdmh1bUpZ?oc=5" target="_blank" rel="noopener noreferrer">Pentagon fires US military newspaper leadership</a></p>
+        <p class="hl"><a href="https://www.theguardian.com/business/2026/aug/23/llanwern-steelworks-cheap-steel-imports" target="_blank" rel="noopener noreferrer">‘The line’s running half-empty’: Llanwern steelworks feels the heat from cheap steel imports</a></p>
       </article>
       
       <article class="story">
         <div class="meta">
-          <span class="src">AP World</span><span class="dot">&bull;</span><span>27h ago</span>
+          <span class="src">NYT World</span><span class="dot">&bull;</span><span>17h ago</span>
+          
         </div>
-        <p class="hl"><a href="https://news.google.com/rss/articles/CBMikwFBVV95cUxOd2ZWcnEzSHpvUUo0b0FBWFh5cndyNS1kMVY2dmJzcEpfdU1xM05BR3p1SndrTEthZ0Z4bmFiZWJVQ05zZGRyc3NDNjJwclpHcnZFNUNoMF9hTVF1MHYxMENRNEw4a21pekZzaDN6WHpSYjFiLUJwWFFXRzJHdGhMTnlnMzF6S243SkJYYXpiYzI1T2s?oc=5" target="_blank" rel="noopener noreferrer">Somali pirates hijack oil tanker off Yemen in latest attack</a></p>
+        <p class="hl"><a href="https://www.nytimes.com/2026/08/22/world/europe/rest-is-history-podcast-sandbrook-holland.html" target="_blank" rel="noopener noreferrer">How Two British Historians Made a Smash Hit Podcast</a></p>
       </article>
       
       <article class="story">
         <div class="meta">
-          <span class="src">NYT World</span><span class="dot">&bull;</span><span>41h ago</span>
+          <span class="src">Reuters World</span><span class="dot">&bull;</span><span>47h ago</span>
+          
         </div>
-        <p class="hl"><a href="https://www.nytimes.com/2026/08/21/world/middleeast/palestinian-teenager-killed-israeli-settlers-west-bank.html" target="_blank" rel="noopener noreferrer">Palestinian Teenager Killed After Israeli Settlers Enter West Bank Village</a></p>
+        <p class="hl"><a href="https://news.google.com/rss/articles/CBMiuwFBVV95cUxOdU1PZ01nMW5iZ3YwOUNhYTZMREx1OVd1Z0ZxX2IwQWtyY3JMU3RWTV9LemdZakNjNWNIcUpDZDNQUXU4bGE4aDI5OTcyYVVDbXVkNWxKN05jUWV3RlFpRUkzaGM3SXBfNGF0Wlh6eVd6VjVfNmxtQUdXUjJhV3lYbnl3ekZETjNQdlluN1gzbGtENlM1SGFHVUtqaU0yQnNfMWtmVEhYaXhnSWFiU3dzT3I1N0duZ1o0S3RZ?oc=5" target="_blank" rel="noopener noreferrer">Official creditors back Ethiopia bond restructuring, flag risks in warrant</a></p>
       </article>
       
     </section>
@@ -228,16 +239,18 @@ a.shead:hover .more{color:var(--accent);}
       
       <article class="story">
         <div class="meta">
-          <span class="src">Euronews</span><span class="dot">&bull;</span><span>43h ago</span>
+          <span class="src">Euronews</span><span class="dot">&bull;</span><span>22h ago</span>
+          
         </div>
-        <p class="hl"><a href="http://www.euronews.com/2026/08/21/muslim-world-league-launches-plan-to-counter-extremism-and-promote-peace-in-west-africa" target="_blank" rel="noopener noreferrer">Muslim World League launches plan to counter extremism and promote peace in West Africa</a></p>
+        <p class="hl"><a href="http://www.euronews.com/2026/08/22/cop17-in-mongolia-finding-solutions-to-land-degradation" target="_blank" rel="noopener noreferrer">COP17 in Mongolia: Finding solutions to land degradation</a></p>
       </article>
       
       <article class="story">
         <div class="meta">
-          <span class="src">Le Monde</span><span class="dot">&bull;</span><span>23h ago</span>
+          <span class="src">Le Monde</span><span class="dot">&bull;</span><span>10h ago</span>
+          
         </div>
-        <p class="hl"><a href="https://www.lemonde.fr/en/environment/article/2026/08/22/heavy-rain-floods-northeastern-spain-injures-at-least-7_6756760_114.html" target="_blank" rel="noopener noreferrer">Heavy rain floods northeastern Spain, injures 11</a></p>
+        <p class="hl"><a href="https://www.lemonde.fr/en/economy/article/2026/08/23/in-riyadh-a-public-transit-network-built-from-scratch-to-transform-the-city_6756772_19.html" target="_blank" rel="noopener noreferrer">In Riyadh, a public transit network built from scratch to transform the city</a></p>
       </article>
       
     </section>
@@ -250,9 +263,10 @@ a.shead:hover .more{color:var(--accent);}
       
       <article class="story">
         <div class="meta">
-          <span class="src">The Local Italy</span><span class="dot">&bull;</span><span>27h ago</span>
+          <span class="src">ANSA English</span><span class="dot">&bull;</span><span>4d ago</span>
+          
         </div>
-        <p class="hl"><a href="https://www.thelocal.it/20260822/heatwave-hit-europe-logs-over-30000-excess-summer-deaths" target="_blank" rel="noopener noreferrer">Heatwave-hit Europe logs over 30,000 excess summer deaths</a></p>
+        <p class="hl"><a href="https://www.ansa.it/english/news/general_news/2026/08/19/italy-facing-fresh-femicide-wave_9bcac2e5-5a0a-42ef-ad7d-ce767cea955d.html" target="_blank" rel="noopener noreferrer">Italy facing fresh femicide wave</a></p>
       </article>
       
     </section>
@@ -265,16 +279,18 @@ a.shead:hover .more{color:var(--accent);}
       
       <article class="story">
         <div class="meta">
-          <span class="src">NYT Science</span><span class="dot">&bull;</span><span>2d ago</span>
+          <span class="src">Wired Science</span><span class="dot">&bull;</span><span>7d ago</span>
+          
         </div>
-        <p class="hl"><a href="https://www.nytimes.com/2026/08/20/science/trump-space-transportation-policy.html" target="_blank" rel="noopener noreferrer">Trump Announces a New Policy for a ‘Golden Age of Space Transportation’</a></p>
+        <p class="hl"><a href="https://www.wired.com/story/black-hole-stars-are-becoming-less-hypothetical/" target="_blank" rel="noopener noreferrer">Astronomers Discover the Existence of a Black Hole Star</a></p>
       </article>
       
       <article class="story">
         <div class="meta">
-          <span class="src">Guardian Science</span><span class="dot">&bull;</span><span>2d ago</span>
+          <span class="src">Ars Technica Science</span><span class="dot">&bull;</span><span>6d ago</span>
+          
         </div>
-        <p class="hl"><a href="https://www.theguardian.com/global-development/2026/aug/21/ebola-outbreak-five-big-questions" target="_blank" rel="noopener noreferrer">Ebola outbreak: five big questions</a></p>
+        <p class="hl"><a href="https://arstechnica.com/science/2026/08/meet-the-only-known-trebuchet-casualty-in-history/" target="_blank" rel="noopener noreferrer">Meet the only known trebuchet casualty in history</a></p>
       </article>
       
     </section>
@@ -287,9 +303,10 @@ a.shead:hover .more{color:var(--accent);}
       
       <article class="story">
         <div class="meta">
-          <span class="src">Popular Mechanics</span><span class="dot">&bull;</span><span>45h ago</span>
+          <span class="src">NYT Technology</span><span class="dot">&bull;</span><span>2d ago</span>
+          
         </div>
-        <p class="hl"><a href="https://www.popularmechanics.com/science/a73487022/spacetime-higher-dimension-universe/" target="_blank" rel="noopener noreferrer">Spacetime May Be Just One Layer of the Universe—Embedded in a Deeper Reality We Don’t Understand, Physicist Suggests</a></p>
+        <p class="hl"><a href="https://www.nytimes.com/2026/08/21/magazine/flock-cameras-surveillance-state.html" target="_blank" rel="noopener noreferrer">Flock Cameras. Canoodling Lawyers. How Much Surveillance Are We Comfortable With?</a></p>
       </article>
       
     </section>
@@ -302,16 +319,18 @@ a.shead:hover .more{color:var(--accent);}
       
       <article class="story">
         <div class="meta">
-          <span class="src">Arts Fuse</span><span class="dot">&bull;</span><span>3d ago</span>
+          <span class="src">Arts Fuse</span><span class="dot">&bull;</span><span>4d ago</span>
+          
         </div>
-        <p class="hl"><a href="https://artsfuse.org/333166/film-review-dont-say-good-luck-finds-grace-in-grief-theater-and-teenage-life/" target="_blank" rel="noopener noreferrer">Film Review: “Don’t Say Good Luck” Finds Grace in Grief, Theater, and Teenage Life</a></p>
+        <p class="hl"><a href="https://artsfuse.org/333103/book-review-the-frenchmen-when-literary-theory-was-cool-french-and-sexy/" target="_blank" rel="noopener noreferrer">Book Review: “The Frenchmen” — When Literary Theory Was Cool, French, and Sexy</a></p>
       </article>
       
       <article class="story">
         <div class="meta">
-          <span class="src">Guardian Art</span><span class="dot">&bull;</span><span>2d ago</span>
+          <span class="src">NYT Books</span><span class="dot">&bull;</span><span>2d ago</span>
+          
         </div>
-        <p class="hl"><a href="https://www.theguardian.com/artanddesign/2026/aug/21/the-week-in-art-anish-kapoor-france-lise-mcgurn-tracey-emin" target="_blank" rel="noopener noreferrer">Kapoor’s blockbusting blobs, terrible Tudors and Emin’s proteges – the week in art</a></p>
+        <p class="hl"><a href="https://www.nytimes.com/2026/08/21/books/review/back-to-school-picture-books.html" target="_blank" rel="noopener noreferrer">Back-to-School Picture Books by Amy Schwartz, Sophie Blackall, Oliver Jeffers and Chris Priestley</a></p>
       </article>
       
     </section>
@@ -324,16 +343,18 @@ a.shead:hover .more{color:var(--accent);}
       
       <article class="story">
         <div class="meta">
-          <span class="src">ESPN NFL</span><span class="dot">&bull;</span><span>6h ago</span>
+          <span class="src">ESPN MLB</span><span class="dot">&bull;</span><span>1h ago</span>
+          
         </div>
-        <p class="hl"><a href="https://www.espn.com/nfl/story/_/id/49693030/bills-star-dt-ed-oliver-mourning-tragic-death-son" target="_blank" rel="noopener noreferrer">Bills star DT Oliver mourning tragic death of son</a></p>
+        <p class="hl"><a href="https://www.espn.com/mlb/story/_/id/49700505/casey-mize-exits-padres-start-dugout-slip" target="_blank" rel="noopener noreferrer">Padres&#39; Mize hurts ankle on dugout steps, exits</a></p>
       </article>
       
       <article class="story">
         <div class="meta">
-          <span class="src">ESPN College FB</span><span class="dot">&bull;</span><span>10h ago</span>
+          <span class="src">Penn State (BSD)</span><span class="dot">&bull;</span><span>4d ago</span>
+          
         </div>
-        <p class="hl"><a href="https://www.espn.com/college-football/story/_/id/49692021/sources-alabama-names-keelon-russell-qb1-opener-vs-ecu" target="_blank" rel="noopener noreferrer">Sources: Alabama names Russell QB1 for opener</a></p>
+        <p class="hl"><a href="https://www.blackshoediaries.com/penn-state-football/89187/only-josiah-zayas-until-penn-state-football-contdown-to-kickoff-17-days-nittany-lions-matt-campbell" target="_blank" rel="noopener noreferrer">Only Josiah Zayas Until Penn State Football</a></p>
       </article>
       
     </section>
@@ -346,9 +367,10 @@ a.shead:hover .more{color:var(--accent);}
       
       <article class="story">
         <div class="meta">
-          <span class="src">WBUR</span><span class="dot">&bull;</span><span>43h ago</span>
+          <span class="src">WBUR</span><span class="dot">&bull;</span><span>46h ago</span>
+          
         </div>
-        <p class="hl"><a href="https://www.wbur.org/news/2026/08/21/lindsay-clancy-defense-rests" target="_blank" rel="noopener noreferrer">The defense rests in the murder trial of Lindsay Clancy</a></p>
+        <p class="hl"><a href="https://www.wbur.org/hereandnow/2026/08/21/trump-white-house-renovations" target="_blank" rel="noopener noreferrer">Trump focused on White House renovations as legal battle over ballroom reaches a critical point</a></p>
       </article>
       
     </section>
@@ -356,7 +378,7 @@ a.shead:hover .more{color:var(--accent);}
 
     <section class="section mech">
       <h2>How this edition was drawn</h2>
-      <p class="sub">43 feeds across 9 sections.
+      <p class="sub">46 feeds across 9 sections.
         Each bar is one section, split by how much of its candidate pool each source
         supplied &mdash; not by what reached the page. The gap between a wide band and
         a single slot is the per-source cap doing its job. Sources are named below only
@@ -367,10 +389,10 @@ a.shead:hover .more{color:var(--accent);}
         <div class="row">
           <div class="rtop">
             <b>Top News</b>
-            <span>222 candidates &rarr; 3 shown</span>
+            <span>240 candidates &rarr; 3 shown</span>
           </div>
           <div class="bar">
-            <i style="width:48.6%; opacity:1.0"></i><i style="width:37.8%; opacity:0.87"></i><i style="width:7.2%; opacity:0.74"></i><i style="width:6.3%; opacity:0.61"></i>
+            <i style="width:45.8%; opacity:1.0"></i><i style="width:38.8%; opacity:0.87"></i><i style="width:8.3%; opacity:0.74"></i><i style="width:7.1%; opacity:0.61"></i>
           </div>
           
           
@@ -379,10 +401,10 @@ a.shead:hover .more{color:var(--accent);}
         <div class="row">
           <div class="rtop">
             <b>World</b>
-            <span>235 candidates &rarr; 3 shown</span>
+            <span>236 candidates &rarr; 3 shown</span>
           </div>
           <div class="bar">
-            <i style="width:40.0%; opacity:1.0"></i><i style="width:26.4%; opacity:0.87"></i><i style="width:18.3%; opacity:0.74"></i><i style="width:15.3%; opacity:0.61"></i>
+            <i style="width:39.8%; opacity:1.0"></i><i style="width:26.3%; opacity:0.87"></i><i style="width:18.6%; opacity:0.74"></i><i style="width:15.3%; opacity:0.61"></i>
           </div>
           
           
@@ -391,26 +413,11 @@ a.shead:hover .more{color:var(--accent);}
         <div class="row">
           <div class="rtop">
             <b>Europe</b>
-            <span>105 candidates &rarr; 2 shown</span>
+            <span>112 candidates &rarr; 2 shown</span>
           </div>
           <div class="bar">
-            <i style="width:54.3%; opacity:1.0"></i><i style="width:15.2%; opacity:0.87"></i><i style="width:14.3%; opacity:0.74"></i><i style="width:11.4%; opacity:0.61"></i><i style="width:4.8%; opacity:0.48"></i><i style="width:0.0%; opacity:0.35"></i>
+            <i style="width:51.8%; opacity:1.0"></i><i style="width:16.1%; opacity:0.87"></i><i style="width:15.2%; opacity:0.74"></i><i style="width:11.6%; opacity:0.61"></i><i style="width:5.4%; opacity:0.48"></i><i style="width:0.0%; opacity:0.35"></i>
           </div>
-          
-          
-          <div class="legend">
-            
-            <span class="bad">
-              <i class="sw"></i>Euractiv
-              unreachable &mdash; HTTP 403
-              
-            </span>
-            
-          </div>
-          
-          <p class="note">Euractiv did not answer this pull, so the
-            remaining sources filled the gap &mdash; which is why a source may appear
-            more than its cap allows.</p>
           
           
         </div>
@@ -418,10 +425,10 @@ a.shead:hover .more{color:var(--accent);}
         <div class="row">
           <div class="rtop">
             <b>Italy</b>
-            <span>46 candidates &rarr; 1 shown</span>
+            <span>137 candidates &rarr; 1 shown</span>
           </div>
           <div class="bar">
-            <i style="width:34.8%; opacity:1.0"></i><i style="width:28.3%; opacity:0.87"></i><i style="width:19.6%; opacity:0.74"></i><i style="width:17.4%; opacity:0.61"></i>
+            <i style="width:39.4%; opacity:1.0"></i><i style="width:15.3%; opacity:0.87"></i><i style="width:14.6%; opacity:0.74"></i><i style="width:11.7%; opacity:0.61"></i><i style="width:7.3%; opacity:0.48"></i><i style="width:5.8%; opacity:0.35"></i><i style="width:5.8%; opacity:0.21999999999999997"></i>
           </div>
           
           
@@ -430,10 +437,10 @@ a.shead:hover .more{color:var(--accent);}
         <div class="row">
           <div class="rtop">
             <b>Science</b>
-            <span>50 candidates &rarr; 2 shown</span>
+            <span>51 candidates &rarr; 2 shown</span>
           </div>
           <div class="bar">
-            <i style="width:38.0%; opacity:1.0"></i><i style="width:26.0%; opacity:0.87"></i><i style="width:18.0%; opacity:0.74"></i><i style="width:18.0%; opacity:0.61"></i>
+            <i style="width:37.3%; opacity:1.0"></i><i style="width:25.5%; opacity:0.87"></i><i style="width:19.6%; opacity:0.74"></i><i style="width:17.6%; opacity:0.61"></i>
           </div>
           
           
@@ -466,10 +473,10 @@ a.shead:hover .more{color:var(--accent);}
         <div class="row">
           <div class="rtop">
             <b>Sports</b>
-            <span>113 candidates &rarr; 2 shown</span>
+            <span>125 candidates &rarr; 2 shown</span>
           </div>
           <div class="bar">
-            <i style="width:22.1%; opacity:1.0"></i><i style="width:14.2%; opacity:0.87"></i><i style="width:14.2%; opacity:0.74"></i><i style="width:12.4%; opacity:0.61"></i><i style="width:10.6%; opacity:0.48"></i><i style="width:9.7%; opacity:0.35"></i><i style="width:8.8%; opacity:0.21999999999999997"></i><i style="width:8.0%; opacity:0.08999999999999997"></i>
+            <i style="width:24.0%; opacity:1.0"></i><i style="width:17.6%; opacity:0.87"></i><i style="width:12.8%; opacity:0.74"></i><i style="width:11.2%; opacity:0.61"></i><i style="width:9.6%; opacity:0.48"></i><i style="width:8.8%; opacity:0.35"></i><i style="width:8.0%; opacity:0.21999999999999997"></i><i style="width:8.0%; opacity:0.08999999999999997"></i>
           </div>
           
           
@@ -478,10 +485,10 @@ a.shead:hover .more{color:var(--accent);}
         <div class="row">
           <div class="rtop">
             <b>Human Interest</b>
-            <span>64 candidates &rarr; 1 shown</span>
+            <span>65 candidates &rarr; 1 shown</span>
           </div>
           <div class="bar">
-            <i style="width:40.6%; opacity:1.0"></i><i style="width:29.7%; opacity:0.87"></i><i style="width:29.7%; opacity:0.74"></i>
+            <i style="width:40.0%; opacity:1.0"></i><i style="width:30.8%; opacity:0.87"></i><i style="width:29.2%; opacity:0.74"></i>
           </div>
           
           
@@ -493,7 +500,7 @@ a.shead:hover .more{color:var(--accent);}
 
       <p class="foot">
         Random sample within cap. No ranking, no click data, no personalization.<br>
-        Phase 2 &middot; 43 feeds &middot; 9 sections &middot;
+        Phase 2 &middot; 46 feeds &middot; 9 sections &middot;
         10 more behind each heading.
       </p>
     </section>
