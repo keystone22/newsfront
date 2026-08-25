@@ -26,6 +26,10 @@ import re, random, sys, time
 import datetime as dt
 from urllib.parse import urlsplit, urlunsplit, parse_qsl, urlencode
 
+import urllib.request
+import urllib.error
+import xml.etree.ElementTree as ET
+
 import feedparser
 import sources as cfg
 from store import connect
@@ -93,12 +97,90 @@ def clean_title(raw, from_google_news=False):
     return t
 
 
+class _SitemapFeed:
+    """A Google-News-sitemap parsed into something shaped like a feedparser result.
+
+    Only enough of the interface for pull() to consume it unchanged: .entries,
+    .bozo and .get(). Entries are plain dicts, which is fine -- pull() reads
+    them with .get() exactly as it reads feedparser's.
+    """
+
+    def __init__(self, entries, status, etag=None):
+        self.entries = entries
+        self.bozo = 0
+        self._d = {"status": status, "etag": etag, "modified": None}
+
+    def get(self, k, default=None):
+        return self._d.get(k, default)
+
+
+_SM_NS = {"s": "http://www.sitemaps.org/schemas/sitemap/0.9",
+          "n": "http://www.google.com/schemas/sitemap-news/0.9"}
+
+
+def read_sitemap(src):
+    """Read a Google-News sitemap as if it were a feed.
+
+    AP publishes NO usable RSS -- apnews.com/index.rss answers 401 and every
+    other path 404s -- but its robots.txt advertises this sitemap explicitly and
+    disallows nothing that touches it. It carries title, URL and publication
+    date per article, which is exactly what a feed gives us; no article text is
+    read, so this stays inside "link out only".
+
+    Three things it does better than the Google News route it replaces:
+    real apnews.com URLs, so the URL-PATH filters work (a Google News link is a
+    redirect carrying no path at all); a <news:language> tag per article, which
+    cleanly separates AP's Spanish service (151 of 468 articles) from the
+    English one; and about three times the volume.
+    """
+    headers = {"User-Agent": UA}
+    if src["etag"]:
+        headers["If-None-Match"] = src["etag"]
+    req = urllib.request.Request(src["endpoint"], headers=headers)
+    try:
+        with urllib.request.urlopen(req, timeout=45) as resp:
+            body, status, etag = resp.read(), resp.status, resp.headers.get("ETag")
+    except urllib.error.HTTPError as e:
+        if e.code == 304:
+            return None, "not modified"
+        raise RuntimeError(f"HTTP {e.code}")
+
+    root = ET.fromstring(body)
+    entries = []
+    for url in root.findall("s:url", _SM_NS):
+        news = url.find("n:news", _SM_NS)
+        if news is None:
+            continue
+        lang = news.findtext("n:publication/n:language", "", _SM_NS)
+        # AP runs an English and a Spanish wire through one sitemap.
+        if lang and not lang.startswith("en"):
+            continue
+        title = (news.findtext("n:title", "", _SM_NS) or "").strip()
+        link = (url.findtext("s:loc", "", _SM_NS) or "").strip()
+        pub = news.findtext("n:publication_date", "", _SM_NS)
+        if not (title and link and pub):
+            continue
+        try:
+            stamp = dt.datetime.fromisoformat(pub)
+        except ValueError:
+            continue
+        entries.append({"title": title, "link": link,
+                        "published_parsed": stamp.utctimetuple()})
+    if not entries:
+        raise RuntimeError("sitemap parsed but held no usable entries")
+    return _SitemapFeed(entries, status, etag), None
+
+
 def read_feed(src):
     """Fetch one feed, sending conditional-GET headers.
 
     Returns (feed, note). `feed` is None when the server said 304 Not Modified
     -- nothing changed since our last pull, which is a success, not a failure.
     """
+    if src["type"] == "sitemap":
+        _pace(src["endpoint"])
+        return read_sitemap(src)
+
     delay = BACKOFF
     for attempt in range(1, RETRIES + 1):
         _pace(src["endpoint"])
@@ -140,16 +222,21 @@ def read_feed(src):
 
 def seed_sources(db):
     """Upsert sources.py into the table. Idempotent, safe to run every pull."""
-    for name, section, endpoint, cap, recency, excl in cfg.SOURCES:
+    for row in cfg.SOURCES:
+        # The 7th element is the reader kind and defaults to 'rss', so every
+        # existing six-element row keeps working untouched.
+        name, section, endpoint, cap, recency, excl = row[:6]
+        kind = row[6] if len(row) > 6 else "rss"
         db.execute("""
             INSERT INTO sources (name, type, endpoint, section, cap, recency_hours,
                                  exclude_pattern, active)
-                 VALUES (?, 'rss', ?, ?, ?, ?, ?, 1)
+                 VALUES (?, ?, ?, ?, ?, ?, ?, 1)
             ON CONFLICT(name) DO UPDATE SET
+                 type=excluded.type,
                  endpoint=excluded.endpoint, section=excluded.section,
                  cap=excluded.cap, recency_hours=excluded.recency_hours,
                  exclude_pattern=excluded.exclude_pattern, active=1
-        """, (name, endpoint, section, cap, recency, excl))
+        """, (name, kind, endpoint, section, cap, recency, excl))
     # Anything dropped from sources.py stops contributing but keeps its history.
     names = [s[0] for s in cfg.SOURCES]
     db.execute(f"UPDATE sources SET active=0 WHERE name NOT IN "

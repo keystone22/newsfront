@@ -161,6 +161,34 @@ WIRE_SPORT = (
     r"|scoreless|shutout|batting|pitcher|linebacker)\b"
 )
 
+# AP's own sitemap gives real apnews.com URLs, so sport can finally be caught
+# the way this file prefers -- on the URL, not the headline. The SLUG is a
+# better surface than a title: lowercase, hyphenated, and it carries team and
+# league names directly. Paired with AP_NOT_NEWS below it took AP's 317 English
+# articles down to 236 real news stories on 2026-08-25.
+AP_SPORT = (
+    r"/article/[a-z0-9\-]*\b(nfl|nba|mlb|nhl|ncaa|fifa|uefa|pga|atp|wta"
+    r"|soccer|football|basketball|baseball|hockey|tennis|golf|boxing|olympic"
+    r"|cricket|vuelta|marathon|heisman|touchdown|quarterback|playoffs?"
+    r"|avalanche|yankees|dodgers|astros|mets|rockies|mariners|phillies|brewers"
+    r"|chargers|rays|nationals|celtics|lakers|scheffler"
+    r"|longhorns|razorbacks|buckeyes|crimson-tide|seminoles|nittany|rutgers"
+    r"|transfer-portal|signing-day|starting-qb)\b"
+)
+# ~3% of AP's English output still reads as sport after this, almost all NFL and
+# college football. That residual is ACCEPTED on purpose. Pushing further means
+# team nicknames that are ordinary English -- Bills, Browns, Giants, Saints,
+# Chiefs, Texans -- and a slug test for "bills" would match a story about tax
+# bills. A title-keyword sweep is worse still: tested 2026-08-25, "recruit"
+# caught "Colombia's armed groups recruit children and train them in drone
+# warfare". Losing that to catch a football story is the wrong trade, and the
+# per-source cap of 1 means at most one AP item reaches the front page anyway.
+
+# Not articles at all, and AP's robots.txt disallows /gallery/ anyway.
+AP_NOT_NEWS = r"apnews\.com/(photo-gallery|newsletter|live|video|press-release)/"
+
+AP_NEWS = f"(?:{AP_SPORT})|(?:{AP_NOT_NEWS})"
+
 # What a wire feeding a NEWS section gets: hub-page junk plus sport.
 # AP Sports deliberately gets WIRE_JUNK alone -- sport is the point there.
 WIRE_NEWS = f"(?:{WIRE_JUNK})|(?:{WIRE_SPORT})"
@@ -235,7 +263,15 @@ SOURCES = [
     #     to a 24h window because a stale lead story is worse than a thin one.
     ("NYT",                "Top News",        "https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml",        1,   24,  NEWS_SPORT),
     ("Guardian US",        "Top News",        "https://www.theguardian.com/us-news/rss",                          1,   24,  NEWS_SPORT),
-    ("AP",                 "Top News",        GN + "when:1d+site:apnews.com",                                     1,   24,  WIRE_NEWS),
+    # AP reads from its OWN sitemap rather than Google News. Frank's call,
+    # 2026-08-25: "AP has the best US content", so it is worth sourcing
+    # properly. apnews.com publishes no RSS (index.rss answers 401, every other
+    # path 404s) but robots.txt advertises this sitemap and disallows nothing
+    # that touches it. Three wins over the Google News route: real apnews.com
+    # URLs so the path filters work, a per-article language tag that drops AP's
+    # Spanish wire cleanly, and ~3x the volume. The 7th field selects the
+    # reader; every other source stays on the default 'rss'.
+    ("AP",                 "Top News",        "https://apnews.com/news-sitemap-content.xml",                      1,   24,  AP_NEWS, "sitemap"),
     ("Reuters",            "Top News",        GN + "when:1d+site:reuters.com/world",                                    1,   24,  WIRE_NEWS),
     # Added 2026-08-25. Top News read as a random slice of everything the wires
     # published -- "How the No. 2 pencil became a uniquely American school
