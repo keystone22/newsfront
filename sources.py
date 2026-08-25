@@ -73,8 +73,15 @@ TRAVEL = (
 # the distinction is the one the spec actually draws.
 OPINION = r"(/opinion/|/commentisfree/|/editorial|/columnists/|/opinions/)"
 
+# Video packages. The BBC mixes them into its news feeds and separates them
+# only by path -- "What do locals think of IndyCar in Washington DC?" reached
+# the World page as a /news/videos/ item. A video is not a headline to read, and
+# this page links out to text. Small but structural: 5 rows across the BBC feeds
+# when measured 2026-08-25.
+VIDEO = r"(/news/videos/|/video/|/av/)"
+
 # Applied to every source, on top of that source's own exclude_pattern.
-GLOBAL_EXCLUDE = f"(?:{TRAVEL})|(?:{OPINION})"
+GLOBAL_EXCLUDE = f"(?:{TRAVEL})|(?:{OPINION})|(?:{VIDEO})"
 
 # --- wire services, via Google News -------------------------------------
 # AP and Reuters killed their public RSS years ago (see WIRE_SERVICES_DEAD).
@@ -230,20 +237,57 @@ SOURCES = [
     ("Guardian US",        "Top News",        "https://www.theguardian.com/us-news/rss",                          1,   24,  NEWS_SPORT),
     ("AP",                 "Top News",        GN + "when:1d+site:apnews.com",                                     1,   24,  WIRE_NEWS),
     ("Reuters",            "Top News",        GN + "when:1d+site:reuters.com/world",                                    1,   24,  WIRE_NEWS),
+    # Added 2026-08-25. Top News read as a random slice of everything the wires
+    # published -- "How the No. 2 pencil became a uniquely American school
+    # supply" took a slot. The cause is the SOURCES, not the draw: a firehose
+    # search returns features and filler alongside news, and NYT's HomePage feed
+    # is whatever the paper is pushing (all four lead items were one NFL/CTE
+    # package when checked). These three are FRONT PAGES a newsroom chose.
+    #
+    # Human-edited on purpose. Google News's own top-stories feed was tested and
+    # is good, but it is an opaque ranking; a named newsroom's front page is the
+    # same editorial judgement with someone's name on it, which is the whole
+    # point of this project. Deliberately NOT using it.
+    ("BBC",                "Top News",        "https://feeds.bbci.co.uk/news/rss.xml",                            1,   24,  NEWS_SPORT),
+    ("NPR",                "Top News",        "https://feeds.npr.org/1001/rss.xml",                               1,   24,  NEWS_SPORT),
+    # France24 is the closest thing to AFP that exists publicly: a French public
+    # broadcaster running AFP wire copy. AFP itself has NO usable public feed --
+    # afp.com/en/news/rss.xml 404s, afp.com/rss.xml is a corporate feed with
+    # nothing in 48h, and site:afp.com via Google News returns press releases.
+    ("France 24",          "Top News",        "https://www.france24.com/en/rss",                                  1,   24,  NEWS_SPORT),
 
     # --- World
     ("NYT World",          "World",           "https://rss.nytimes.com/services/xml/rss/nyt/World.xml",           1,   48,  NEWS_SPORT),
-    ("Guardian World",     "World",           "https://www.theguardian.com/world/rss",                            1,   48,  NEWS_SPORT),
-    ("AP World",           "World",           GN + "when:2d+site:apnews.com+world",                               1,   48,  WIRE_NEWS),
+    # The Guardian files UK domestic stories in its World feed -- 10 of 111 rows
+    # on 2026-08-25, which is how "Prince Harry quits board of wildlife charity"
+    # (/uk-news/) reached the World page. Britain is not the world.
+    ("Guardian World",     "World",           "https://www.theguardian.com/world/rss",                            1,   48,  f"(?:{NEWS_SPORT})|(?:/uk-news/)"),
+    # AP World REMOVED 2026-08-25. AP's paths return zero items through Google
+    # News, so it could only be scoped by the keyword "world" -- which is far
+    # too weak: it filed "The last few witnesses in the Lindsay Clancy murder
+    # trial", a MASSACHUSETTS case, under World. BBC World and Al Jazeera below
+    # cover the same ground with a real section behind them.
+    ("BBC World",          "World",           "https://feeds.bbci.co.uk/news/world/rss.xml",                      1,   48,  NEWS_SPORT),
+    ("Al Jazeera",         "World",           "https://www.aljazeera.com/xml/rss/all.xml",                        1,   48,  NEWS_SPORT),
+    # Euronews' general vertical, kept because Frank likes their daily "Latest
+    # news bulletin" (his call, 2026-08-23) and it no longer arrives via Europe
+    # now that that source points at the my-europe vertical.
+    ("Euronews Global",    "World",           "https://www.euronews.com/rss?level=vertical&name=news",            1,   48,  NEWS_SPORT),
     ("Reuters World",      "World",           GN + "when:2d+site:reuters.com/world",                              1,   48,  WIRE_NEWS),
 
     # --- Europe
-    ("Euronews",           "Europe",          "https://www.euronews.com/rss",                                     1,   48,  None),
+    # euronews.com/rss is the whole SITE: only 13 of 50 rows were European, which
+    # is how "New Zealand's government introduces legislation..." reached the
+    # Europe section. The my-europe vertical is 50/50 European.
+    ("Euronews",           "Europe",          "https://www.euronews.com/rss?level=vertical&name=my-europe",       1,   48,  None),
     ("Euractiv",           "Europe",          "https://www.euractiv.com/feed/",                                   1,   48,  None),
     ("Politico Europe",    "Europe",          "https://www.politico.eu/feed/",                                    1,   48,  None),
     ("Le Monde",           "Europe",          "https://www.lemonde.fr/en/rss/une.xml",                            1,   48,  NEWS_SPORT),
     ("Guardian Europe",    "Europe",          "https://www.theguardian.com/world/europe-news/rss",                1,   48,  NEWS_SPORT),
     ("NYT Europe",         "Europe",          "https://rss.nytimes.com/services/xml/rss/nyt/Europe.xml",          1,   48,  NEWS_SPORT),
+    # Added 2026-08-25: two more European newsrooms with real Europe desks.
+    ("BBC Europe",         "Europe",          "https://feeds.bbci.co.uk/news/world/europe/rss.xml",               1,   48,  NEWS_SPORT),
+    ("France 24 Europe",   "Europe",          "https://www.france24.com/en/europe/rss",                           1,   48,  NEWS_SPORT),
 
     # --- Italy: the thinnest section by a wide margin, so three of the four
     #     sources run long windows to keep a real pool behind a quota of 1.
