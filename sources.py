@@ -78,10 +78,24 @@ OPINION = r"(/opinion/|/commentisfree/|/editorial|/columnists/|/opinions/)"
 # the World page as a /news/videos/ item. A video is not a headline to read, and
 # this page links out to text. Small but structural: 5 rows across the BBC feeds
 # when measured 2026-08-25.
-VIDEO = r"(/news/videos/|/video/|/av/)"
+# Video AND audio packages. This page links out to TEXT, so neither is a
+# headline to read. The BBC mixes video into its news feeds and Politico
+# publishes a lot of podcast episodes through its article feed -- measured
+# 2026-08-25, /podcast caught 13 rows with no false positives, among them
+# "Sam and Anne's guide to the term ahead" and "What Ukraine needs to survive
+# another winter", both of which read as articles in a headline list and are
+# not. It is also where Politico's German-language output arrives
+# ("Der Herbst des Friedrich Merz").
+NOT_TEXT = r"(/news/videos/|/video/|/av/|/podcast)"
 
 # Applied to every source, on top of that source's own exclude_pattern.
-GLOBAL_EXCLUDE = f"(?:{TRAVEL})|(?:{OPINION})|(?:{VIDEO})"
+# Letters to the editor are opinion, but publishers file them under the section
+# they concern rather than under /opinion/, so the path test cannot see them.
+# The trailing "| Letter" / "| Letters" is a house convention and precise:
+# 2 rows across 2,636, both genuine letters.
+LETTERS = r"\|\s*letters?\s*$"
+
+GLOBAL_EXCLUDE = f"(?:{TRAVEL})|(?:{OPINION})|(?:{NOT_TEXT})|(?:{LETTERS})"
 
 # --- wire services, via Google News -------------------------------------
 # AP and Reuters killed their public RSS years ago (see WIRE_SERVICES_DEAD).
@@ -213,6 +227,26 @@ WIRE_NEWS = f"(?:{WIRE_JUNK})|(?:{WIRE_SPORT})"
 # feed added later would be killed by a global rule.
 NEWS_SPORT = r"(/sport/|/sports/|/football/|/calcio/)"
 
+# Entertainment and soft features arriving in a NEWS section, caught on the URL
+# path like NEWS_SPORT. Euronews files celebrity and viral-trend pieces under
+# /culture/ -- Dolly Parton's health, whether Meghan Markle was dropped from a
+# TV show, "What is an 'Aura Battle'? Young Mexicans turn confidence into a
+# TikTok trend" -- and all of it was reaching the Europe page. Le Monde's
+# /summer-reads/ is its seasonal feature slot.
+#
+# SCOPED to news sections, never global: measured 2026-08-25 it caught 19 rows
+# in the news sections and would also have taken 2 legitimate Guardian Art
+# pieces out of Arts & Culture, where culture is the entire point.
+#
+# "/lifestyle/" and "/style/" were TESTED AND REJECTED: 16 hits in the news
+# sections, but they were ANSA filing the Messina museum art theft and the
+# Palio di Siena -- real Italian news -- plus 23 rows in Arts and Human
+# Interest. Too blunt.
+NEWS_CULTURE = r"(/culture/|/summer-reads/)"
+
+# What a NON-wire source feeding a news section gets.
+NEWS_NOISE = f"(?:{NEWS_SPORT})|(?:{NEWS_CULTURE})"
+
 # Italian-language sources need two exclusions the shared patterns cannot reach.
 # ANSA files travel under "/canale_viaggi/", not "/travel/", so GLOBAL_EXCLUDE's
 # TRAVEL half misses it entirely. Rai publishes video and text through one feed
@@ -261,8 +295,8 @@ SOURCES = [
 
     # --- Top News: no AP/Reuters wire until Phase 2, so these stand in. Kept
     #     to a 24h window because a stale lead story is worse than a thin one.
-    ("NYT",                "Top News",        "https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml",        1,   24,  NEWS_SPORT),
-    ("Guardian US",        "Top News",        "https://www.theguardian.com/us-news/rss",                          1,   24,  NEWS_SPORT),
+    ("NYT",                "Top News",        "https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml",        1,   24,  NEWS_NOISE),
+    ("Guardian US",        "Top News",        "https://www.theguardian.com/us-news/rss",                          1,   24,  NEWS_NOISE),
     # AP reads from its OWN sitemap rather than Google News. Frank's call,
     # 2026-08-25: "AP has the best US content", so it is worth sourcing
     # properly. apnews.com publishes no RSS (index.rss answers 401, every other
@@ -284,46 +318,52 @@ SOURCES = [
     # is good, but it is an opaque ranking; a named newsroom's front page is the
     # same editorial judgement with someone's name on it, which is the whole
     # point of this project. Deliberately NOT using it.
-    ("BBC",                "Top News",        "https://feeds.bbci.co.uk/news/rss.xml",                            1,   24,  NEWS_SPORT),
-    ("NPR",                "Top News",        "https://feeds.npr.org/1001/rss.xml",                               1,   24,  NEWS_SPORT),
+    ("BBC",                "Top News",        "https://feeds.bbci.co.uk/news/rss.xml",                            1,   24,  NEWS_NOISE),
+    ("NPR",                "Top News",        "https://feeds.npr.org/1001/rss.xml",                               1,   24,  NEWS_NOISE),
     # France24 is the closest thing to AFP that exists publicly: a French public
     # broadcaster running AFP wire copy. AFP itself has NO usable public feed --
     # afp.com/en/news/rss.xml 404s, afp.com/rss.xml is a corporate feed with
     # nothing in 48h, and site:afp.com via Google News returns press releases.
-    ("France 24",          "Top News",        "https://www.france24.com/en/rss",                                  1,   24,  NEWS_SPORT),
+    ("France 24",          "Top News",        "https://www.france24.com/en/rss",                                  1,   24,  NEWS_NOISE),
 
     # --- World
-    ("NYT World",          "World",           "https://rss.nytimes.com/services/xml/rss/nyt/World.xml",           1,   48,  NEWS_SPORT),
+    ("NYT World",          "World",           "https://rss.nytimes.com/services/xml/rss/nyt/World.xml",           1,   48,  NEWS_NOISE),
     # The Guardian files UK domestic stories in its World feed -- 10 of 111 rows
     # on 2026-08-25, which is how "Prince Harry quits board of wildlife charity"
     # (/uk-news/) reached the World page. Britain is not the world.
-    ("Guardian World",     "World",           "https://www.theguardian.com/world/rss",                            1,   48,  f"(?:{NEWS_SPORT})|(?:/uk-news/)"),
+    ("Guardian World",     "World",           "https://www.theguardian.com/world/rss",                            1,   48,  f"(?:{NEWS_NOISE})|(?:/uk-news/)"),
     # AP World REMOVED 2026-08-25. AP's paths return zero items through Google
     # News, so it could only be scoped by the keyword "world" -- which is far
     # too weak: it filed "The last few witnesses in the Lindsay Clancy murder
     # trial", a MASSACHUSETTS case, under World. BBC World and Al Jazeera below
     # cover the same ground with a real section behind them.
-    ("BBC World",          "World",           "https://feeds.bbci.co.uk/news/world/rss.xml",                      1,   48,  NEWS_SPORT),
-    ("Al Jazeera",         "World",           "https://www.aljazeera.com/xml/rss/all.xml",                        1,   48,  NEWS_SPORT),
+    ("BBC World",          "World",           "https://feeds.bbci.co.uk/news/world/rss.xml",                      1,   48,  NEWS_NOISE),
+    ("Al Jazeera",         "World",           "https://www.aljazeera.com/xml/rss/all.xml",                        1,   48,  NEWS_NOISE),
     # Euronews' general vertical, kept because Frank likes their daily "Latest
     # news bulletin" (his call, 2026-08-23) and it no longer arrives via Europe
     # now that that source points at the my-europe vertical.
-    ("Euronews Global",    "World",           "https://www.euronews.com/rss?level=vertical&name=news",            1,   48,  NEWS_SPORT),
+    ("Euronews Global",    "World",           "https://www.euronews.com/rss?level=vertical&name=news",            1,   48,  NEWS_NOISE),
     ("Reuters World",      "World",           GN + "when:2d+site:reuters.com/world",                              1,   48,  WIRE_NEWS),
 
     # --- Europe
+    # These three ran with NO filter at all until 2026-08-25 -- not even the
+    # sport one every other news source had -- which is a large part of why
+    # Europe read worst of all the sections.
     # euronews.com/rss is the whole SITE: only 13 of 50 rows were European, which
     # is how "New Zealand's government introduces legislation..." reached the
     # Europe section. The my-europe vertical is 50/50 European.
-    ("Euronews",           "Europe",          "https://www.euronews.com/rss?level=vertical&name=my-europe",       1,   48,  None),
-    ("Euractiv",           "Europe",          "https://www.euractiv.com/feed/",                                   1,   48,  None),
-    ("Politico Europe",    "Europe",          "https://www.politico.eu/feed/",                                    1,   48,  None),
-    ("Le Monde",           "Europe",          "https://www.lemonde.fr/en/rss/une.xml",                            1,   48,  NEWS_SPORT),
-    ("Guardian Europe",    "Europe",          "https://www.theguardian.com/world/europe-news/rss",                1,   48,  NEWS_SPORT),
-    ("NYT Europe",         "Europe",          "https://rss.nytimes.com/services/xml/rss/nyt/Europe.xml",          1,   48,  NEWS_SPORT),
+    ("Euronews",           "Europe",          "https://www.euronews.com/rss?level=vertical&name=my-europe",       1,   48,  NEWS_NOISE),
+    ("Euractiv",           "Europe",          "https://www.euractiv.com/feed/",                                   1,   48,  NEWS_NOISE),
+    ("Politico Europe",    "Europe",          "https://www.politico.eu/feed/",                                    1,   48,  NEWS_NOISE),
+    ("Le Monde",           "Europe",          "https://www.lemonde.fr/en/rss/une.xml",                            1,   48,  NEWS_NOISE),
+    ("Guardian Europe",    "Europe",          "https://www.theguardian.com/world/europe-news/rss",                1,   48,  NEWS_NOISE),
+    # NYT files US stories in its Europe feed -- "French Tourist Dies in Death
+    # Valley" arrived under nytimes.com/.../us/. Scoped to THIS source: the same
+    # /us/ path is correct in Top News, where 40 rows of real US news use it.
+    ("NYT Europe",         "Europe",          "https://rss.nytimes.com/services/xml/rss/nyt/Europe.xml",          1,   48,  f"(?:{NEWS_NOISE})|(?:nytimes\\.com/\\d{{4}}/\\d{{2}}/\\d{{2}}/us/)"),
     # Added 2026-08-25: two more European newsrooms with real Europe desks.
-    ("BBC Europe",         "Europe",          "https://feeds.bbci.co.uk/news/world/europe/rss.xml",               1,   48,  NEWS_SPORT),
-    ("France 24 Europe",   "Europe",          "https://www.france24.com/en/europe/rss",                           1,   48,  NEWS_SPORT),
+    ("BBC Europe",         "Europe",          "https://feeds.bbci.co.uk/news/world/europe/rss.xml",               1,   48,  NEWS_NOISE),
+    ("France 24 Europe",   "Europe",          "https://www.france24.com/en/europe/rss",                           1,   48,  NEWS_NOISE),
 
     # --- Italy: the thinnest section by a wide margin, so three of the four
     #     sources run long windows to keep a real pool behind a quota of 1.
@@ -331,14 +371,14 @@ SOURCES = [
     #     about two days behind. Measured 2026-08-23 its 75 items spanned
     #     48-149h old, so a 48h window sat exactly on the newest item and the
     #     source contributed ~nothing. The Italian feed is live to the minute.
-    ("ANSA English",       "Italy",           "https://www.ansa.it/english/english_rss.xml",                      1,  168,  NEWS_SPORT),
-    ("The Local Italy",    "Italy",           "https://feeds.thelocal.com/rss/it",                                1,  168,  NEWS_SPORT),
-    ("Wanted in Rome",     "Italy",           "https://www.wantedinrome.com/news?format=rss",                     1,   96,  NEWS_SPORT),
-    ("Guardian Italy",     "Italy",           "https://www.theguardian.com/world/italy/rss",                      1,  168,  NEWS_SPORT),
+    ("ANSA English",       "Italy",           "https://www.ansa.it/english/english_rss.xml",                      1,  168,  NEWS_NOISE),
+    ("The Local Italy",    "Italy",           "https://feeds.thelocal.com/rss/it",                                1,  168,  NEWS_NOISE),
+    ("Wanted in Rome",     "Italy",           "https://www.wantedinrome.com/news?format=rss",                     1,   96,  NEWS_NOISE),
+    ("Guardian Italy",     "Italy",           "https://www.theguardian.com/world/italy/rss",                      1,  168,  NEWS_NOISE),
     #     The Florentine publishes about twice a week: measured 2026-08-23 its
     #     10 items spanned 268-434h old, so at 168h it contributes NOTHING and
     #     even 336h reaches only 5. 720h, same reasoning as Eurozine.
-    ("The Florentine",     "Italy",           "https://www.theflorentine.net/feed/",                              1,  720,  NEWS_SPORT),
+    ("The Florentine",     "Italy",           "https://www.theflorentine.net/feed/",                              1,  720,  NEWS_NOISE),
     #     Italian-language, for reading practice. ANSA is a wire, so its copy is
     #     the plainest Italian available here; it is also free, where Repubblica
     #     truncated to 262-603 words. Its travel channel is excluded by hand --
