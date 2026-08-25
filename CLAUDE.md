@@ -62,6 +62,19 @@ see the deployment rule below, where it is not.
   Globe's only reachable feed last updated **May 2020**, National Geographic
   404s, Wired Ideas is abandoned, NYT Sports is empty, and WBUR's documented URL
   serves HTML (the real one is `wbur.org/feed`).
+- **A sitemap can be a source.** AP publishes no RSS but its `robots.txt`
+  advertises a Google-News sitemap carrying title, URL, date and **language**
+  per article. `read_sitemap` consumes it as if it were a feed, selected by an
+  optional 7th field on a source row (default `rss`). Prefer this to a Google
+  News query wherever a publisher offers one: the URLs are real, so the
+  URL-path filters work — **a Google News link is a redirect carrying no path
+  at all**, which is why wire sources routed that way can never be scoped.
+  Check `robots.txt` first and honour it: AP disallows `/api/v2/feed/`, so the
+  sitemap is the sanctioned route, and no article text is ever read.
+- **AP has no usable SECTIONS.** Its hubs are topic tags (`us-supreme-court`,
+  `political-corruption`), hub pages are JS-rendered and yield no article links
+  in raw HTML, and the sitemap carries no section field. Do not go looking
+  again — this was tested on 2026-08-25.
 - **AP and Reuters have no public RSS.** Six URLs verified dead; AP's answers
   401. They come via **Google News RSS filtered by source** — free, no API key,
   no delay. Both free aggregator tiers are worse (NewsAPI 24h delay and forbids
@@ -110,6 +123,26 @@ first, warning under `HEADROOM_WARN_DAYS`. **When it flags a section, add a feed
 or lower that section's quota — do not wait for it to come up short.** The
 sections at risk are always the low-volume ones (Science, Arts & Culture), never
 the wire-fed ones.
+
+## Sourcing is editorial; the draw is not
+
+"No ranking" governs how a story is picked **within** the pool. It says nothing
+about what goes **into** it, and conflating the two produced a Top News section
+holding "How the No. 2 pencil became a uniquely American school supply". A print
+front page is not a random draw over all wire copy — an editor chose the
+candidates first. **A newsroom's own front page is that same judgement**, made
+before it reaches us, and using one is not a violation.
+
+Prefer human-edited front pages (BBC, NPR, France 24) to algorithmic
+aggregation. Google News's top-stories feed was tested and is good, but it is an
+opaque ranking; a named newsroom's front page is the same call with someone
+accountable for it. That is the whole thesis of this project.
+
+Watch for feeds that are **wider than their name**: `euronews.com/rss` is the
+whole site (13 of 50 rows actually European — New Zealand reached the Europe
+section), the Guardian's World feed carries `/uk-news/`, and the BBC mixes video
+packages into news feeds. All three were caught by looking at URL paths, which
+is the first thing to check when a section reads wrong.
 
 ## Method: measure a filter before you ship it
 
