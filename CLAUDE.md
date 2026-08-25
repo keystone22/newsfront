@@ -87,6 +87,30 @@ see the deployment rule below, where it is not.
 - **Be polite to hosts.** `HOST_DELAY` keeps 2s between hits on the same host —
   the list has seven Guardian feeds, five Google News queries, five NYT.
 
+## A thin section must never fail the run
+
+`fetch.py` **always exits 0**. It used to exit 1 when a front-page section came
+up short, on the reasoning that a short page was the user-visible failure worth
+alarming on. That was wrong, and it cost a whole edition on 2026-08-25: a failed
+step aborts the job, so export and commit never ran and **the entire page went
+stale to save one missing headline**. A shortfall is a CONTENT problem — report
+it (`::warning::` annotation, the count on the page, the audit panel), never
+abort on it.
+
+## Sections starve slowly; watch headroom, not failures
+
+Each section's front page eats `quota x DRAWS_PER_DAY` articles a day. If its
+feeds make less than that, the drawable pool drains at the difference and the
+section fails **days later**, with no signal in between — which is exactly how
+Science died: ~6.5 articles/day of supply against 8/day of consumption, fine for
+two days, then zero.
+
+`headroom()` runs every draw and prints days-of-supply per section, thinnest
+first, warning under `HEADROOM_WARN_DAYS`. **When it flags a section, add a feed
+or lower that section's quota — do not wait for it to come up short.** The
+sections at risk are always the low-volume ones (Science, Arts & Culture), never
+the wire-fed ones.
+
 ## Method: measure a filter before you ship it
 
 Every filter here was checked against the whole article pool for false positives

@@ -411,6 +411,32 @@ def draw_sections(db):
     return audit
 
 
+def headroom(db):
+    """How many days of drawable articles each section is holding.
+
+    Science starved on 2026-08-25 with no warning: its feeds made ~6.5
+    articles/day while the front page ate 8, so the pool drained over two days
+    and the draw came up short. Nothing reported the trend, only the failure.
+    This does -- a section is flagged while there is still time to add a feed.
+
+    Drawable means in its source's window AND not suppressed by dedup, i.e.
+    exactly what draw() may choose from.
+    """
+    suppress = (now_utc() - dt.timedelta(days=cfg.DEDUP_DAYS)).date().isoformat()
+    out = []
+    for section, quota in cfg.QUOTAS.items():
+        n = db.execute("""
+            SELECT COUNT(*) FROM articles a JOIN sources s ON s.id = a.source_id
+             WHERE a.section = ? AND s.active = 1
+               AND a.published_at >= datetime('now','-'||s.recency_hours||' hours')
+               AND (a.shown_date IS NULL OR a.shown_date < ?)
+        """, (section, suppress)).fetchone()[0]
+        per_day = quota * cfg.DRAWS_PER_DAY
+        out.append(dict(section=section, drawable=n, per_day=per_day,
+                        days=n / per_day if per_day else 0.0))
+    return sorted(out, key=lambda r: r["days"])
+
+
 def main():
     db = connect()
     moved = seed_sources(db)
@@ -450,7 +476,16 @@ def main():
         print(f"     {a['section']:15s} {a['pool']:3d} candidates -> "
               f"{a['filled']}/{a['quota']}{note}   {caps}")
         if a["filled"] < a["quota"]:
-            print(f"     !! {a['section']} short by {a['quota'] - a['filled']}")
+            gap = a["quota"] - a["filled"]
+            print(f"     !! {a['section']} short by {gap}")
+            # GitHub Actions turns this into a warning annotation on the run, so
+            # a thin section is visible in the Actions UI WITHOUT failing the
+            # job. Failing it aborted export and commit, which meant one short
+            # section stopped the whole paper from updating -- 16 headlines lost
+            # to save 1. Reported, not fatal.
+            print(f"::warning title=Section short::{a['section']} filled "
+                  f"{a['filled']}/{a['quota']} -- its feeds are not keeping up "
+                  f"with {a['quota']} picks x 4 draws a day")
             short += 1
 
     print("\ndraw sections")
@@ -465,8 +500,22 @@ def main():
         if a["filled"] < a["quota"]:
             print(f"     -- {a['section']} page holds {a['filled']}, pool is that thin")
 
+    print("\nheadroom")
+    for h in headroom(db):
+        flag = "  !!" if h["days"] < cfg.HEADROOM_WARN_DAYS else "    "
+        print(f"   {flag} {h['section']:15s} {h['drawable']:4d} drawable / "
+              f"{h['per_day']:2d} per day = {h['days']:4.1f} days")
+        if h["days"] < cfg.HEADROOM_WARN_DAYS:
+            print(f"::warning title=Section running dry::{h['section']} has "
+                  f"{h['drawable']} drawable article(s), {h['days']:.1f} days at "
+                  f"{h['per_day']}/day. Add a feed or lower its quota.")
+
     db.close()
-    return 1 if short else 0
+    # Always zero. A thin section is a CONTENT problem and is surfaced three
+    # ways -- the warning annotation above, the count on the page, and the audit
+    # panel. It is not a pipeline failure, and treating it as one is what made a
+    # single short section blank the whole edition on 2026-08-25.
+    return 0
 
 
 if __name__ == "__main__":

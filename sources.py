@@ -274,6 +274,15 @@ SOURCES = [
     ("Guardian Science",   "Science",         "https://www.theguardian.com/science/rss",                          1,   96,  None),
     ("Ars Technica Science","Science",        "https://feeds.arstechnica.com/arstechnica/science",                1,  168,  COMMERCE),
     ("Wired Science",      "Science",         "https://www.wired.com/feed/category/science/latest/rss",           1,  168,  COMMERCE),
+    # Added 2026-08-25 after Science STARVED: its four feeds made ~6.5
+    # articles/day against a front page eating 8 (quota 2 x 4 draws), so the
+    # drawable pool drained to zero over two days and the draw came up short.
+    # These three carry the volume; Quanta is the Eurozine of science -- superb
+    # and slow -- so it gets a long window or it would never appear.
+    ("Nature",             "Science",         "http://feeds.nature.com/nature/rss/current",                       1,   96,  None),
+    ("Scientific American","Science",         "http://rss.sciam.com/ScientificAmerican-Global",                   1,   96,  None),
+    ("BBC Science",        "Science",         "https://feeds.bbci.co.uk/news/science_and_environment/rss.xml",    1,   96,  None),
+    ("Quanta",             "Science",         "https://api.quantamagazine.org/feed/",                             1,  336,  None),
 
     # --- Tech & Hobbies
     ("Ars Technica",       "Tech & Hobbies",  "https://feeds.arstechnica.com/arstechnica/index",                  1,   48,  COMMERCE),
@@ -290,6 +299,13 @@ SOURCES = [
     ("Guardian Art",       "Arts & Culture",  "https://www.theguardian.com/artanddesign/rss",                     1,   96,  None),
     ("Arts Fuse",          "Arts & Culture",  "https://artsfuse.org/feed/",                                       1,  336,  None),
     ("Eurozine",           "Arts & Culture",  "https://www.eurozine.com/feed/",                                   1,  720,  None),
+    # Added 2026-08-25 for the same reason as the Science block, before it bit:
+    # Arts had 24 drawable against 8/day, about three days from starving.
+    ("Hyperallergic",      "Arts & Culture",  "https://hyperallergic.com/feed/",                                  1,  168,  None),
+    ("3 Quarks Daily",     "Arts & Culture",  "https://3quarksdaily.com/feed",                                    1,  168,  None),
+    ("Literary Hub",       "Arts & Culture",  "https://lithub.com/feed/",                                         1,  168,  None),
+    ("ARTnews",            "Arts & Culture",  "https://www.artnews.com/feed/",                                    1,  168,  COMMERCE),
+    ("Aeon",               "Arts & Culture",  "https://aeon.co/feed.rss",                                         1,  336,  None),
 
     # --- Sports: general first, then Frank's three teams. Team feeds get long
     #     windows because a single-team blog goes quiet between games.
@@ -337,6 +353,16 @@ WIRE_SERVICES_DEAD = {
 # Reuters and AP carry 152 of its 183 candidates and would take all ten slots on
 # volume alone, where round-robin gives NYT and Guardian US two apiece.
 SECTION_QUOTA = 10
+
+# How many times a day the schedule draws (matches the cron in
+# .github/workflows/edition.yml). Used only to convert the drawable pool into
+# "days of headroom" for the starvation warning -- change both together.
+DRAWS_PER_DAY = 4
+
+# Warn when a section holds fewer than this many days of drawable articles.
+# Two days is enough notice to add a feed before the section actually comes up
+# short, which is how Science failed on 2026-08-25 with no prior signal.
+HEADROOM_WARN_DAYS = 2.0
 
 # Shown in the page footer, so it can't go stale in the template.
 PHASE = 2
