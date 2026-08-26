@@ -108,6 +108,9 @@ def looks_foreign(title):
 def clean_title(raw, from_google_news=False):
     """Feeds put HTML in titles. Strip tags; feedparser already un-escapes."""
     t = re.sub(r"\s+", " ", re.sub(r"<[^>]+>", "", raw or "")).strip()
+    # Reuters prefixes every Breakingviews headline with the desk name, which
+    # the source label beside the headline already says.
+    t = re.sub(r"^breakingviews\s*[-\u2013\u2014]\s*", "", t, flags=re.I)
     if from_google_news:
         # No fallback to the original: a title that is ENTIRELY a publisher
         # suffix (" - AP News") is an empty-titled hub page, and returning ""

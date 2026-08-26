@@ -353,7 +353,8 @@ LANG = {
 # Front-page order, like a print paper. Quotas total 15, matching the spec's
 # "~13-15 headlines/day, sized like a print front page".
 SECTIONS = ["Top News", "World", "Europe", "Italy", "Finance", "Science",
-            "Tech & Hobbies", "Arts & Culture", "Sports", "Human Interest"]
+            "History", "Tech & Hobbies", "Arts & Culture", "Sports",
+            "Human Interest"]
 
 # Top News and World run 3 rather than 2 because each holds FOUR sources, two
 # of which are wires carrying ~100 candidates against NYT's 15. At a quota of 2
@@ -368,6 +369,7 @@ QUOTAS = {
     "Italy":           1,
     "Finance":         2,
     "Science":         2,
+    "History":         2,
     "Tech & Hobbies":  1,
     "Arts & Culture":  2,
     "Sports":          2,
@@ -513,6 +515,23 @@ SOURCES = [
     ("Guardian Business",  "Finance",         "https://www.theguardian.com/uk/business/rss",                      1,   48,  f"(?:{NEWS_NOISE})|(?:{FINANCE_TOUT})"),
     ("Economist Finance",  "Finance",         "https://www.economist.com/finance-and-economics/rss.xml",          1,  336,  FINANCE_TOUT),
 
+    # MARKET COMMENTARY. Frank, 2026-08-26: he wants the analytical register --
+    # "treasuries look to be undervalued vs japanese yen", "asian equities look
+    # to have upside" -- not another "market was up yesterday".
+    #
+    # This is a DELIBERATE, user-requested exception to the spec's "no opinion
+    # or editorial content" non-goal, and it is scoped to Finance. The line it
+    # draws is between published market ANALYSIS, which is journalism, and
+    # analyst rating churn or stock touting, which FINANCE_TOUT still blocks.
+    # CNBC's "Stocks making the biggest moves premarket" feed was tested and
+    # left out as exactly the churn being avoided.
+    #
+    # Breakingviews is Reuters' commentary arm. Its own path returns nothing
+    # through Google News, so it is reached as a keyword -- 99 items in 48h.
+    ("Breakingviews",      "Finance",         GN + "when:3d+site:reuters.com+breakingviews",                      1,   72,  f"(?:{WIRE_JUNK})|(?:{FINANCE_TOUT})"),
+    ("Project Syndicate",  "Finance",         "https://www.project-syndicate.org/rss",                            1,  168,  FINANCE_TOUT),
+    ("Econbrowser",        "Finance",         "https://econbrowser.com/feed",                                     1,  168,  FINANCE_TOUT),
+
     # --- Science: low daily volume everywhere, and science ages well, so the
     #     windows are wide on purpose.
     ("NYT Science",        "Science",         "https://rss.nytimes.com/services/xml/rss/nyt/Science.xml",         1,   96,  None),
@@ -528,6 +547,26 @@ SOURCES = [
     ("Scientific American","Science",         "http://rss.sciam.com/ScientificAmerican-Global",                   1,   96,  None),
     ("BBC Science",        "Science",         "https://feeds.bbci.co.uk/news/science_and_environment/rss.xml",    1,   96,  None),
     ("Quanta",             "Science",         "https://api.quantamagazine.org/feed/",                             1,  336,  None),
+
+    # --- History: discoveries, new ideas, and revisiting old subjects. Frank
+    #     asked for this on 2026-08-26. Everything here runs a LONG window on
+    #     purpose -- history is the one section where nothing is time-sensitive,
+    #     so a fortnight-old dig report is no worse than today's, and the long
+    #     windows are what let four modest feeds fill a quota of 2.
+    #     Atlas Obscura was tried and REMOVED: its "latest" feed is a
+    #     place-listing database ("Jingling Pot in England") and its "articles"
+    #     feed is travel listicles ("15 Best Places to Experience
+    #     Bioluminescence") -- a curiosity site, not history reporting.
+    #     Also rejected: Ancient Origins (nothing in a week, and it trades in
+    #     pseudo-archaeology), Phys.org's "archaeology" feed (returns generic
+    #     social science -- identical first items to its other-sciences feed),
+    #     Popular Archaeology (two items, one of them "Hello world!"),
+    #     History Today (403) and HeritageDaily (301 loop).
+    ("Archaeology",        "History",         "https://www.archaeology.org/feed",                                 1,  336,  COMMERCE),
+    ("Science Daily Past", "History",         "https://www.sciencedaily.com/rss/fossils_ruins.xml",               1,  336,  COMMERCE),
+    ("Current Archaeology","History",         "https://the-past.com/feed/",                                       1,  336,  COMMERCE),
+    ("Smithsonian History","History",         "https://www.smithsonianmag.com/rss/history/",                      1,  504,  COMMERCE),
+    ("Live Science Past",  "History",         "https://www.livescience.com/feeds/tag/archaeology",                1,  336,  COMMERCE),
 
     # --- Tech & Hobbies
     ("Ars Technica",       "Tech & Hobbies",  "https://feeds.arstechnica.com/arstechnica/index",                  1,   48,  COMMERCE),
@@ -551,6 +590,17 @@ SOURCES = [
     ("Literary Hub",       "Arts & Culture",  "https://lithub.com/feed/",                                         1,  168,  None),
     ("ARTnews",            "Arts & Culture",  "https://www.artnews.com/feed/",                                    1,  168,  COMMERCE),
     ("Aeon",               "Arts & Culture",  "https://aeon.co/feed.rss",                                         1,  336,  None),
+
+    # Jazz, piano and classical -- Frank's ask, 2026-08-26, and he plays piano.
+    # Slipped Disc is the classical world's news blog and carries the volume
+    # (10 in 48h); the rest are lower-volume desks on long windows. Gramophone
+    # (403), The Strad (404), Van Magazine (404), All About Jazz (302 loop) and
+    # NPR's classical feed (empty) were all tested and are unusable.
+    ("Slipped Disc",       "Arts & Culture",  "https://slippedisc.com/feed/",                                     1,   96,  COMMERCE),
+    ("JazzTimes",          "Arts & Culture",  "https://jazztimes.com/feed/",                                      1,  336,  COMMERCE),
+    ("Guardian Classical", "Arts & Culture",  "https://www.theguardian.com/music/classicalmusicandopera/rss",     1,  336,  COMMERCE),
+    ("Guardian Jazz",      "Arts & Culture",  "https://www.theguardian.com/music/jazz/rss",                       1,  720,  COMMERCE),
+    ("NPR Music",          "Arts & Culture",  "https://feeds.npr.org/1039/rss.xml",                               1,  168,  COMMERCE),
 
     # --- Sports: general first, then Frank's three teams. Team feeds get long
     #     windows because a single-team blog goes quiet between games.
