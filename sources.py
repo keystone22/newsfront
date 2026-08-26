@@ -86,7 +86,15 @@ OPINION = r"(/opinion/|/commentisfree/|/editorial|/columnists/|/opinions/)"
 # another winter", both of which read as articles in a headline list and are
 # not. It is also where Politico's German-language output arrives
 # ("Der Herbst des Friedrich Merz").
-NOT_TEXT = r"(/news/videos/|/video/|/av/|/podcast)"
+NOT_TEXT = (
+    r"(/news/videos/|/video/|/av/|/podcast|/audio/"
+    # The Guardian marks an audio piece with a trailing "- podcast" and Reuters
+    # with a leading "PODCAST:". Both are needed as well as the paths: the
+    # Creatine episode arrived under /science/audio/, which the path catches,
+    # but a bare \bpodcast\b test would ALSO have dropped "How Two British
+    # Historians Made a Smash Hit Podcast", which is a news story ABOUT one.
+    r"|[-\u2013\u2014]\s*podcast\s*$|^\s*podcast\s*:)"
+)
 
 # Applied to every source, on top of that source's own exclude_pattern.
 # Letters to the editor are opinion, but publishers file them under the section
@@ -272,7 +280,7 @@ FINANCE_TOUT = (
 )
 
 NEWS_FOOD = (
-    r"\b(pastry|pastries|gelato|trattoria|osteria|tasting menu|foodie"
+    r"\b(recipes?|pastry|pastries|gelato|trattoria|osteria|tasting menu|foodie"
     r"|where to (watch|eat|stay|go)|best places?|day trip|weekend in)\b"
 )
 
@@ -557,7 +565,23 @@ SOURCES = [
 
     # --- Human Interest: WBUR stands in for the Boston Globe, whose only
     #     reachable feed stopped updating in May 2020.
-    ("Guardian Life",      "Human Interest",  "https://www.theguardian.com/lifeandstyle/rss",                     1,   48,  COMMERCE),
+    # Frank, 2026-08-26: Human Interest should carry some good news, and "Not
+    # recipes." The Guardian files its recipe columns under /food/ -- 10 of its
+    # rows -- and its product-review vertical under /thefilter, which is how
+    # "best dog beds" was arriving. /food/ is scoped to THIS source on purpose:
+    # the only other /food/ row in the database is Guardian Science's "Cookies
+    # made from plastic may be on the menu", which is real science reporting.
+    ("Guardian Life",      "Human Interest",  "https://www.theguardian.com/lifeandstyle/rss",                     1,   48,  f"(?:{COMMERCE})|(?:/food/|/thefilter)"),
+
+    # Good news, deliberately sourced rather than hoped for. Good News Network
+    # carries the volume; Positive News and Reasons to be Cheerful are
+    # solutions journalism at a few pieces a week, so they take long windows --
+    # the same rule Eurozine and Quanta get. Guardian's "The Upside" and Yes!
+    # Magazine were TESTED AND REJECTED: nothing in either for over a week.
+    # "Good News in History, August 25" is a daily almanac post, not a story.
+    ("Good News Network",  "Human Interest",  "https://www.goodnewsnetwork.org/feed/",                            1,  168,  f"(?:{COMMERCE})|(?:^good news in history)"),
+    ("Positive News",      "Human Interest",  "https://www.positive.news/feed/",                                  1,  336,  COMMERCE),
+    ("Reasons to be Cheerful","Human Interest","https://reasonstobecheerful.world/feed/",                          1,  336,  COMMERCE),
     ("NYT Style",          "Human Interest",  "https://rss.nytimes.com/services/xml/rss/nyt/FashionandStyle.xml", 1,   96,  None),
     ("WBUR",               "Human Interest",  "https://www.wbur.org/feed",                                        1,   48,  None),
 ]
