@@ -144,6 +144,21 @@ section), the Guardian's World feed carries `/uk-news/`, and the BBC mixes video
 packages into news feeds. All three were caught by looking at URL paths, which
 is the first thing to check when a section reads wrong.
 
+## Editing while the schedule runs
+
+`docs/*.html` and `news.db` are GENERATED and committed, and the bot rewrites
+them four times a day, so a long editing session will hit a rebase conflict in
+them. Never hand-merge those files — resolve by preferring your own side and
+then **regenerating**, which is the only version guaranteed to match the
+sources:
+
+```bash
+git fetch origin && git rebase -X theirs origin/main
+python fetch.py && python export.py && git add -A && git commit --amend --no-edit
+```
+
+Conflicts in `sources.py` or the Python are real and must be read.
+
 ## Method: measure a filter before you ship it
 
 Every filter here was checked against the whole article pool for false positives
