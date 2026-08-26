@@ -244,8 +244,25 @@ NEWS_SPORT = r"(/sport/|/sports/|/football/|/calcio/)"
 # Interest. Too blunt.
 NEWS_CULTURE = r"(/culture/|/summer-reads/)"
 
+# Food and service-travel pieces reaching a NEWS section. Frank's brief,
+# 2026-08-25, for Italy: "Not travel and food." The same rule improves the other
+# news sections -- "Where to Eat in New York City Right Now" was sitting in Top
+# News, and a "best places for peace and quiet in France" guide in Europe.
+#
+# Scoped to news sections, NOT global: Human Interest legitimately carries the
+# Guardian's recipe columns, and Frank has never objected to those.
+#
+# "vineyard" and "winery" were TESTED AND REJECTED -- "vineyard" matched
+# "As alpha-gal spikes on Martha's Vineyard", a medical story. "pizza" and
+# "pasta" are left out too: commerce roundups like "The Best Outdoor Pizza
+# Ovens" are already COMMERCE's job, and the bare words appear in real news.
+NEWS_FOOD = (
+    r"\b(pastry|pastries|gelato|trattoria|osteria|tasting menu|foodie"
+    r"|where to (watch|eat|stay|go)|best places?|day trip|weekend in)\b"
+)
+
 # What a NON-wire source feeding a news section gets.
-NEWS_NOISE = f"(?:{NEWS_SPORT})|(?:{NEWS_CULTURE})"
+NEWS_NOISE = f"(?:{NEWS_SPORT})|(?:{NEWS_CULTURE})|(?:{NEWS_FOOD})"
 
 # Italian-language sources need two exclusions the shared patterns cannot reach.
 # ANSA files travel under "/canale_viaggi/", not "/travel/", so GLOBAL_EXCLUDE's
@@ -259,8 +276,11 @@ RAI_VIDEO   = r"(/video/)"
 # effect on the draw, which is why this is a lookup here rather than a column on
 # the sources table.
 LANG = {
-    "ANSA Italian": "IT",
-    "Rai News":     "IT",
+    "ANSA Cronaca":  "IT",
+    "ANSA Economia": "IT",
+    "ANSA Politica": "IT",
+    "Rai Cronaca":   "IT",
+    "Rai Politica":  "IT",
 }
 
 # ---------------------------------------------------------------------------
@@ -364,6 +384,15 @@ SOURCES = [
     # Added 2026-08-25: two more European newsrooms with real Europe desks.
     ("BBC Europe",         "Europe",          "https://feeds.bbci.co.uk/news/world/europe/rss.xml",               1,   48,  NEWS_NOISE),
     ("France 24 Europe",   "Europe",          "https://www.france24.com/en/europe/rss",                           1,   48,  NEWS_NOISE),
+    # Frank, 2026-08-25: "I would like some more economic and business stories
+    # in EU, not US or global politics." These four are European business desks
+    # rather than general papers' international pages, so they report the EU as
+    # the EU -- packaging rules, Dutch gas reserves, French industry -- instead
+    # of syndicating the same global story the Top News and World pages carry.
+    ("Euractiv Economy",   "Europe",          "https://www.euractiv.com/sections/economy-jobs/feed/",             1,  168,  NEWS_NOISE),
+    ("Euronews Business",  "Europe",          "https://www.euronews.com/rss?level=vertical&name=business",        1,   96,  NEWS_NOISE),
+    ("Le Monde Economy",   "Europe",          "https://www.lemonde.fr/en/economy/rss_full.xml",                   1,   96,  NEWS_NOISE),
+    ("DW Business",        "Europe",          "https://rss.dw.com/rdf/rss-en-bus",                                1,  168,  NEWS_NOISE),
 
     # --- Italy: the thinnest section by a wide margin, so three of the four
     #     sources run long windows to keep a real pool behind a quota of 1.
@@ -384,9 +413,21 @@ SOURCES = [
     #     truncated to 262-603 words. Its travel channel is excluded by hand --
     #     the global TRAVEL filter looks for "/travel/" and ANSA files under
     #     "/canale_viaggi/", so the shared pattern does not reach it.
-    ("ANSA Italian",       "Italy",           "https://www.ansa.it/sito/ansait_rss.xml",                          1,   48,  RAI_ANSA_IT),
+    # ANSA and Rai both publish domestic SECTION feeds, and the catch-all ones
+    # these replace were the main reason Italy read like a world paper: their
+    # URLs carry no section at all (all 112 Rai rows were unscopeable), so the
+    # US-Iran economic war arrived twice in one edition, in Italian. Frank's
+    # brief, 2026-08-25: Italy should be "stories about Italy and Italian life
+    # ... mainly social, economic, human interest, lifestyle", with a little
+    # politics. cronaca is precisely that register -- Lombardy's first assisted
+    # death through the health service, a social taxi for elderly patients in
+    # Foggia, a drowned lifeguard and flags at half-mast in Versilia.
+    ("ANSA Cronaca",       "Italy",           "https://www.ansa.it/sito/notizie/cronaca/cronaca_rss.xml",         1,   48,  RAI_ANSA_IT),
+    ("ANSA Economia",      "Italy",           "https://www.ansa.it/sito/notizie/economia/economia_rss.xml",       1,   48,  RAI_ANSA_IT),
+    ("ANSA Politica",      "Italy",           "https://www.ansa.it/sito/notizie/politica/politica_rss.xml",       1,   96,  RAI_ANSA_IT),
     #     17 of Rai's 40 items are VIDEO, which this is not a place for.
-    ("Rai News",           "Italy",           "https://www.rainews.it/rss/tutti",                                 1,   48,  RAI_VIDEO),
+    ("Rai Cronaca",        "Italy",           "https://www.rainews.it/rss/cronaca",                               1,   48,  RAI_VIDEO),
+    ("Rai Politica",       "Italy",           "https://www.rainews.it/rss/politica",                              1,   96,  RAI_VIDEO),
 
     # --- Science: low daily volume everywhere, and science ages well, so the
     #     windows are wide on purpose.
