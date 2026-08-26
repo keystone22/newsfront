@@ -86,6 +86,25 @@ def url_key(url):
 _GN_SUFFIX_RE = re.compile(r"\s+[-\u2013\u2014]\s+[^-\u2013\u2014]{2,40}$")
 
 
+_EN_RE      = re.compile(getattr(cfg, "EN_WORDS", r"(?!)"), re.I)
+_FOREIGN_RE = re.compile(getattr(cfg, "FOREIGN_WORDS", r"(?!)"), re.I)
+_FCHAR_RE   = re.compile(getattr(cfg, "FOREIGN_CHARS", r"(?!)"), re.I)
+_LONGWORD_RE = re.compile(r"[^\W\d_]{13,}", re.UNICODE)
+
+
+def looks_foreign(title):
+    """Heuristic 'this headline is not in English', for multilingual sources.
+
+    Only consulted for sources named in cfg.ENGLISH_ONLY -- never globally, and
+    never for the Italian feeds, which are Italian deliberately.
+    """
+    words = [w for w in re.findall(r"[^\W\d_]+", title, re.UNICODE) if len(w) > 1]
+    if len(words) < 3 or _EN_RE.search(title):
+        return False
+    return bool(_FCHAR_RE.search(title) or _FOREIGN_RE.search(title)
+                or _LONGWORD_RE.search(title))
+
+
 def clean_title(raw, from_google_news=False):
     """Feeds put HTML in titles. Strip tags; feedparser already un-escapes."""
     t = re.sub(r"\s+", " ", re.sub(r"<[^>]+>", "", raw or "")).strip()
@@ -265,6 +284,20 @@ def purge_excluded(db):
     which is what "edit, re-run fetch.py, reload" in the README promises.
     """
     removed = 0
+
+    # The language heuristic is not a regex, so it needs its own retroactive
+    # sweep or rows imported before it existed would sit in the pool forever.
+    for src in db.execute("SELECT id, name FROM sources"):
+        if src["name"] not in getattr(cfg, "ENGLISH_ONLY", ()):
+            continue
+        doomed = [r["id"] for r in db.execute(
+            "SELECT id, title FROM articles WHERE source_id=?", (src["id"],))
+            if looks_foreign(r["title"])]
+        for chunk in (doomed[i:i + 400] for i in range(0, len(doomed), 400)):
+            db.execute(f"DELETE FROM articles WHERE id IN "
+                       f"({','.join('?' * len(chunk))})", chunk)
+            removed += len(chunk)
+
     for src in db.execute("SELECT id, exclude_pattern FROM sources"):
         pats = [p for p in (getattr(cfg, "GLOBAL_EXCLUDE", None),
                             src["exclude_pattern"]) if p]
@@ -329,6 +362,9 @@ def pull(db):
                 title = clean_title(e.get("title"), from_google_news=is_gn)
                 link = (e.get("link") or "").strip()
                 if not title or not link:
+                    continue
+                if src["name"] in getattr(cfg, "ENGLISH_ONLY", ()) and looks_foreign(title):
+                    stats["excluded"] += 1
                     continue
 
                 stamp = e.get("published_parsed") or e.get("updated_parsed")

@@ -256,6 +256,21 @@ NEWS_CULTURE = r"(/culture/|/summer-reads/)"
 # "As alpha-gal spikes on Martha's Vineyard", a medical story. "pizza" and
 # "pasta" are left out too: commerce roundups like "The Best Outdoor Pizza
 # Ovens" are already COMMERCE's job, and the bare words appear in real news.
+# Stock touting, which is not news. A finance page is worth having only if it
+# reports; a column of "3 stocks to buy before September" reads as advice, and
+# this project shows facts and never signals. Yahoo Finance and Investing.com
+# were TESTED AND REJECTED as sources for exactly this -- their feeds are mostly
+# analyst-rating churn and pundit calls. This catches the same shape when it
+# leaks from a reporting source.
+FINANCE_TOUT = (
+    r"\b(stocks? to (buy|watch|own|sell)|best stocks?|top \d+ stocks?"
+    r"|price target|upgrades?|downgrades?|reiterates?|reaffirms?"
+    r"|buy rating|sell rating|outperform|underperform|overweight"
+    r"|should you (buy|sell|invest)|is .{2,24} a (buy|sell)"
+    r"|motley fool|zacks|jim cramer"
+    r"|investing club|\bour \w+ stocks?\b|\bwe('re| are) (buying|selling|trimming)\b)\b"
+)
+
 NEWS_FOOD = (
     r"\b(pastry|pastries|gelato|trattoria|osteria|tasting menu|foodie"
     r"|where to (watch|eat|stay|go)|best places?|day trip|weekend in)\b"
@@ -275,6 +290,46 @@ RAI_VIDEO   = r"(/video/)"
 # as reading practice before it is clicked. Display only -- language has no
 # effect on the draw, which is why this is a lookup here rather than a column on
 # the sources table.
+# Sources that publish the SAME piece in several languages. Eurozine is a
+# network of European cultural journals: it runs an essay in the original and in
+# translation, so "Der geopolitische Kommunikationsmodus" and "The geopolitical
+# mode of communication" are one article, and the English one is already in the
+# feed. Dropping the translations loses nothing and stops one essay taking two
+# slots. Frank reported the foreign titles on 2026-08-26.
+#
+# This CANNOT be a regex in exclude_pattern, so fetch.py applies it by name.
+# It is emphatically NOT global: ANSA and Rai are Italian ON PURPOSE and are
+# tagged IT for display, and a naive sweep flags all of them.
+ENGLISH_ONLY = {"Eurozine"}
+
+# The test is "does this look like English", not "does it look foreign" --
+# tried the other way round first and it both missed German compounds with no
+# diacritics ("Straflosigkeit produziert Straflosigkeit") and fired on English
+# titles carrying a loan word ("El Nino", "Hurtgen Forest"): 326 false
+# positives. A title is treated as foreign only when it has three or more real
+# words, NO English function word, AND a positive foreign signal.
+#
+# The long-word clause is what catches German compounds. "without" and friends
+# are in the English list because leaving them out dropped the genuinely
+# English "Social experiments without experimentalism".
+# Measured 2026-08-26: 19 of Eurozine's 100 dropped, no English among them.
+EN_WORDS = (
+    r"\b(the|a|an|of|in|on|at|to|for|and|or|but|is|are|was|were|be|by|with|from|as"
+    r"|that|this|these|those|how|why|what|when|where|who|its|it|you|your|we|our|their"
+    r"|his|her|not|no|can|will|would|should|more|most|after|before|between|against"
+    r"|about|into|over|under|out|up|down|new|first|last|still|does|do|did|has|have|had|s"
+    r"|without|within|through|across|among|beyond|during|despite|toward|towards|upon"
+    r"|since|other|another|such|only|even|also|than|then|too|very|just|all|any|each|both)\b"
+)
+FOREIGN_WORDS = (
+    r"\b(der|die|das|und|ist|nicht|f\u00fcr|zum|zur|eine|einer|des"
+    r"|le|les|une|dans|pour|avec|sur|est|sont|qui|par|contre|ou"
+    r"|el|los|las|para|con|por|que|del|una|il|lo|gli|della|che|sono|per"
+    r"|je|su|koje|koji|kako|koliko|nije|za|cat|este|sunt|pentru|care|de"
+    r"|om|livets|och|att|na|ceste|utan)\b"
+)
+FOREIGN_CHARS = r"[\u010d\u0107\u017e\u0161\u0111\u0103\u00e2\u00ee\u0219\u021b\u00df\u00e0\u00e4\u00e9\u00e8\u00ea\u00eb\u00ec\u00ef\u00f2\u00f4\u00f6\u00f9\u00fb\u00fc\u00f1\u00f5\u00e3\u00e7\u0430-\u044f\u0451]"
+
 LANG = {
     "ANSA Cronaca":  "IT",
     "ANSA Economia": "IT",
@@ -289,7 +344,7 @@ LANG = {
 
 # Front-page order, like a print paper. Quotas total 15, matching the spec's
 # "~13-15 headlines/day, sized like a print front page".
-SECTIONS = ["Top News", "World", "Europe", "Italy", "Science",
+SECTIONS = ["Top News", "World", "Europe", "Italy", "Finance", "Science",
             "Tech & Hobbies", "Arts & Culture", "Sports", "Human Interest"]
 
 # Top News and World run 3 rather than 2 because each holds FOUR sources, two
@@ -303,6 +358,7 @@ QUOTAS = {
     "World":           3,
     "Europe":          2,
     "Italy":           1,
+    "Finance":         2,
     "Science":         2,
     "Tech & Hobbies":  1,
     "Arts & Culture":  2,
@@ -428,6 +484,26 @@ SOURCES = [
     #     17 of Rai's 40 items are VIDEO, which this is not a place for.
     ("Rai Cronaca",        "Italy",           "https://www.rainews.it/rss/cronaca",                               1,   48,  RAI_VIDEO),
     ("Rai Politica",       "Italy",           "https://www.rainews.it/rss/politica",                              1,   96,  RAI_VIDEO),
+
+    # --- Finance: global markets, investing and the money story, as distinct
+    #     from the EU business desks that sit in Europe. Frank asked for this
+    #     section on 2026-08-26: "Global finance, investing, markets."
+    #
+    #     Reporting-led sources only. Yahoo Finance (39 items/day) and
+    #     Investing.com were tested and left out: their feeds are analyst-rating
+    #     churn and pundit stock calls, which would turn the page into a
+    #     recommendation list. The Economist's finance desk runs about one piece
+    #     a day, so it needs a long window to appear at all -- the Eurozine rule.
+    # site:reuters.com/markets was TESTED AND REJECTED: 94 of its 100 items are
+    # ticker QUOTE pages ("DIVD.OQ - | Stock Price & Latest News", ".DJUSCX"),
+    # leaving about six real articles. /business is the reporting path.
+    ("Reuters Business",   "Finance",         GN + "when:2d+site:reuters.com/business",                           1,   48,  f"(?:{WIRE_NEWS})|(?:{FINANCE_TOUT})"),
+    ("CNBC",               "Finance",         "https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=100003114", 1, 24, FINANCE_TOUT),
+    ("MarketWatch",        "Finance",         "https://feeds.content.dowjones.io/public/rss/mw_topstories",       1,   48,  FINANCE_TOUT),
+    ("NYT Business",       "Finance",         "https://rss.nytimes.com/services/xml/rss/nyt/Business.xml",        1,   48,  f"(?:{NEWS_NOISE})|(?:{FINANCE_TOUT})"),
+    ("BBC Business",       "Finance",         "https://feeds.bbci.co.uk/news/business/rss.xml",                   1,   48,  f"(?:{NEWS_NOISE})|(?:{FINANCE_TOUT})"),
+    ("Guardian Business",  "Finance",         "https://www.theguardian.com/uk/business/rss",                      1,   48,  f"(?:{NEWS_NOISE})|(?:{FINANCE_TOUT})"),
+    ("Economist Finance",  "Finance",         "https://www.economist.com/finance-and-economics/rss.xml",          1,  336,  FINANCE_TOUT),
 
     # --- Science: low daily volume everywhere, and science ages well, so the
     #     windows are wide on purpose.
