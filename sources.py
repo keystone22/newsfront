@@ -432,14 +432,19 @@ SOURCES = [
     ("Reuters World",      "World",           GN + "when:2d+site:reuters.com/world",                              1,   48,  WIRE_NEWS),
 
     # --- Europe
-    # These three ran with NO filter at all until 2026-08-25 -- not even the
+    # Euractiv and Euractiv Economy were REMOVED on 2026-08-27, same cause as
+    # ESPN: HTTP 403 from every GitHub Actions run while serving 100 items
+    # fine from a home connection. Euractiv blocks datacenter IPs. No
+    # replacement EU-policy feed was found -- Brussels Times will not parse and
+    # the European Parliament feed is empty -- so Europe runs on its other ten
+    # sources, which include Politico Europe for the same beat.
+    # These ran with NO filter at all until 2026-08-25 -- not even the
     # sport one every other news source had -- which is a large part of why
     # Europe read worst of all the sections.
     # euronews.com/rss is the whole SITE: only 13 of 50 rows were European, which
     # is how "New Zealand's government introduces legislation..." reached the
     # Europe section. The my-europe vertical is 50/50 European.
     ("Euronews",           "Europe",          "https://www.euronews.com/rss?level=vertical&name=my-europe",       1,   48,  NEWS_NOISE),
-    ("Euractiv",           "Europe",          "https://www.euractiv.com/feed/",                                   1,   48,  NEWS_NOISE),
     ("Politico Europe",    "Europe",          "https://www.politico.eu/feed/",                                    1,   48,  NEWS_NOISE),
     ("Le Monde",           "Europe",          "https://www.lemonde.fr/en/rss/une.xml",                            1,   48,  NEWS_NOISE),
     ("Guardian Europe",    "Europe",          "https://www.theguardian.com/world/europe-news/rss",                1,   48,  NEWS_NOISE),
@@ -455,7 +460,6 @@ SOURCES = [
     # rather than general papers' international pages, so they report the EU as
     # the EU -- packaging rules, Dutch gas reserves, French industry -- instead
     # of syndicating the same global story the Top News and World pages carry.
-    ("Euractiv Economy",   "Europe",          "https://www.euractiv.com/sections/economy-jobs/feed/",             1,  168,  NEWS_NOISE),
     ("Euronews Business",  "Europe",          "https://www.euronews.com/rss?level=vertical&name=business",        1,   96,  NEWS_NOISE),
     ("Le Monde Economy",   "Europe",          "https://www.lemonde.fr/en/economy/rss_full.xml",                   1,   96,  NEWS_NOISE),
     ("DW Business",        "Europe",          "https://rss.dw.com/rdf/rss-en-bus",                                1,  168,  NEWS_NOISE),
@@ -604,11 +608,19 @@ SOURCES = [
 
     # --- Sports: general first, then Frank's three teams. Team feeds get long
     #     windows because a single-team blog goes quiet between games.
-    ("ESPN",               "Sports",          "https://www.espn.com/espn/rss/news",                               1,   24,  None),
-    ("ESPN NFL",           "Sports",          "https://www.espn.com/espn/rss/nfl/news",                           1,   48,  None),
-    ("ESPN MLB",           "Sports",          "https://www.espn.com/espn/rss/mlb/news",                           1,   48,  None),
-    ("ESPN College FB",    "Sports",          "https://www.espn.com/espn/rss/ncf/news",                           1,   48,  None),
     ("AP Sports",          "Sports",          GN + "when:2d+site:apnews.com+sports",                              1,   48,  WIRE_JUNK),
+    # ESPN's four feeds were REMOVED on 2026-08-27. They work perfectly from a
+    # home connection and return NOTHING from a GitHub Actions runner -- ESPN
+    # serves datacenter IPs an empty feed. Verified both ways on the same day,
+    # which is the only way to catch this class of failure: a source can be
+    # healthy locally and dead in production.
+    #
+    # These three are the US-sports replacements. BBC Sport was rejected despite
+    # being proven runner-friendly: it is football and cricket, and Frank has
+    # already said a UK sports desk is not what he wants here.
+    ("CBS Sports",         "Sports",          "https://www.cbssports.com/rss/headlines/",                         1,   48,  COMMERCE),
+    ("Yahoo Sports",       "Sports",          "https://sports.yahoo.com/rss/",                                    1,   48,  COMMERCE),
+    ("SB Nation",          "Sports",          "https://www.sbnation.com/rss/index.xml",                           1,   96,  COMMERCE),
     ("Eagles (BGN)",       "Sports",          "https://www.bleedinggreennation.com/rss/index.xml",                1,   96,  None),
     ("Phillies (Good Phight)","Sports",       "https://www.thegoodphight.com/rss/index.xml",                      1,   96,  None),
     ("Penn State (BSD)",   "Sports",          "https://www.blackshoediaries.com/rss/index.xml",                   1,  168,  None),
