@@ -144,6 +144,26 @@ section), the Guardian's World feed carries `/uk-news/`, and the BBC mixes video
 packages into news feeds. All three were caught by looking at URL paths, which
 is the first thing to check when a section reads wrong.
 
+## A feed can be healthy locally and dead in production
+
+**Test a new or suspect source on the RUNNER, not just your machine.** GitHub
+Actions runs on Azure IPs and some publishers treat datacenter traffic
+differently: ESPN serves them an *empty feed* (all four of its feeds, "no
+entries") and Euractiv answers HTTP 403, while both return full feeds from a
+home connection. Verified both ways on 2026-08-27.
+
+Sports lost half its sources for a day before anyone noticed, because articles
+imported before the block were still inside their recency window — the section
+looked fine while its supply was already gone. The only reliable check is:
+
+```bash
+gh run view <id> --repo keystone22/newsfront --log | grep '!!'
+```
+
+Corollary: **remove a permanently-blocked source rather than leaving it to
+error.** Six failing feeds in every run is what trains you to skim past the
+error lines that matter.
+
 ## Editing while the schedule runs
 
 `docs/*.html` and `news.db` are GENERATED and committed, and the bot rewrites
