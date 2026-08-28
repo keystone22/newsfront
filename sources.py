@@ -547,7 +547,7 @@ SOURCES = [
     # drawable pool drained to zero over two days and the draw came up short.
     # These three carry the volume; Quanta is the Eurozine of science -- superb
     # and slow -- so it gets a long window or it would never appear.
-    ("Nature",             "Science",         "http://feeds.nature.com/nature/rss/current",                       1,   96,  None),
+    ("Nature",             "Science",         "https://www.nature.com/nature.rss"      ,                       1,   96,  None),
     ("Scientific American","Science",         "http://rss.sciam.com/ScientificAmerican-Global",                   1,   96,  None),
     ("BBC Science",        "Science",         "https://feeds.bbci.co.uk/news/science_and_environment/rss.xml",    1,   96,  None),
     ("Quanta",             "Science",         "https://api.quantamagazine.org/feed/",                             1,  336,  None),
