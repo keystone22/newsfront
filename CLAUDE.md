@@ -179,6 +179,27 @@ python fetch.py && python export.py && git add -A && git commit --amend --no-edi
 
 Conflicts in `sources.py` or the Python are real and must be read.
 
+## Include-only, and the url_key race
+
+`exclude_pattern` is an EXCLUDE, but a source can be narrowed to one topic with
+an anchored negative lookahead. Popular Mechanics runs a lot of archaeology, and
+its `/rss/science.xml` feed is 21 of 50 archaeology against 5 in the whole-site
+feed, so History reads that feed filtered to nothing else:
+
+```python
+r"^https?://(?!.*/science/archaeology/)"
+```
+
+**The `^https?://` anchor is the whole trick.** fetch.py tests the pattern
+against the title AND the URL, so a bare lookahead matches every title and drops
+the entire feed. Anchoring to a scheme means it can only ever match a URL.
+
+**And when two sources overlap, exclude the topic from the other one too.**
+`articles.url_key` is UNIQUE, so whichever source imports a story first owns it
+and the second silently gets nothing. Popular Mechanics' whole-site feed in Tech
+& Hobbies therefore excludes `/science/archaeology/` explicitly — without that,
+the same dig report lands in whichever section won the race that run.
+
 ## Method: measure a filter before you ship it
 
 Every filter here was checked against the whole article pool for false positives

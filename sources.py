@@ -571,10 +571,26 @@ SOURCES = [
     ("Current Archaeology","History",         "https://the-past.com/feed/",                                       1,  336,  COMMERCE),
     ("Smithsonian History","History",         "https://www.smithsonianmag.com/rss/history/",                      1,  504,  COMMERCE),
     ("Live Science Past",  "History",         "https://www.livescience.com/feeds/tag/archaeology",                1,  336,  COMMERCE),
+    # Frank spotted this on 2026-08-27: Popular Mechanics runs a lot of
+    # archaeology. Its /rss/science.xml feed is 21 of 50 archaeology against 5
+    # in the whole-site feed, so that is the one to read.
+    #
+    # The exclude is an INCLUDE-ONLY idiom and worth understanding before
+    # copying it. fetch.py tests the pattern against the title AND the URL, so
+    # a bare negative lookahead would match every title and drop everything.
+    # Anchoring it to "^https?://" means it can only ever match a URL -- no
+    # headline starts with a scheme -- and the lookahead then excludes every
+    # URL that is NOT an archaeology one.
+    ("Popular Mechanics History", "History",   "https://www.popularmechanics.com/rss/science.xml/",                1,  336,  r"^https?://(?!.*/science/archaeology/)"),
 
     # --- Tech & Hobbies
     ("Ars Technica",       "Tech & Hobbies",  "https://feeds.arstechnica.com/arstechnica/index",                  1,   48,  COMMERCE),
-    ("Popular Mechanics",  "Tech & Hobbies",  "https://www.popularmechanics.com/rss/all.xml/",                    1,   96,  COMMERCE),
+    # Archaeology is handed to the History section instead -- see the note on
+    # the Popular Mechanics History row. It has to be excluded HERE as well,
+    # because articles.url_key is UNIQUE: whichever source imports a story first
+    # owns it, so leaving it in both feeds would put the same dig report in
+    # whichever section happened to win the race that run.
+    ("Popular Mechanics",  "Tech & Hobbies",  "https://www.popularmechanics.com/rss/all.xml/",                    1,   96,  f"(?:{COMMERCE})|(?:/science/archaeology/)"),
     ("NYT Technology",     "Tech & Hobbies",  "https://rss.nytimes.com/services/xml/rss/nyt/Technology.xml",      1,   48,  None),
     ("Wired Business",     "Tech & Hobbies",  "https://www.wired.com/feed/category/business/latest/rss",          1,  168,  COMMERCE),
     ("Wired Security",     "Tech & Hobbies",  "https://www.wired.com/feed/category/security/latest/rss",          1,  168,  COMMERCE),
