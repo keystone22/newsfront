@@ -403,7 +403,13 @@ SIGNALS = "Signals"
 TRIAL_SHARE = 0.7
 TRIAL_MIN_NEWSROOMS = 2
 TRIAL_VOTE_HOURS = 24                     # "at the same time"
-TRIAL_VOTE_SECTIONS = ("Top News", "World", SIGNALS)
+# World and Europe joined the trial 2026-09-13, Frank's ask. Measured that day,
+# 29 of 39 qualifying stories qualified for 2+ of these sections at once, so a
+# story is drawn for ONE trial page only. Sections are dealt narrowest first
+# (fewest qualifying stories) purely so the small ones can fill -- Europe had
+# 18 against Top News's 33 -- and each still draws at random from what is left.
+TRIAL_SECTIONS = ("Top News", "World", "Europe")      # first keeps trial.html
+TRIAL_VOTE_SECTIONS = TRIAL_SECTIONS + (SIGNALS,)
 # Two headlines are one story at this word overlap (Jaccard over 5-letter
 # stems). Measured 2026-09-13 on 395 headlines: 32 stories on 2+ newsrooms,
 # nearly all genuine. The failure is the other way -- one event SPLITS into

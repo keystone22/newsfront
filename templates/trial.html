@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="robots" content="noindex, nofollow">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Top News trial &mdash; The Standing Order</title>
+<title>{{ name }} trial &mdash; The Standing Order</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
@@ -27,7 +27,7 @@
 
   <div class="masthead">
     <a class="back" href="index.html">&larr; The Standing Order</a>
-    <h1 class="brand">Top News &mdash; trial</h1>
+    <h1 class="brand">{{ name }} &mdash; trial</h1>
     <p class="tagline">Not live. About {{ share_pct }}% of slots go to stories at least
       {{ min_newsrooms }} newsrooms are running in the last {{ vote_hours }} hours; the rest
       stay the ordinary random draw.</p>
@@ -40,6 +40,13 @@
   </div>
 
   <div class="sections one-col">
+
+    <nav class="section jump">
+      <div class="shead static"><span class="sname">Trial pages</span></div>
+      <div class="jumps">
+        {% for n in nav %}{% if n.here %}<a aria-current="page"><b>{{ n.name }}</b></a>{% else %}<a href="{{ n.href }}">{{ n.name }}</a>{% endif %}{% endfor %}
+      </div>
+    </nav>
 
     <section class="section">
       <div class="shead static">
@@ -59,7 +66,7 @@
 
     <section class="section">
       <div class="shead static">
-        <span class="sname">The live Top News page, for comparison</span>
+        <span class="sname">The live {{ name }} page, for comparison</span>
         <span class="squota">{{ live|length }} / {{ section_quota }}</span>
       </div>
       {% for a in live %}
@@ -76,13 +83,17 @@
     <section class="section mech">
       <h2>How the trial was drawn</h2>
       <p class="sub">{{ headlines }} headlines from {{ newsrooms|join(', ') }} were matched by
-        shared words. A story <b>qualifies</b> when at least {{ min_newsrooms }} different
-        newsrooms carry it; {{ qualifying|length }} did. The count is a gate, not a score:
-        among qualifying stories the draw is random, and a story on six newsrooms is no likelier
-        to be picked than one on two. Two versions of the same event are never both drawn.
-        The random slots come from the ordinary pool of {{ pool }} Top News candidates.</p>
-      <p class="sub">AP counts as a newsroom here but is not in the live draw. Its copy can
-        appear only for a story another newsroom is also running.</p>
+        shared words. A story <b>qualifies</b> for {{ name }} when {{ name }}'s own feeds carry
+        it and at least {{ min_newsrooms }} different newsrooms are running it; {{ qualifying|length }}
+        did. The count is a gate, not a score: among qualifying stories the draw is random, and a
+        story on six newsrooms is no likelier to be picked than one on two. The random slots come
+        from the ordinary pool of {{ pool }} {{ name }} candidates.</p>
+      <p class="sub">Most big stories qualify for more than one section, so each is drawn for
+        <b>one trial page only</b>, and two versions of the same event are never both drawn.
+        Sections are dealt narrowest first &mdash; {{ order|join(' → ') }} &mdash; only so the
+        smaller ones can fill; each still draws at random from what is left.</p>
+      <p class="sub">AP counts as a newsroom but is not in any live draw. Its copy can appear
+        only for a story this section's own feeds are also carrying.</p>
     </section>
 
     <section class="section">
@@ -94,9 +105,10 @@
       <article class="story">
         <div class="meta">
           <span>{{ s.brands|join(' · ') }}</span>
-          {% if s.drawn %}<span class="tag">drawn</span>{% endif %}
+          {% if s.drawn_for == name %}<span class="tag">drawn</span>
+          {% elif s.drawn_for %}<span class="tag">drawn for {{ s.drawn_for }}</span>{% endif %}
         </div>
-        <p class="hl"><a href="{{ s.drawable[0].url }}" target="_blank" rel="noopener noreferrer">{{ s.drawable[0].title }}</a></p>
+        <p class="hl"><a href="{{ s.url }}" target="_blank" rel="noopener noreferrer">{{ s.title }}</a></p>
       </article>
       {% else %}
       <p class="empty">No story is on {{ min_newsrooms }} newsrooms in this window.</p>

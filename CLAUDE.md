@@ -319,6 +319,22 @@ random draw. Knobs are the `TRIAL_*` constants in `sources.py`.
   0.2. Check the "every qualifying story" list before trusting a count.
 - The trial writes nothing and keeps no memory between editions; a live version
   would need the front page's dedup.
+- **World and Europe joined the same day** (`TRIAL_SECTIONS`; pages
+  `trial-world.html`, `trial-europe.html`). A story qualifies for a section only
+  if that section's OWN feeds carry it — other newsrooms' copies are votes, not
+  candidates, and AP can be the drawn version but never makes a story qualify.
+- **Most big stories qualify for several sections** (29 of 39 measured), so a
+  story is drawn for ONE trial page and no event appears twice across them.
+  Sections are dealt **narrowest first** purely so the small ones fill (Europe
+  18 qualifying vs Top News 33). "Most newsrooms per section decides" was
+  measured and rejected: Top News has the most feeds and took 21 of 39,
+  leaving Europe 7.
+- **One draw per edition** (`news.trial_draw`, cached on `MAX(fetched_at)`):
+  export renders the three pages as separate requests, and a fresh draw per page
+  would repeat stories across them.
+- **Le Monde's Europe feed is its whole front page** — 78 of 162 items in a week
+  were `/en/international/`. Not yet fixed; it leaks the Philippines ferry and
+  OpenAI into Europe, live and trial alike.
 
 ## Phase status
 

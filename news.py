@@ -37,7 +37,12 @@ def slug(name):
 SLUGS = {slug(s): s for s in cfg.SECTIONS}
 assert len(SLUGS) == len(cfg.SECTIONS), "two sections share a slug"
 assert "index" not in SLUGS, "a section named 'Index' would collide with the front page"
-assert "trial" not in SLUGS, "a section named 'Trial' would collide with trial.html"
+
+# The NOT-LIVE trial pages, one per trial section. The first keeps the plain
+# "trial.html" Frank already has; the rest are "trial-<slug>.html".
+TRIAL_PAGES = {("trial" if i == 0 else f"trial-{slug(s)}"): s
+               for i, s in enumerate(cfg.TRIAL_SECTIONS)}
+assert not set(TRIAL_PAGES) & set(SLUGS), "a section slug collides with a trial page"
 
 
 def to_local(iso):
@@ -159,20 +164,50 @@ def front():
     return page
 
 
+_trial_cache = {}
+
+
+def trial_draw(db):
+    """ONE trial draw per edition. export.py renders the trial pages one request
+    at a time; drawing afresh for each would let a story drawn for World on one
+    page turn up on the Europe page too. Still read-only -- trial.run only
+    computes over what fetch.py stored."""
+    key = db.execute("SELECT MAX(fetched_at) FROM articles").fetchone()[0]
+    if key not in _trial_cache:
+        _trial_cache.clear()
+        _trial_cache[key] = trial.run(db)
+    return _trial_cache[key]
+
+
+def render_trial(page):
+    name = TRIAL_PAGES[page]
+    db = connect()
+    result = trial_draw(db)
+    sec = result["sections"][name]
+    for a in sec["front"] + sec["section"]:
+        a["age"] = age_label(a["published_at"])
+    html = render_template(
+        "trial.html", name=name, **sec,
+        nav=[dict(name=s, href=f"{p}.html", here=p == page) for p, s in TRIAL_PAGES.items()],
+        order=result["order"], share_pct=result["share_pct"],
+        min_newsrooms=result["min_newsrooms"], vote_hours=result["vote_hours"],
+        headlines=result["headlines"], newsrooms=result["newsrooms"],
+        live=stories(db, "section_slot", name), **masthead(db))
+    db.close()
+    return html
+
+
 @app.route("/trial.html")
 def trial_page():
-    """NOT LIVE: Top News drawn through the 70/30 editorial gate. See trial.py.
+    """NOT LIVE: the 70/30 editorial-gate trial. See trial.py."""
+    return render_trial("trial")
 
-    Still read-only -- trial.run only computes over what fetch.py stored.
-    """
-    db = connect()
-    result = trial.run(db)
-    for a in result["front"] + result["section"]:
-        a["age"] = age_label(a["published_at"])
-    page = render_template("trial.html", live=stories(db, "section_slot", "Top News"),
-                           **result, **masthead(db))
-    db.close()
-    return page
+
+@app.route("/trial-<name>.html")
+def trial_section_page(name):
+    if f"trial-{name}" not in TRIAL_PAGES:
+        abort(404)
+    return render_trial(f"trial-{name}")
 
 
 @app.route("/<page>.html")

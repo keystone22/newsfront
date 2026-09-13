@@ -1,9 +1,9 @@
-"""The 70/30 trial: Top News drawn through an editorial gate. NOT LIVE.
+"""The 70/30 trial: news sections drawn through an editorial gate. NOT LIVE.
 
 Frank, 2026-09-13: the page lacks a strong editorial direction. The proposal on
-trial is that about TRIAL_SHARE of Top News slots go to stories that at least
-TRIAL_MIN_NEWSROOMS newsrooms are running at the same time, and the rest stay
-the ordinary random draw.
+trial is that about TRIAL_SHARE of each TRIAL_SECTIONS section's slots go to
+stories that at least TRIAL_MIN_NEWSROOMS newsrooms are running at the same
+time, and the rest stay the ordinary random draw.
 
 How that squares with "no ranking": the newsroom count is used only as a GATE.
 A story is in or it is out; among the stories that are in, the draw is random,
@@ -11,7 +11,11 @@ and a story on six newsrooms is no likelier to be picked than one on two. This
 is the same move CLAUDE.md already makes when it prefers a newsroom's own front
 page -- the editorial judgement happens before the pool, never inside the draw.
 
-Nothing here WRITES. The page is rendered from what fetch.py stored; the live
+A story qualifies for a section only if that section's OWN feeds carry it; the
+other newsrooms' copies count as votes, not as candidates. AP (a SIGNALS source)
+votes everywhere and may be the version drawn, but never makes a story qualify.
+
+Nothing here WRITES. The pages are rendered from what fetch.py stored; the live
 draw, its dedup and shown_date are untouched. That also means the trial keeps
 no memory between editions, so a big story can recur edition after edition --
 a live version would apply the same DEDUP_DAYS as the front page.
@@ -24,8 +28,8 @@ import sources as cfg
 
 # A newsroom is the BRAND, not the feed: "NYT World" and "NYT" are one editor's
 # judgement, so they are one vote. Matched as a name prefix.
-BRANDS = ("Al Jazeera", "France 24", "Guardian", "Reuters", "Euronews",
-          "NYT", "BBC", "NPR", "AP")
+BRANDS = ("Al Jazeera", "France 24", "Guardian", "Reuters", "Euronews", "Le Monde",
+          "Politico", "DW", "NYT", "BBC", "NPR", "AP")
 
 STOP = set("""the a an of to in on for and or is are was were be by with at from
 as after over into its it his her their new says said say amid than more who what
@@ -69,7 +73,7 @@ def _tag(rows):
 
 
 def run(db):
-    """Draw a trial front page (3) and section page (10) for Top News."""
+    """Draw a trial front page and section page for every TRIAL_SECTIONS section."""
     votes = cfg.TRIAL_VOTE_SECTIONS
     rows = _tag([dict(r) for r in db.execute(f"""
         SELECT a.id, a.title, a.url, a.published_at, a.section, s.name AS source
@@ -79,77 +83,93 @@ def run(db):
       ORDER BY a.id
     """, (*votes, cfg.TRIAL_VOTE_HOURS))])
 
-    # A story qualifies on its newsroom count, but only Top News copy (or a
-    # signal's) may be DRAWN for it -- a story only World feeds carry is World's.
     stories = []
     for members in group(rows):
         brands = sorted({m["brand"] for m in members})
-        drawable = [m for m in members if m["section"] in ("Top News", cfg.SIGNALS)]
-        if len(brands) >= cfg.TRIAL_MIN_NEWSROOMS and drawable:
-            stories.append(dict(brands=brands, members=members, drawable=drawable,
-                                drawn=False))
+        if len(brands) >= cfg.TRIAL_MIN_NEWSROOMS:
+            stories.append(dict(brands=brands, members=members, drawn_for=None,
+                                event=[m["stems"] for m in members]))
+    qualifying = {s: [g for g in stories if any(m["section"] == s for m in g["members"])]
+                  for s in cfg.TRIAL_SECTIONS}
 
-    # The ordinary pool, exactly as fetch.draw() sees it.
+    # Narrowest first, so the small sections can fill. Ties broken at random.
+    order = sorted(cfg.TRIAL_SECTIONS, key=lambda s: (len(qualifying[s]), random.random()))
+
     suppress = (dt.datetime.now(dt.timezone.utc)
                 - dt.timedelta(days=cfg.DEDUP_DAYS)).date().isoformat()
-    pool = _tag([dict(r) for r in db.execute("""
-        SELECT a.id, a.title, a.url, a.published_at, s.name AS source
-          FROM articles a JOIN sources s ON s.id = a.source_id
-         WHERE a.section = 'Top News' AND s.active = 1
-           AND a.published_at >= datetime('now', '-' || s.recency_hours || ' hours')
-           AND (a.shown_date IS NULL OR a.shown_date < ?)
-    """, (suppress,))])
-
-    random.shuffle(stories)
-    random.shuffle(pool)
-    picks = []
+    everywhere = []                    # every pick on every trial page
 
     def same_event(stem_sets):
         return any(overlap(a, b) >= cfg.TRIAL_SAME_EVENT
-                   for p in picks for a in p["event"] for b in stem_sets)
+                   for p in everywhere for a in p["event"] for b in stem_sets)
 
-    def fill(quota):
-        want_gate = round(quota * cfg.TRIAL_SHARE)
-        start = len(picks)
-        for s in stories:
-            if len(picks) >= quota or sum(p["kind"] == "gate" for p in picks) >= want_gate:
-                break
-            if s["drawn"] or same_event([m["stems"] for m in s["members"]]):
-                continue
-            used = {p["brand"] for p in picks}
-            art = random.choice([m for m in s["drawable"] if m["brand"] not in used]
-                                or s["drawable"])
-            s["drawn"] = True
-            picks.append(dict(art, kind="gate", brands=s["brands"],
-                              event=[m["stems"] for m in s["members"]]))
-        # The rest is the ordinary draw: one per newsroom first, then backfill.
-        for honour_cap in (True, False):
-            for a in pool:
-                if len(picks) >= quota:
+    out = {}
+    for section in order:
+        # The ordinary pool, exactly as fetch.draw() sees it.
+        pool = _tag([dict(r) for r in db.execute("""
+            SELECT a.id, a.title, a.url, a.published_at, s.name AS source
+              FROM articles a JOIN sources s ON s.id = a.source_id
+             WHERE a.section = ? AND s.active = 1
+               AND a.published_at >= datetime('now', '-' || s.recency_hours || ' hours')
+               AND (a.shown_date IS NULL OR a.shown_date < ?)
+        """, (section, suppress))])
+        candidates = list(qualifying[section])
+        random.shuffle(candidates)
+        random.shuffle(pool)
+        picks = []
+
+        def add(card):
+            picks.append(card)
+            everywhere.append(card)
+
+        def fill(quota):
+            want_gate = round(quota * cfg.TRIAL_SHARE)
+            start = len(picks)
+            for g in candidates:
+                if len(picks) >= quota or sum(p["kind"] == "gate" for p in picks) >= want_gate:
                     break
-                taken = {p["id"] for p in picks}
-                if a["id"] in taken or same_event([a["stems"]]):
+                if g["drawn_for"] or same_event(g["event"]):
                     continue
-                if honour_cap and a["brand"] in {p["brand"] for p in picks}:
-                    continue
-                picks.append(dict(a, kind="random", brands=[], event=[a["stems"]]))
-        new = picks[start:]
-        random.shuffle(new)            # order on the page says nothing
-        picks[start:] = new
+                drawable = [m for m in g["members"] if m["section"] in (section, cfg.SIGNALS)]
+                used = {p["brand"] for p in picks}
+                art = random.choice([m for m in drawable if m["brand"] not in used] or drawable)
+                g["drawn_for"] = section
+                add(dict(art, kind="gate", brands=g["brands"], event=g["event"]))
+            # The rest is the ordinary draw: one per newsroom first, then backfill.
+            for honour_cap in (True, False):
+                for a in pool:
+                    if len(picks) >= quota:
+                        break
+                    if a["id"] in {p["id"] for p in everywhere} or same_event([a["stems"]]):
+                        continue
+                    if honour_cap and a["brand"] in {p["brand"] for p in picks}:
+                        continue
+                    add(dict(a, kind="random", brands=[], event=[a["stems"]]))
+            new = picks[start:]
+            random.shuffle(new)        # order on the page says nothing
+            picks[start:] = new
 
-    fill(cfg.QUOTAS["Top News"])
-    front = list(picks)
-    fill(cfg.SECTION_QUOTA)            # front picks stay pinned, as on the live page
+        fill(cfg.QUOTAS[section])
+        front = list(picks)
+        fill(cfg.SECTION_QUOTA)        # front picks stay pinned, as on the live page
+        out[section] = dict(
+            front=front, section=list(picks),
+            front_gate=sum(p["kind"] == "gate" for p in front),
+            section_gate=sum(p["kind"] == "gate" for p in picks),
+            front_quota=cfg.QUOTAS[section], section_quota=cfg.SECTION_QUOTA,
+            pool=len(pool), dealt=order.index(section) + 1)
 
-    def count(cards, kind):
-        return sum(c["kind"] == kind for c in cards)
+    # Listed with the section's OWN copy of each story, now that every draw is done.
+    for section in cfg.TRIAL_SECTIONS:
+        listed = []
+        for g in qualifying[section]:
+            own = next(m for m in g["members"] if m["section"] == section)
+            listed.append(dict(brands=g["brands"], title=own["title"], url=own["url"],
+                               drawn_for=g["drawn_for"]))
+        out[section]["qualifying"] = sorted(listed, key=lambda s: s["title"].lower())
 
     return dict(
-        front=front, section=list(picks),
-        front_gate=count(front, "gate"), section_gate=count(picks, "gate"),
-        front_quota=cfg.QUOTAS["Top News"], section_quota=cfg.SECTION_QUOTA,
+        sections=out, order=order,
         share_pct=round(cfg.TRIAL_SHARE * 100), min_newsrooms=cfg.TRIAL_MIN_NEWSROOMS,
         vote_hours=cfg.TRIAL_VOTE_HOURS,
-        headlines=len(rows), newsrooms=sorted({r["brand"] for r in rows}),
-        qualifying=sorted(stories, key=lambda s: s["drawable"][0]["title"].lower()),
-        pool=len(pool))
+        headlines=len(rows), newsrooms=sorted({r["brand"] for r in rows}))
