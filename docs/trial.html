@@ -1,0 +1,741 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Top News trial &mdash; The Standing Order</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+:root{
+  color-scheme:light;
+  --ground:#EEF0F3; --surface:#FFFFFF; --ink:#15181E; --muted:#626B7A;
+  --accent:#0F5C4E; --accent-soft:#0F5C4E1F; --pool:#0F5C4E38; --rule:#D8DCE2; --rule-soft:#E6E9ED;
+  --serif:"Newsreader",Georgia,"Times New Roman",serif;
+  --sans:"IBM Plex Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--ground); color:var(--ink);
+  font-family:var(--sans); font-size:16px; line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1080px; margin:0 auto; padding:20px 16px 56px;}
+@media(min-width:760px){ .wrap{padding:36px 32px 72px;} }
+
+.masthead{background:var(--surface); border:1px solid var(--rule); padding:18px 18px 0; margin-bottom:14px;}
+.brand{font-family:var(--serif); font-weight:600; font-size:2rem; line-height:1.05;
+       letter-spacing:-.02em; margin:0; text-wrap:balance;}
+@media(min-width:760px){ .brand{font-size:2.6rem;} }
+.tagline{font-size:.82rem; color:var(--muted); margin:6px 0 16px;}
+.strip{display:grid; grid-template-columns:repeat(2,1fr); border-top:1px solid var(--rule);
+       font-family:var(--mono); font-variant-numeric:tabular-nums;}
+@media(min-width:620px){ .strip{grid-template-columns:repeat(4,1fr);} }
+.strip div{padding:10px 0 12px; border-right:1px solid var(--rule-soft);}
+.strip div:last-child{border-right:0}
+@media(max-width:619px){
+  .strip div:nth-child(2n){border-right:0}
+  .strip div:nth-child(-n+2){border-bottom:1px solid var(--rule-soft)}
+}
+.k{display:block; font-family:var(--sans); font-size:.63rem; font-weight:600;
+   text-transform:uppercase; letter-spacing:.09em; color:var(--muted); margin-bottom:3px;}
+.v{font-size:.95rem; font-weight:500;}
+.v .u{color:var(--muted); font-size:.78rem;}
+
+.sections{display:grid; gap:14px;}
+@media(min-width:900px){ .sections{grid-template-columns:1fr 1fr; align-items:start;} }
+.section{background:var(--surface); border:1px solid var(--rule);}
+.shead{display:flex; align-items:baseline; justify-content:space-between; gap:12px;
+       padding:9px 18px 8px; border-bottom:2px solid var(--ink);
+       color:inherit; text-decoration:none;}
+a.shead:hover .sname{color:var(--accent);}
+a.shead:focus-visible{outline:2px solid var(--accent); outline-offset:-2px;}
+.more{display:inline-block; margin-left:9px; color:var(--muted); font-weight:400;}
+a.shead:hover .more{color:var(--accent);}
+.sname{font-weight:600; font-size:.78rem; text-transform:uppercase; letter-spacing:.13em;}
+.squota{font-family:var(--mono); font-size:.75rem; font-weight:500; color:var(--accent);
+        font-variant-numeric:tabular-nums; white-space:nowrap;}
+.story{padding:10px 18px 11px; border-bottom:1px solid var(--rule-soft);}
+.story:last-child{border-bottom:0}
+.meta{display:flex; align-items:center; gap:8px; margin-bottom:3px; font-family:var(--mono);
+      font-size:.68rem; color:var(--muted); font-variant-numeric:tabular-nums;}
+.src{font-weight:600; color:var(--accent); letter-spacing:.02em;}
+.dot{opacity:.45}
+.hl{font-family:var(--serif); font-size:1.18rem; line-height:1.2; font-weight:500;
+    letter-spacing:-.005em; text-wrap:balance; margin:0;}
+.hl a{color:var(--ink); text-decoration:none; border-bottom:1px solid transparent;}
+.hl a:hover{border-bottom-color:var(--accent);}
+.hl a:focus-visible{outline:2px solid var(--accent); outline-offset:3px;}
+.empty{padding:15px 18px; color:var(--muted); font-size:.88rem;}
+
+.mech{margin-top:0; background:var(--surface); border:1px solid var(--rule); padding:18px;}
+.mech h2{font-size:.78rem; font-weight:600; text-transform:uppercase;
+         letter-spacing:.13em; margin:0 0 4px;}
+.mech .sub{font-size:.85rem; color:var(--muted); margin:0 0 18px; max-width:62ch;}
+.rows{display:grid; gap:14px;}
+.row{display:grid; gap:7px;}
+.rtop{display:flex; justify-content:space-between; align-items:baseline; gap:10px;
+      font-family:var(--mono); font-size:.75rem; font-variant-numeric:tabular-nums;}
+.rtop b{font-family:var(--sans); font-size:.8rem; font-weight:600;}
+.rtop span{color:var(--muted);}
+.bar{display:flex; height:7px; background:var(--rule-soft); overflow:hidden;}
+.bar i{display:block; height:100%; background:var(--accent);}
+.legend{display:flex; flex-wrap:wrap; gap:6px 14px; font-family:var(--mono);
+        font-size:.68rem; color:var(--muted); font-variant-numeric:tabular-nums;}
+.legend span{display:inline-flex; align-items:center; gap:5px;}
+.sw{width:9px; height:9px; flex:none; background:var(--accent);}
+.foot{margin-top:20px; font-family:var(--mono); font-size:.68rem; color:var(--muted);
+      line-height:1.7; font-variant-numeric:tabular-nums;}
+.warn{margin-top:18px; padding:13px 15px; background:var(--accent-soft);
+      border-left:3px solid var(--accent); font-size:.86rem; max-width:64ch;}
+
+.legend span.bad{color:#B3261E;}
+.legend span.bad .sw{background:#B3261E;}
+.legend span.flag{color:var(--ink);}
+.note{font-size:.78rem; color:var(--muted); margin:2px 0 0; max-width:60ch; line-height:1.5;}
+
+
+/* ---- section pages -------------------------------------------------------
+   The spec asks for "slightly more breathing room, same card pattern", so the
+   section page runs ONE column at every width rather than the front page's two,
+   and its cards carry more padding and a larger headline. */
+.one-col{grid-template-columns:1fr !important;}
+.back{display:inline-block; font-family:var(--mono); font-size:.72rem; font-weight:500;
+      color:var(--accent); text-decoration:none; margin-bottom:12px;}
+.back:hover{text-decoration:underline;}
+.back:focus-visible{outline:2px solid var(--accent); outline-offset:3px;}
+.story.wide{padding:13px 18px 14px;}
+@media(min-width:760px){ .story.wide{padding:15px 24px 16px;} }
+.story.wide .hl{font-size:1.24rem;}
+@media(min-width:760px){ .story.wide .hl{font-size:1.32rem; max-width:46ch;} }
+
+/* Says WHY a story leads the page. A fact about the draw, not a recommendation. */
+.tag{font-family:var(--sans); font-size:.6rem; font-weight:600; text-transform:uppercase;
+     letter-spacing:.08em; color:var(--accent); background:var(--accent-soft);
+     padding:2px 6px; margin-left:2px;}
+
+/* A GRID, not wrapped flex: flex sizes each link to its own text, so the
+   dividers between "Tech & Hobbies" and "Sports" land in different places and
+   the block reads as misaligned. */
+/* Language marker. Deliberately quieter than .tag -- it is a label on the
+   headline, not a fact about the draw, and it sits inline in the meta row. */
+.lang{font-family:var(--mono); font-size:.6rem; font-weight:600; letter-spacing:.06em;
+      color:var(--muted); border:1px solid var(--rule); padding:0 4px; border-radius:2px;}
+
+.jumps{display:grid; grid-template-columns:repeat(2,1fr);}
+@media(min-width:620px){ .jumps{grid-template-columns:repeat(3,1fr);} }
+.jumps a{padding:12px 18px; font-size:.82rem;
+         font-weight:500; color:var(--ink); text-decoration:none;
+         border-bottom:1px solid var(--rule-soft); border-right:1px solid var(--rule-soft);}
+.jumps a:hover{color:var(--accent); background:var(--accent-soft);}
+.jumps a:focus-visible{outline:2px solid var(--accent); outline-offset:-2px;}
+
+/* Two bars per source: what it supplied, and what it got. The point of the page
+   is the gap between them, so they sit one above the other at the same scale.
+   Scoped to .split -- the FRONT page's .mech .bar is a horizontal stacked bar,
+   and an unscoped flex-direction here silently turns it on its side. */
+.split .bar{flex-direction:column; height:auto; gap:2px; background:none;}
+.split .bar i{height:7px; background:var(--pool);}
+.split .bar i.slot{background:var(--accent);}
+.rtop b.bad{color:#B3261E;}
+.key{display:flex; flex-wrap:wrap; align-items:center; gap:5px 16px; margin:14px 0 0;
+     font-family:var(--mono); font-size:.68rem; color:var(--muted);}
+.key .sw{background:var(--pool);}
+.key .sw.slot{background:var(--accent); margin-left:10px;}
+
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <div class="masthead">
+    <a class="back" href="index.html">&larr; The Standing Order</a>
+    <h1 class="brand">Top News &mdash; trial</h1>
+    <p class="tagline">Not live. About 70% of slots go to stories at least
+      2 newsrooms are running in the last 24 hours; the rest
+      stay the ordinary random draw.</p>
+    <div class="strip">
+      <div><span class="k">Edition</span><span class="v">13 Sep 2:46 PM</span></div>
+      <div><span class="k">Headlines read</span><span class="v">455</span></div>
+      <div><span class="k">Newsrooms</span><span class="v">11</span></div>
+      <div><span class="k">Qualifying</span><span class="v">35</span></div>
+    </div>
+  </div>
+
+  <div class="sections one-col">
+
+    <nav class="section jump">
+      <div class="shead static"><span class="sname">Trial pages</span></div>
+      <div class="jumps">
+        <a aria-current="page"><b>Top News</b></a><a href="trial-world.html">World</a><a href="trial-europe.html">Europe</a>
+      </div>
+    </nav>
+
+    <section class="section">
+      <div class="shead static">
+        <span class="sname">Trial front page</span>
+        <span class="squota">2 gated + 1 random</span>
+      </div>
+      
+      <article class="story wide">
+        <div class="meta">
+          <span class="src">NYT</span><span class="dot">&bull;</span><span>25h ago</span>
+          <span class="tag">random draw</span>
+          
+        </div>
+        
+        <p class="hl"><a href="https://www.nytimes.com/2026/09/12/world/europe/trump-ireland-unification-remarks.html" target="_blank" rel="noopener noreferrer">Trump Says Irish Unification Would Be ‘Fantastic,’ Breaking With Precedent</a></p>
+      </article>
+
+      <article class="story wide">
+        <div class="meta">
+          <span class="src">Reuters</span><span class="dot">&bull;</span><span>7h ago</span>
+          <span class="tag" title="Euronews, Reuters">on 2 newsrooms</span>
+          
+          
+        </div>
+        <p class="note">Euronews · Reuters</p>
+        <p class="hl"><a href="https://news.google.com/rss/articles/CBMitgFBVV95cUxQY1Y5U2xFbGpBM1ppYU9rcmhrdVk5b2hKTkNNZHdyakV6Y0UzS2lJenNKS0s2SjFZdVY0cDBDUm42MnNib1BlYzZLWENheHpobzhOanc1LXVnblVHNFo1MDNtUEFjcE93T0ZIOW85VmcwWk1zOEMtcGh4NXpOSk94dVowaVlya1IzWkJxX2NOcDhtZWhVRURzeGRCWUhHV1FuNGRzSUI0bS1ERVZ3TUdhbUZGOWpwZw?oc=5" target="_blank" rel="noopener noreferrer">Carney pushes idea of making Canada &#39;associate member&#39; of EU, WSJ reports</a></p>
+      </article>
+
+      <article class="story wide">
+        <div class="meta">
+          <span class="src">Guardian US</span><span class="dot">&bull;</span><span>5h ago</span>
+          <span class="tag" title="Guardian, NYT">on 2 newsrooms</span>
+          
+          
+        </div>
+        <p class="note">Guardian · NYT</p>
+        <p class="hl"><a href="https://www.theguardian.com/us-news/2026/sep/13/naomi-klein-astra-taylor-end-times-fascism-video" target="_blank" rel="noopener noreferrer">Naomi Klein and Astra Taylor: the future according to end times fascism – video</a></p>
+      </article>
+
+    </section>
+
+    <section class="section">
+      <div class="shead static">
+        <span class="sname">Trial section page</span>
+        <span class="squota">7 gated + 3 random</span>
+      </div>
+      
+      <article class="story wide">
+        <div class="meta">
+          <span class="src">NYT</span><span class="dot">&bull;</span><span>25h ago</span>
+          <span class="tag">random draw</span>
+          <span class="tag">on the trial front page</span>
+        </div>
+        
+        <p class="hl"><a href="https://www.nytimes.com/2026/09/12/world/europe/trump-ireland-unification-remarks.html" target="_blank" rel="noopener noreferrer">Trump Says Irish Unification Would Be ‘Fantastic,’ Breaking With Precedent</a></p>
+      </article>
+
+      <article class="story wide">
+        <div class="meta">
+          <span class="src">Reuters</span><span class="dot">&bull;</span><span>7h ago</span>
+          <span class="tag" title="Euronews, Reuters">on 2 newsrooms</span>
+          
+          <span class="tag">on the trial front page</span>
+        </div>
+        <p class="note">Euronews · Reuters</p>
+        <p class="hl"><a href="https://news.google.com/rss/articles/CBMitgFBVV95cUxQY1Y5U2xFbGpBM1ppYU9rcmhrdVk5b2hKTkNNZHdyakV6Y0UzS2lJenNKS0s2SjFZdVY0cDBDUm42MnNib1BlYzZLWENheHpobzhOanc1LXVnblVHNFo1MDNtUEFjcE93T0ZIOW85VmcwWk1zOEMtcGh4NXpOSk94dVowaVlya1IzWkJxX2NOcDhtZWhVRURzeGRCWUhHV1FuNGRzSUI0bS1ERVZ3TUdhbUZGOWpwZw?oc=5" target="_blank" rel="noopener noreferrer">Carney pushes idea of making Canada &#39;associate member&#39; of EU, WSJ reports</a></p>
+      </article>
+
+      <article class="story wide">
+        <div class="meta">
+          <span class="src">Guardian US</span><span class="dot">&bull;</span><span>5h ago</span>
+          <span class="tag" title="Guardian, NYT">on 2 newsrooms</span>
+          
+          <span class="tag">on the trial front page</span>
+        </div>
+        <p class="note">Guardian · NYT</p>
+        <p class="hl"><a href="https://www.theguardian.com/us-news/2026/sep/13/naomi-klein-astra-taylor-end-times-fascism-video" target="_blank" rel="noopener noreferrer">Naomi Klein and Astra Taylor: the future according to end times fascism – video</a></p>
+      </article>
+
+      <article class="story wide">
+        <div class="meta">
+          <span class="src">BBC</span><span class="dot">&bull;</span><span>25h ago</span>
+          <span class="tag" title="BBC, Euronews, NYT">on 3 newsrooms</span>
+          
+          
+        </div>
+        <p class="note">BBC · Euronews · NYT</p>
+        <p class="hl"><a href="https://www.bbc.co.uk/news/articles/c14dpgm0rg4o?at_medium=RSS&amp;at_campaign=rss" target="_blank" rel="noopener noreferrer">Anthropic boss Dario Amodei calls for AI development to slow down</a></p>
+      </article>
+
+      <article class="story wide">
+        <div class="meta">
+          <span class="src">NPR</span><span class="dot">&bull;</span><span>35h ago</span>
+          <span class="tag" title="France 24, NPR">on 2 newsrooms</span>
+          
+          
+        </div>
+        <p class="note">France 24 · NPR</p>
+        <p class="hl"><a href="https://www.npr.org/2026/09/12/g-s1-143054/brics-leaders-meet-in-india" target="_blank" rel="noopener noreferrer">BRICS leaders meet in India as wars and US tensions test the bloc</a></p>
+      </article>
+
+      <article class="story wide">
+        <div class="meta">
+          <span class="src">Guardian US</span><span class="dot">&bull;</span><span>5h ago</span>
+          <span class="tag">random draw</span>
+          
+        </div>
+        
+        <p class="hl"><a href="https://www.theguardian.com/us-news/ng-interactive/2026/sep/13/end-times-fascists-essay" target="_blank" rel="noopener noreferrer">The end times fascists are plotting their escape from our world. Our mission is clear</a></p>
+      </article>
+
+      <article class="story wide">
+        <div class="meta">
+          <span class="src">France 24</span><span class="dot">&bull;</span><span>3h ago</span>
+          <span class="tag">random draw</span>
+          
+        </div>
+        
+        <p class="hl"><a href="https://www.france24.com/en/the-race-to-make-ai-safer" target="_blank" rel="noopener noreferrer">The race to make AI safer</a></p>
+      </article>
+
+      <article class="story wide">
+        <div class="meta">
+          <span class="src">Reuters</span><span class="dot">&bull;</span><span>15h ago</span>
+          <span class="tag" title="NPR, Reuters">on 2 newsrooms</span>
+          
+          
+        </div>
+        <p class="note">NPR · Reuters</p>
+        <p class="hl"><a href="https://news.google.com/rss/articles/CBMitgFBVV95cUxPMUZnalZYcERaQWV6NmxRMVkzUEFOQjdCeUpsM0VxeEIzYnQ5Z0pfNmQ1YVZwMi1ldHU0UXFPOHg5QUZoNDV5dmM0d1RpcWdPLUZhTlpZQnZibTBCODFwZDFFZ3JTOFUtcWZmQ3FPdnQ1dGZPVnJVR21GMFhvU09PLW83a2JfUWNTN0dpdS1nQ0FyMjJqSGxmMWNYd2VVcEhkLTJxRnN4Z2xwUXV6TW41aUttcUV0QQ?oc=5" target="_blank" rel="noopener noreferrer">Indonesia passenger ship with 243 people reported missing at sea, agency says</a></p>
+      </article>
+
+      <article class="story wide">
+        <div class="meta">
+          <span class="src">Reuters</span><span class="dot">&bull;</span><span>39h ago</span>
+          <span class="tag" title="BBC, Reuters">on 2 newsrooms</span>
+          
+          
+        </div>
+        <p class="note">BBC · Reuters</p>
+        <p class="hl"><a href="https://news.google.com/rss/articles/CBMisAFBVV95cUxQVURnbTdRTncydXdBbmJmeE84WWRDNkJ6RjhHZnVRY0lsVWNBLWtsNkZsZUdOZkhWQlhrcUQ0SG04Mi1hYV9FUG1FMDgtWHJwY2FuMkFNZUVmaUFQQjRHZk56WklyR1FoaUk3UjBRRFlfaldFRk5LZ1hTLUVLRTNVYnhvWDFKNmZ5ZnVUY1UyY1ByeW9oWXhBRTZBdWNPY3dzWWk5dmZVVXRjQUd1aVNrQw?oc=5" target="_blank" rel="noopener noreferrer">King Oyo, once world&#39;s youngest monarch, to be buried in western Uganda</a></p>
+      </article>
+
+      <article class="story wide">
+        <div class="meta">
+          <span class="src">Reuters</span><span class="dot">&bull;</span><span>9h ago</span>
+          <span class="tag" title="Al Jazeera, Reuters">on 2 newsrooms</span>
+          
+          
+        </div>
+        <p class="note">Al Jazeera · Reuters</p>
+        <p class="hl"><a href="https://news.google.com/rss/articles/CBMiowFBVV95cUxPcnk4WU1KZUF2dXk1eUF5ZEdjQkdmSlJwWVBmdzNUdnI3MTNoaEZmV2ZscHN0VWo2c2JOcTFqZWZHOFVpTTdWbGFvSjdvN3lmRGtxVm1TOUNySTYwYWtTX3Iyemc0SWUwb1BvTlBhRWVoTzFZVlFqSkRtMTY5OHRNWW5MU0Y3ckp3S3YteU8xZ1BpNW9haWpZOTJEMUhsYXB2NVJn?oc=5" target="_blank" rel="noopener noreferrer">Israeli strike kills two people in Gaza, medics say</a></p>
+      </article>
+
+    </section>
+
+    <section class="section">
+      <div class="shead static">
+        <span class="sname">The live Top News page, for comparison</span>
+        <span class="squota">10 / 10</span>
+      </div>
+      
+      <article class="story wide">
+        <div class="meta">
+          <span class="src">Reuters</span><span class="dot">&bull;</span><span>28h ago</span>
+          <span class="tag">on the front page</span>
+        </div>
+        <p class="hl"><a href="https://news.google.com/rss/articles/CBMixAFBVV95cUxNS05IcXBJNHdXTXV4bU10YktxWHc2ajdNUk9OQi0xYmdfMk9kM0FubFhITEVuNVpQYVpBX2ROY3cxUGdXOGNZeDJJdndEbngxUnZpYnBVVWNCdXNnaDZZWWFQTlNyOEFsUVBCVnN3YWNkUEVUVzctbmUyOGNpNk5UdnQ0eWlJYzE0T1dqb3NFRDQ2OEJyakxfUXlwWHpXZW9GQkpJU0xHLV9FUjNKZDA0bXlOSmRWTHBlVWZ4NjBvTWpETDJx?oc=5" target="_blank" rel="noopener noreferrer">India&#39;s central bank rejects Tata Sons request to avoid public listing, sources say</a></p>
+      </article>
+      
+      <article class="story wide">
+        <div class="meta">
+          <span class="src">BBC</span><span class="dot">&bull;</span><span>27m ago</span>
+          <span class="tag">on the front page</span>
+        </div>
+        <p class="hl"><a href="https://www.bbc.co.uk/news/articles/cwyzp47py48o?at_medium=RSS&amp;at_campaign=rss" target="_blank" rel="noopener noreferrer">Questions mount over what an AI &#39;slowdown&#39; would look like</a></p>
+      </article>
+      
+      <article class="story wide">
+        <div class="meta">
+          <span class="src">Guardian US</span><span class="dot">&bull;</span><span>7h ago</span>
+          <span class="tag">on the front page</span>
+        </div>
+        <p class="hl"><a href="https://www.theguardian.com/us-news/2026/sep/13/maha-movement-food-illness-funding-cuts-layoffs" target="_blank" rel="noopener noreferrer">Food-borne illnesses, funding cuts and layoffs: Maha movement’s glaring limitations are now showing</a></p>
+      </article>
+      
+      <article class="story wide">
+        <div class="meta">
+          <span class="src">BBC</span><span class="dot">&bull;</span><span>7h ago</span>
+          
+        </div>
+        <p class="hl"><a href="https://www.bbc.co.uk/news/articles/c1kx0gyje9wo?at_medium=RSS&amp;at_campaign=rss" target="_blank" rel="noopener noreferrer">AI staff &#39;genuinely frightened&#39; for humanity&#39;s future, ex-Anthropic researcher tells BBC</a></p>
+      </article>
+      
+      <article class="story wide">
+        <div class="meta">
+          <span class="src">France 24</span><span class="dot">&bull;</span><span>37h ago</span>
+          
+        </div>
+        <p class="hl"><a href="https://www.france24.com/en/europe/20260912-a-legend-celine-dion-poised-for-emotional-comeback-in-paris" target="_blank" rel="noopener noreferrer">Celine Dion poised for emotional comeback concert in Paris</a></p>
+      </article>
+      
+      <article class="story wide">
+        <div class="meta">
+          <span class="src">Reuters</span><span class="dot">&bull;</span><span>1h ago</span>
+          
+        </div>
+        <p class="hl"><a href="https://news.google.com/rss/articles/CBMivAFBVV95cUxPVW5JS1dQXzBGbUxRbTRyWHB3WHd4STRja1FlWHlPZ2RFdXltZ1BGdWJqeVIxbk5zZ1o5TjFtREZaM2Z4TGkzNmZLWnJJdldPX1dkbkpFcE1hSVM2OWFCeDFRWjUtN09neVZ0aGtaQXNTVjdXSUJZUkJhQm1wX1FVeURaejZ4cGg1Q1F1MFhVb1F4UzZZZ2NGOGRDSnBRX25BcWpfcFVMejJlTWVJeS1SaFpJOUFwbXpkbjQtbg?oc=5" target="_blank" rel="noopener noreferrer">Israel and Lebanon to meet in Rome in October, US State Department official says</a></p>
+      </article>
+      
+      <article class="story wide">
+        <div class="meta">
+          <span class="src">NYT</span><span class="dot">&bull;</span><span>24h ago</span>
+          
+        </div>
+        <p class="hl"><a href="https://www.nytimes.com/2026/09/12/world/middleeast/iran-escalation-leverage-houthis-strait.html" target="_blank" rel="noopener noreferrer">Iran Finds Escalation Is Fruitful Path to Leverage in War With U.S.</a></p>
+      </article>
+      
+      <article class="story wide">
+        <div class="meta">
+          <span class="src">Guardian US</span><span class="dot">&bull;</span><span>7h ago</span>
+          
+        </div>
+        <p class="hl"><a href="https://www.theguardian.com/us-news/2026/sep/13/donald-trump-accounts-child-investment-wealth" target="_blank" rel="noopener noreferrer">‘Trump accounts’ promise to mint child millionaires. Experts have their doubts</a></p>
+      </article>
+      
+      <article class="story wide">
+        <div class="meta">
+          <span class="src">NPR</span><span class="dot">&bull;</span><span>6h ago</span>
+          
+        </div>
+        <p class="hl"><a href="https://www.npr.org/2026/09/13/nx-s1-5964863/politics-chat-trumps-5-000-promise-to-voters-vance-invokes-charlie-kirk" target="_blank" rel="noopener noreferrer">Politics chat: Trump&#39;s $5,000 promise to voters, Vance invokes Charlie Kirk</a></p>
+      </article>
+      
+      <article class="story wide">
+        <div class="meta">
+          <span class="src">Guardian US</span><span class="dot">&bull;</span><span>19h ago</span>
+          
+        </div>
+        <p class="hl"><a href="https://www.theguardian.com/us-news/2026/sep/12/openai-delays-ipo-sam-altman-ai-safety-concerns" target="_blank" rel="noopener noreferrer">OpenAI IPO will not happen in 2026 amid AI safety fears, Sam Altman says</a></p>
+      </article>
+      
+    </section>
+
+    <section class="section mech">
+      <h2>How the trial was drawn</h2>
+      <p class="sub">455 headlines from AP, Al Jazeera, BBC, Euronews, France 24, Guardian, Le Monde, NPR, NYT, Politico, Reuters were matched by
+        shared words. A story <b>qualifies</b> for Top News when Top News's own feeds carry
+        it and at least 2 different newsrooms are running it; 35
+        did. The count is a gate, not a score: among qualifying stories the draw is random, and a
+        story on six newsrooms is no likelier to be picked than one on two. The random slots come
+        from the ordinary pool of 228 Top News candidates.</p>
+      <p class="sub">Most big stories qualify for more than one section, so each is drawn for
+        <b>one trial page only</b>, and two versions of the same event are never both drawn.
+        Sections are dealt narrowest first &mdash; Europe → World → Top News &mdash; only so the
+        smaller ones can fill; each still draws at random from what is left.</p>
+      <p class="sub">AP counts as a newsroom but is not in any live draw. Its copy can appear
+        only for a story this section's own feeds are also carrying.</p>
+    </section>
+
+    <section class="section">
+      <div class="shead static">
+        <span class="sname">Every qualifying story</span>
+        <span class="squota">35</span>
+      </div>
+      
+      <article class="story">
+        <div class="meta">
+          <span>Al Jazeera · BBC · NPR</span>
+          <span class="tag">drawn for World</span>
+        </div>
+        <p class="hl"><a href="https://www.bbc.co.uk/news/articles/c3eqpd9zgl9o?at_medium=RSS&amp;at_campaign=rss" target="_blank" rel="noopener noreferrer">Afghan woman deported from US in first use of &#39;alien terrorist&#39; court</a></p>
+      </article>
+      
+      <article class="story">
+        <div class="meta">
+          <span>BBC · Euronews · NYT</span>
+          <span class="tag">drawn</span>
+          
+        </div>
+        <p class="hl"><a href="https://www.nytimes.com/2026/09/12/technology/anthropic-dario-amodei-ai-slowdown.html" target="_blank" rel="noopener noreferrer">Anthropic C.E.O. Dario Amodei Calls for A.I. Slowdown</a></p>
+      </article>
+      
+      <article class="story">
+        <div class="meta">
+          <span>BBC · Guardian</span>
+          
+        </div>
+        <p class="hl"><a href="https://www.bbc.co.uk/news/articles/cqjkejq5750o?at_medium=RSS&amp;at_campaign=rss" target="_blank" rel="noopener noreferrer">Arrest made over the death of black woman found hanged from tree</a></p>
+      </article>
+      
+      <article class="story">
+        <div class="meta">
+          <span>AP · Al Jazeera · BBC · Euronews · Guardian · Reuters</span>
+          
+        </div>
+        <p class="hl"><a href="https://news.google.com/rss/articles/CBMixwFBVV95cUxQeG1Da244T0lHMENCalZmSktXZjd2UU1DLVFJdlktZjNTU0NHRVR4OHI2YnFPU2VwWFUzOHRDOTdTYmVBeFYwZC0wVERfcmUzSFdlcG1yMWdycDVyWDhZT1dpN1VCWEFReDQ2VWFnalQ1dGY3cjI0ZWYzd0pPTF9yRTBuNXRmTjN4cDk2YWlWNWRGYlpTaWdVdWItcmVUR2hiZEZWQXhFZ0FQLUNvQlRQNHBaU3ZqTVhIZkdSakctZTJfcDZMR2JZ?oc=5" target="_blank" rel="noopener noreferrer">At least 129 missing after Indonesian passenger ship capsizes</a></p>
+      </article>
+      
+      <article class="story">
+        <div class="meta">
+          <span>France 24 · NPR</span>
+          <span class="tag">drawn</span>
+          
+        </div>
+        <p class="hl"><a href="https://www.npr.org/2026/09/12/g-s1-143054/brics-leaders-meet-in-india" target="_blank" rel="noopener noreferrer">BRICS leaders meet in India as wars and US tensions test the bloc</a></p>
+      </article>
+      
+      <article class="story">
+        <div class="meta">
+          <span>Euronews · Reuters</span>
+          <span class="tag">drawn</span>
+          
+        </div>
+        <p class="hl"><a href="https://news.google.com/rss/articles/CBMitgFBVV95cUxQY1Y5U2xFbGpBM1ppYU9rcmhrdVk5b2hKTkNNZHdyakV6Y0UzS2lJenNKS0s2SjFZdVY0cDBDUm42MnNib1BlYzZLWENheHpobzhOanc1LXVnblVHNFo1MDNtUEFjcE93T0ZIOW85VmcwWk1zOEMtcGh4NXpOSk94dVowaVlya1IzWkJxX2NOcDhtZWhVRURzeGRCWUhHV1FuNGRzSUI0bS1ERVZ3TUdhbUZGOWpwZw?oc=5" target="_blank" rel="noopener noreferrer">Carney pushes idea of making Canada &#39;associate member&#39; of EU, WSJ reports</a></p>
+      </article>
+      
+      <article class="story">
+        <div class="meta">
+          <span>France 24 · NYT · Reuters</span>
+          
+        </div>
+        <p class="hl"><a href="https://www.france24.com/en/europe/20260912-a-legend-celine-dion-poised-for-emotional-comeback-in-paris" target="_blank" rel="noopener noreferrer">Celine Dion poised for emotional comeback concert in Paris</a></p>
+      </article>
+      
+      <article class="story">
+        <div class="meta">
+          <span>Al Jazeera · France 24 · Reuters</span>
+          
+        </div>
+        <p class="hl"><a href="https://news.google.com/rss/articles/CBMirAFBVV95cUxPaFlybEpEZWtDbThQdk9OMFR0bFA0dmZtcUZLSEo2a0djT2xmanVSRlFRWVBRelg3dEUxTUJ1VW5zSWpFZDhGVzJHQWtxS2JkNm9XQUFFSUVTZjRDVTZ4RWd2YzZZZmZYNVAzOGdLWE9ZUzFBb0VKMXRTVXVtdjIyRFlORkZvaUc0ODBxcWRuVDhOTjc0WmdWamtZcmRPQmZoUi1jTmYxa0o4UUtD?oc=5" target="_blank" rel="noopener noreferrer">China&#39;s Xi lands in Delhi for BRICS summit and talks with Modi</a></p>
+      </article>
+      
+      <article class="story">
+        <div class="meta">
+          <span>BBC · Guardian</span>
+          
+        </div>
+        <p class="hl"><a href="https://www.theguardian.com/us-news/live/2026/sep/12/donald-trump-ireland-golf-catherine-connolly-us-politics-latest-news-updates" target="_blank" rel="noopener noreferrer">Donald Trump lands in Dublin for two-day Ireland visit – live</a></p>
+      </article>
+      
+      <article class="story">
+        <div class="meta">
+          <span>Guardian · Politico · Reuters</span>
+          <span class="tag">drawn for Europe</span>
+        </div>
+        <p class="hl"><a href="https://www.theguardian.com/us-news/2026/sep/12/donald-trump-says-he-would-love-to-see-united-ireland" target="_blank" rel="noopener noreferrer">Donald Trump says he would ‘love’ to see united Ireland</a></p>
+      </article>
+      
+      <article class="story">
+        <div class="meta">
+          <span>Al Jazeera · Guardian · Politico · Reuters</span>
+          <span class="tag">drawn for Europe</span>
+        </div>
+        <p class="hl"><a href="https://news.google.com/rss/articles/CBMiuAFBVV95cUxQUTNpQUZmemxkOGh4bEtlV0pYb3NlR2lwYTlUMWs0emtlNTJiZUdFZDBFa0pscEd4dVRKRDd0YVp6VUFrdXVqX2pTRHBBMkVEcDFzZVlIcjRrdDc5cUM0UFBvS0V5cGdGcTBKSlF6d3p2Z1p0dkJGdmU4SDdqcGp4VC1SU3ZSMFpMVzlWeDE0bzlVbFRNVmJVaHhjbjZPdmpNZEctTklTSkFacFF3Z1pOZTZNSU9oWkFw?oc=5" target="_blank" rel="noopener noreferrer">Farage&#39;s Reform UK receives second £36 million pound donation from crypto investor</a></p>
+      </article>
+      
+      <article class="story">
+        <div class="meta">
+          <span>Euronews · France 24</span>
+          
+        </div>
+        <p class="hl"><a href="https://www.france24.com/en/france-s-far-right-marine-le-pen-kicks-off-2027-presidential-campaign" target="_blank" rel="noopener noreferrer">France&#39;s far-right Marine Le Pen kicks off 2027 presidential campaign</a></p>
+      </article>
+      
+      <article class="story">
+        <div class="meta">
+          <span>Guardian · Reuters</span>
+          <span class="tag">drawn for World</span>
+        </div>
+        <p class="hl"><a href="https://news.google.com/rss/articles/CBMilwFBVV95cUxNV0cwRFNoWnlxeG5pdXIwcHhITjVqVTZmX0JYalhJYkQyd3FGVkQ5SUJqakhjMXlpT3RsSXBCN3A5YnNtZGdOZWMyRDl2ZzVNODlFODBfWkZJbkROYWExWHJfUzVOZXlpS1c4dTFwMVJVV1E0Mk5vNTI3YmRkaU9vTjJXQmpCVjVWNXp0aWNlS01MRTJOMGNB?oc=5" target="_blank" rel="noopener noreferrer">India-China relations, from conflict to cautious thaw</a></p>
+      </article>
+      
+      <article class="story">
+        <div class="meta">
+          <span>NPR · Reuters</span>
+          <span class="tag">drawn</span>
+          
+        </div>
+        <p class="hl"><a href="https://news.google.com/rss/articles/CBMitgFBVV95cUxPMUZnalZYcERaQWV6NmxRMVkzUEFOQjdCeUpsM0VxeEIzYnQ5Z0pfNmQ1YVZwMi1ldHU0UXFPOHg5QUZoNDV5dmM0d1RpcWdPLUZhTlpZQnZibTBCODFwZDFFZ3JTOFUtcWZmQ3FPdnQ1dGZPVnJVR21GMFhvU09PLW83a2JfUWNTN0dpdS1nQ0FyMjJqSGxmMWNYd2VVcEhkLTJxRnN4Z2xwUXV6TW41aUttcUV0QQ?oc=5" target="_blank" rel="noopener noreferrer">Indonesia passenger ship with 243 people reported missing at sea, agency says</a></p>
+      </article>
+      
+      <article class="story">
+        <div class="meta">
+          <span>Al Jazeera · Reuters</span>
+          <span class="tag">drawn</span>
+          
+        </div>
+        <p class="hl"><a href="https://news.google.com/rss/articles/CBMiowFBVV95cUxPcnk4WU1KZUF2dXk1eUF5ZEdjQkdmSlJwWVBmdzNUdnI3MTNoaEZmV2ZscHN0VWo2c2JOcTFqZWZHOFVpTTdWbGFvSjdvN3lmRGtxVm1TOUNySTYwYWtTX3Iyemc0SWUwb1BvTlBhRWVoTzFZVlFqSkRtMTY5OHRNWW5MU0Y3ckp3S3YteU8xZ1BpNW9haWpZOTJEMUhsYXB2NVJn?oc=5" target="_blank" rel="noopener noreferrer">Israeli strike kills two people in Gaza, medics say</a></p>
+      </article>
+      
+      <article class="story">
+        <div class="meta">
+          <span>BBC · Reuters</span>
+          <span class="tag">drawn</span>
+          
+        </div>
+        <p class="hl"><a href="https://news.google.com/rss/articles/CBMisAFBVV95cUxQVURnbTdRTncydXdBbmJmeE84WWRDNkJ6RjhHZnVRY0lsVWNBLWtsNkZsZUdOZkhWQlhrcUQ0SG04Mi1hYV9FUG1FMDgtWHJwY2FuMkFNZUVmaUFQQjRHZk56WklyR1FoaUk3UjBRRFlfaldFRk5LZ1hTLUVLRTNVYnhvWDFKNmZ5ZnVUY1UyY1ByeW9oWXhBRTZBdWNPY3dzWWk5dmZVVXRjQUd1aVNrQw?oc=5" target="_blank" rel="noopener noreferrer">King Oyo, once world&#39;s youngest monarch, to be buried in western Uganda</a></p>
+      </article>
+      
+      <article class="story">
+        <div class="meta">
+          <span>BBC · Guardian · NYT</span>
+          
+        </div>
+        <p class="hl"><a href="https://www.nytimes.com/2026/09/11/arts/music/lil-durk-acquitted-murder-for-hire.html" target="_blank" rel="noopener noreferrer">Lil Durk Is Found Not Guilty in Murder-for-Hire Case</a></p>
+      </article>
+      
+      <article class="story">
+        <div class="meta">
+          <span>Al Jazeera · France 24 · Guardian</span>
+          
+        </div>
+        <p class="hl"><a href="https://www.france24.com/en/middle-east/20260913-middle-east-live-houthis-say-hit-saudi-base-after-renewed-fighting-with-yemeni-forces" target="_blank" rel="noopener noreferrer">Middle East live: Houthis say hit Saudi base after renewed fighting with Yemeni forces</a></p>
+      </article>
+      
+      <article class="story">
+        <div class="meta">
+          <span>Guardian · NYT</span>
+          <span class="tag">drawn</span>
+          
+        </div>
+        <p class="hl"><a href="https://www.nytimes.com/2026/09/12/magazine/naomi-klein-astra-taylor-interview.html" target="_blank" rel="noopener noreferrer">Naomi Klein and Astra Taylor Say the End of the World Is Now on the Table</a></p>
+      </article>
+      
+      <article class="story">
+        <div class="meta">
+          <span>France 24 · Guardian</span>
+          
+        </div>
+        <p class="hl"><a href="https://www.theguardian.com/us-news/2026/sep/12/openai-delays-ipo-sam-altman-ai-safety-concerns" target="_blank" rel="noopener noreferrer">OpenAI IPO will not happen in 2026 amid AI safety fears, Sam Altman says</a></p>
+      </article>
+      
+      <article class="story">
+        <div class="meta">
+          <span>BBC · Guardian</span>
+          <span class="tag">drawn for World</span>
+        </div>
+        <p class="hl"><a href="https://www.bbc.co.uk/news/articles/c3v4nzrk4rlo?at_medium=RSS&amp;at_campaign=rss" target="_blank" rel="noopener noreferrer">Oscar-winning film producer Jeremy Thomas dies aged 77</a></p>
+      </article>
+      
+      <article class="story">
+        <div class="meta">
+          <span>France 24 · Le Monde</span>
+          <span class="tag">drawn for Europe</span>
+        </div>
+        <p class="hl"><a href="https://www.france24.com/en/france/20260913-radio-france-staff-strike-over-appointment-of-far-right-weekly-editor" target="_blank" rel="noopener noreferrer">Radio France staff strike over appointment of far-right weekly editor</a></p>
+      </article>
+      
+      <article class="story">
+        <div class="meta">
+          <span>Euronews · Politico · Reuters</span>
+          <span class="tag">drawn for Europe</span>
+        </div>
+        <p class="hl"><a href="https://news.google.com/rss/articles/CBMirAFBVV95cUxPMndlVi15QURjTkwwbUI2ZDhyMG5kcDZaV0I2OWh2ekl3eFdkbXpUa1cwSzRSZW4zRGE5Qk1EQzBKUG1KZHpDMmJEVXI4dUFVd2tzQUV3eUZSUXVhUXBPd3F5Z0F6MkFQZG5fbVVqYzFfeHBSSkJnUzY5Wk44UER2MmstalY3d3V6VklDMUlOWDd6dl85WS1pUF84NTRQQzVHV29nWk93algxckVB?oc=5" target="_blank" rel="noopener noreferrer">Russia hits truck near Polish border in latest strike near NATO</a></p>
+      </article>
+      
+      <article class="story">
+        <div class="meta">
+          <span>Al Jazeera · BBC · Euronews · France 24 · Guardian</span>
+          <span class="tag">drawn for World</span>
+        </div>
+        <p class="hl"><a href="https://www.bbc.co.uk/news/articles/c62m933465eo?at_medium=RSS&amp;at_campaign=rss" target="_blank" rel="noopener noreferrer">Saudi Arabia shuts key oil pipeline after drone attack launched from Iraq</a></p>
+      </article>
+      
+      <article class="story">
+        <div class="meta">
+          <span>France 24 · Politico</span>
+          
+        </div>
+        <p class="hl"><a href="https://www.france24.com/en/europe/20260913-sweden-s-centre-left-opposition-leads-election-as-far-right-slips-exit-polls-show" target="_blank" rel="noopener noreferrer">Sweden&#39;s centre-left opposition leads election as far-right slips, exit polls show</a></p>
+      </article>
+      
+      <article class="story">
+        <div class="meta">
+          <span>Euronews · France 24</span>
+          
+        </div>
+        <p class="hl"><a href="https://www.france24.com/en/sweden-tight-election-puts-all-eyes-on-the-far-right" target="_blank" rel="noopener noreferrer">Sweden: Tight election puts all eyes on the far right</a></p>
+      </article>
+      
+      <article class="story">
+        <div class="meta">
+          <span>Al Jazeera · France 24 · Guardian · Reuters</span>
+          
+        </div>
+        <p class="hl"><a href="https://news.google.com/rss/articles/CBMisgFBVV95cUxQZnVER1ZkMGJZRERjcmI4MDdhUE4tX29PYlEzTkt4cHFmOHpMVktaOXhQVVNsd21oNkplc2JUOWxaS3NmTmFJTVNpWW5ydnRVTll5dzljNlZPOVQtVHNzVmpmMVNPMTFBYVJCdFVwYW54RXd1ckJEVHlWcEQ1NHoyMWJDdHp6QmVPLWx4OElKVG44RVpfRVZhRG8zVng1V1BxOF9Nd3k1SmdsY2t0WFlYaXR3?oc=5" target="_blank" rel="noopener noreferrer">Swedes vote in election that could usher far right into government</a></p>
+      </article>
+      
+      <article class="story">
+        <div class="meta">
+          <span>BBC · France 24 · Guardian</span>
+          <span class="tag">drawn for Europe</span>
+        </div>
+        <p class="hl"><a href="https://www.france24.com/en/swedish-far-right-eyes-role-in-government" target="_blank" rel="noopener noreferrer">Swedish far-right eyes role in government</a></p>
+      </article>
+      
+      <article class="story">
+        <div class="meta">
+          <span>Al Jazeera · France 24</span>
+          <span class="tag">drawn for World</span>
+        </div>
+        <p class="hl"><a href="https://www.france24.com/en/europe/20260912-tens-of-thousands-of-people-protest-in-germany-against-far-right-afd" target="_blank" rel="noopener noreferrer">Tens of thousands protest against far-right AfD party in Germany</a></p>
+      </article>
+      
+      <article class="story">
+        <div class="meta">
+          <span>NPR · Reuters</span>
+          
+        </div>
+        <p class="hl"><a href="https://news.google.com/rss/articles/CBMipgFBVV95cUxNdmRVSmpKQ0dXUHlzSlpIUXNaU1FXR1B2ZGU0TU5BWHlqckFuYmR5ckdHYm1EYjRweG5RdHRNUXZWZFZENmdkTHItNmlXQWw4aUdpM2JjR1M2OWpBQ05VRXpzNDUxQmJaY1JGazdTVDk0M0hleWVGX0NFM19ORUtRbW41cUNGTFJiTVhrXzl1OUxoUURfYU1zcDZmZ2ZkTlh3ZmNnUWNB?oc=5" target="_blank" rel="noopener noreferrer">Trump arrives in Ireland to meet leaders before attending golf tournament</a></p>
+      </article>
+      
+      <article class="story">
+        <div class="meta">
+          <span>Guardian · NYT</span>
+          
+        </div>
+        <p class="hl"><a href="https://www.nytimes.com/2026/09/12/arts/design/trump-smithsonian-washington-statue.html" target="_blank" rel="noopener noreferrer">Trump Demands Smithsonian Install ‘Colossus’ George Washington Statue</a></p>
+      </article>
+      
+      <article class="story">
+        <div class="meta">
+          <span>AP · Reuters</span>
+          
+        </div>
+        <p class="hl"><a href="https://news.google.com/rss/articles/CBMilgFBVV95cUxPYklDSUc1YlRDQTRiWXR1SV9lMzFqenBWQ2tSV3ozeDJlbGYzT0lTU09pWHVSUDZQSWZMRVpnal9KTHhuLUNuandYaDBuMUlvaU9pa0l5dmg3S3JXRmVxc3c3NWR6MXlGVkpmNnJrUE90bU5GcmU0SDM3NUV0RTEwWXZlZ2hVQ2RBUTFETkl1QlgzSHJKcWc?oc=5" target="_blank" rel="noopener noreferrer">Trump says he is lifting tariffs on Irish whiskey</a></p>
+      </article>
+      
+      <article class="story">
+        <div class="meta">
+          <span>AP · Al Jazeera · France 24 · NYT</span>
+          
+        </div>
+        <p class="hl"><a href="https://www.france24.com/en/europe/20260912-trump-arrives-in-dublin-for-talks-with-ireland-s-leaders-before-attending-golf-tournament" target="_blank" rel="noopener noreferrer">Trump says unified Ireland ‘would be fantastic&#39; during Dublin trip</a></p>
+      </article>
+      
+      <article class="story">
+        <div class="meta">
+          <span>Guardian · Reuters</span>
+          <span class="tag">drawn for Europe</span>
+        </div>
+        <p class="hl"><a href="https://news.google.com/rss/articles/CBMingFBVV95cUxOeDhWQzZ1XzNhR29sQnlqci1HYVJBcW9CM0RuMl9MVHRZbzJVSE1tLXllUGRVYUlVZjhfYS0xbmxfM0lGSEQwUHNsaE1YMDJWNFhHTDZwQ2VYS0JOTzAzd2lVTXFhUWJLTEc4blVyQjVNdUFuOG52M0VUV1oyTGY5aGlCUUJqYy16Z3REaHdJZ295UUxXNmREMElhcEJIUQ?oc=5" target="_blank" rel="noopener noreferrer">Ukraine braces for harsh winter as Russian attacks hit economy</a></p>
+      </article>
+      
+      <article class="story">
+        <div class="meta">
+          <span>BBC · Guardian · NPR</span>
+          <span class="tag">drawn for World</span>
+        </div>
+        <p class="hl"><a href="https://www.theguardian.com/us-news/2026/sep/13/wisconsin-congressman-plane-emergency-landing-lake" target="_blank" rel="noopener noreferrer">Wisconsin congressman swims to safety after plane makes emergency landing in lake</a></p>
+      </article>
+      
+      <p class="foot">
+        Listed alphabetically. Headline matching is by shared words, so check the groupings above
+        before trusting the counts.<br>
+        The trial keeps no memory between editions, so a big story can recur &mdash; a live
+        version would apply the front page's dedup window.
+      </p>
+    </section>
+
+  </div>
+</div>
+</body>
+</html>
