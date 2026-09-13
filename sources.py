@@ -294,6 +294,20 @@ NEWS_NOISE = f"(?:{NEWS_SPORT})|(?:{NEWS_CULTURE})|(?:{NEWS_FOOD})"
 RAI_ANSA_IT = r"(/canale_viaggi/|/sport)"
 RAI_VIDEO   = r"(/video/)"
 
+# Rai files FOREIGN politics inside its politica feed -- the Republican
+# convention, Serbia's snap election -- but labels every item itself with a
+# top-level <category>, "Politica" or "Esteri". That is the source's own
+# classification, so it beats a headline word list: measured 2026-09-13, all 7
+# Esteri items of 41 were foreign and not one Italian story carried the label.
+# Its URLs carry no section, so no exclude_pattern could have done this.
+# Keyed by source NAME and tested against TOP-LEVEL categories only -- Rai's
+# domain-scoped tags name people and places ("Donald Trump", "Roma").
+# Rai Cronaca carried no Esteri items that day; it is listed so it cannot start.
+CATEGORY_EXCLUDE = {
+    "Rai Politica": r"^Esteri$",
+    "Rai Cronaca":  r"^Esteri$",
+}
+
 # Sources published in ITALIAN. Tagged on the page so a headline is recognisable
 # as reading practice before it is clicked. Display only -- language has no
 # effect on the draw, which is why this is a lookup here rather than a column on
@@ -493,7 +507,14 @@ SOURCES = [
     # death through the health service, a social taxi for elderly patients in
     # Foggia, a drowned lifeguard and flags at half-mast in Versilia.
     ("ANSA Cronaca",       "Italy",           "https://www.ansa.it/sito/notizie/cronaca/cronaca_rss.xml",         1,   48,  RAI_ANSA_IT),
-    ("ANSA Economia",      "Italy",           "https://www.ansa.it/sito/notizie/economia/economia_rss.xml",       1,   48,  RAI_ANSA_IT),
+    # ANSA Economia was REMOVED 2026-09-13. Its feed is mostly market copy, not
+    # Italian economic news: of 671 stored items 143 were "Borsa:" wraps, and
+    # much of the rest Wall Street opens, spread ticks and gold/euro/oil prices --
+    # the route by which US inflation and US-Iran oil stories reached Italy. A
+    # headline filter dropped 261 and still missed the gold, euro and ECB copy,
+    # while wrongly catching the BTP-Bund spread; ANSA marks none of it in the
+    # URL or the feed. Global markets belong to Finance. Italian economy stories
+    # (Giorgetti on GDP, the fuel-duty cut) still arrive via the two Politica feeds.
     ("ANSA Politica",      "Italy",           "https://www.ansa.it/sito/notizie/politica/politica_rss.xml",       1,   96,  RAI_ANSA_IT),
     #     17 of Rai's 40 items are VIDEO, which this is not a place for.
     ("Rai Cronaca",        "Italy",           "https://www.rainews.it/rss/cronaca",                               1,   48,  RAI_VIDEO),

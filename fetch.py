@@ -344,6 +344,9 @@ def pull(db):
         # source needs no per-source rule to get the shared exclusions.
         pats = [p for p in (getattr(cfg, "GLOBAL_EXCLUDE", None), src["exclude_pattern"]) if p]
         excl = re.compile("|".join(f"(?:{p})" for p in pats), re.I) if pats else None
+        # The feed's OWN label, where it gives one -- see CATEGORY_EXCLUDE.
+        cat_pat = getattr(cfg, "CATEGORY_EXCLUDE", {}).get(src["name"])
+        cat_excl = re.compile(cat_pat, re.I) if cat_pat else None
         cutoff = fetched - dt.timedelta(hours=src["recency_hours"])
         stats = dict(name=src["name"], seen=0, fresh=0, excluded=0,
                      undated=0, new=0, error=None, note=None)
@@ -380,6 +383,12 @@ def pull(db):
                 stats["fresh"] += 1
 
                 if excl and (excl.search(title) or excl.search(link)):
+                    stats["excluded"] += 1
+                    continue
+                # Top-level categories only: feedparser gives those no scheme,
+                # while Rai's /tags/who and /tags/where name people and places.
+                if cat_excl and any(cat_excl.search(t.get("term") or "")
+                                    for t in e.get("tags", []) if not t.get("scheme")):
                     stats["excluded"] += 1
                     continue
 

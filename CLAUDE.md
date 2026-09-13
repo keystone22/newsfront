@@ -50,6 +50,19 @@ see the deployment rule below, where it is not.
 - **Opinion is filtered on the URL path**, never on headline words — "opinion
   poll" is a news story. `/analysis/` is deliberately allowed: reported analysis
   is not an op-ed, and that is the distinction the spec draws.
+- **A feed's own `<category>` label is a classification — use it.** Rai files
+  foreign politics (the Republican convention, Serbia) inside its politica feed,
+  with no section in the URL, but labels each item `Politica` or `Esteri`.
+  `CATEGORY_EXCLUDE` in `sources.py` drops on that label, top-level categories
+  only. Measured 2026-09-13: it caught all 4 foreign items and no Italian one.
+  Check a leaking feed's raw XML for labels before writing a headline word list.
+- **A section feed can be mostly market copy.** ANSA Economia was ~40% `Borsa:`
+  wraps, Wall Street opens and price ticks — the route US inflation reached
+  Italy. A headline filter could not separate it (it missed gold and euro copy
+  and caught the BTP-Bund spread), so the source was removed, not patched.
+- **AP's sitemap sits behind a Cloudflare bot check** ("Just a moment...") since
+  2026-09-09, from home as well as the runner, while robots.txt still lists it.
+  Do not route around it with scraping mirrors or proxy services.
 - **Corriere della Sera's RSS is DEAD** — frozen at 13 May 2024, all sections,
   while still answering 200 with 69 items. Don't re-test it. Same class of trap
   as the Boston Globe feed below.
