@@ -332,9 +332,11 @@ random draw. Knobs are the `TRIAL_*` constants in `sources.py`.
 - **One draw per edition** (`news.trial_draw`, cached on `MAX(fetched_at)`):
   export renders the three pages as separate requests, and a fresh draw per page
   would repeat stories across them.
-- **Le Monde's Europe feed is its whole front page** — 78 of 162 items in a week
-  were `/en/international/`. Not yet fixed; it leaks the Philippines ferry and
-  OpenAI into Europe, live and trial alike.
+- **Le Monde's old feed (`/en/rss/une.xml`) was its whole front page** — 78 of
+  162 items in a week were `/en/international/`. Its URLs cannot be scoped,
+  because Le Monde files European stories under `/international/` as well. Fixed
+  2026-09-13 by switching to Le Monde's own `/en/europe/` and `/en/france/`
+  feeds, which carry its own classification, and removing Le Monde Economy.
 
 ## Phase status
 

@@ -488,7 +488,16 @@ SOURCES = [
     # Europe section. The my-europe vertical is 50/50 European.
     ("Euronews",           "Europe",          "https://www.euronews.com/rss?level=vertical&name=my-europe",       1,   48,  NEWS_NOISE),
     ("Politico Europe",    "Europe",          "https://www.politico.eu/feed/",                                    1,   48,  NEWS_NOISE),
-    ("Le Monde",           "Europe",          "https://www.lemonde.fr/en/rss/une.xml",                            1,   48,  NEWS_NOISE),
+    # Le Monde's "une" feed was its whole FRONT PAGE: 78 of 162 items in a week
+    # were /en/international/ -- the Philippines ferry fire, OpenAI, BRICS. Its
+    # URLs cannot scope it, because Le Monde files European stories under
+    # /international/ too. But it publishes its own EUROPE and FRANCE feeds, which
+    # is the newsroom's classification rather than a list we wrote. Frank,
+    # 2026-09-13: Le Monde should be "France and Europe". Checked that day: both
+    # on-scope bar one BRICS item. Each holds ~20 items over ~3 days, and 48h
+    # reached only 13 and 9 of them, hence 72h.
+    ("Le Monde Europe",    "Europe",          "https://www.lemonde.fr/en/europe/rss_full.xml",                    1,   72,  NEWS_NOISE),
+    ("Le Monde France",    "Europe",          "https://www.lemonde.fr/en/france/rss_full.xml",                    1,   72,  NEWS_NOISE),
     ("Guardian Europe",    "Europe",          "https://www.theguardian.com/world/europe-news/rss",                1,   48,  NEWS_NOISE),
     # NYT files US stories in its Europe feed -- "French Tourist Dies in Death
     # Valley" arrived under nytimes.com/.../us/. Scoped to THIS source: the same
@@ -498,12 +507,15 @@ SOURCES = [
     ("BBC Europe",         "Europe",          "https://feeds.bbci.co.uk/news/world/europe/rss.xml",               1,   48,  NEWS_NOISE),
     ("France 24 Europe",   "Europe",          "https://www.france24.com/en/europe/rss",                           1,   48,  NEWS_NOISE),
     # Frank, 2026-08-25: "I would like some more economic and business stories
-    # in EU, not US or global politics." These four are European business desks
+    # in EU, not US or global politics." These are European business desks
     # rather than general papers' international pages, so they report the EU as
     # the EU -- packaging rules, Dutch gas reserves, French industry -- instead
     # of syndicating the same global story the Top News and World pages carry.
+    # Le Monde Economy was REMOVED 2026-09-13 under the same France-and-Europe
+    # rule: 3 of its 12 stored items were global (Venezuelan oil, Panama, a MAGA
+    # culture piece) with no path to tell them apart. French economy stories
+    # still arrive -- the Europe and France feeds above carry /en/economy/ items.
     ("Euronews Business",  "Europe",          "https://www.euronews.com/rss?level=vertical&name=business",        1,   96,  NEWS_NOISE),
-    ("Le Monde Economy",   "Europe",          "https://www.lemonde.fr/en/economy/rss_full.xml",                   1,   96,  NEWS_NOISE),
     ("DW Business",        "Europe",          "https://rss.dw.com/rdf/rss-en-bus",                                1,  168,  NEWS_NOISE),
 
     # --- Italy: the thinnest section by a wide margin, so three of the four
