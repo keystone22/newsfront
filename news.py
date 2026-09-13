@@ -19,6 +19,7 @@ from zoneinfo import ZoneInfo
 from flask import Flask, abort, render_template
 
 import sources as cfg
+import trial
 from store import connect
 
 LOCAL = ZoneInfo("America/New_York")
@@ -36,6 +37,7 @@ def slug(name):
 SLUGS = {slug(s): s for s in cfg.SECTIONS}
 assert len(SLUGS) == len(cfg.SECTIONS), "two sections share a slug"
 assert "index" not in SLUGS, "a section named 'Index' would collide with the front page"
+assert "trial" not in SLUGS, "a section named 'Trial' would collide with trial.html"
 
 
 def to_local(iso):
@@ -153,6 +155,22 @@ def front():
                            quota_total=sum(cfg.QUOTAS.values()),
                            section_quota=cfg.SECTION_QUOTA,
                            **masthead(db))
+    db.close()
+    return page
+
+
+@app.route("/trial.html")
+def trial_page():
+    """NOT LIVE: Top News drawn through the 70/30 editorial gate. See trial.py.
+
+    Still read-only -- trial.run only computes over what fetch.py stored.
+    """
+    db = connect()
+    result = trial.run(db)
+    for a in result["front"] + result["section"]:
+        a["age"] = age_label(a["published_at"])
+    page = render_template("trial.html", live=stories(db, "section_slot", "Top News"),
+                           **result, **masthead(db))
     db.close()
     return page
 

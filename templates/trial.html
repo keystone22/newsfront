@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Top News trial &mdash; The Standing Order</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="{{ url_for('static', filename='news.css') }}">
+</head>
+<body>
+{% macro card(a, pinned=False) %}
+      <article class="story wide">
+        <div class="meta">
+          <span class="src">{{ a.source }}</span><span class="dot">&bull;</span><span>{{ a.age }}</span>
+          {% if a.kind == 'gate' %}<span class="tag" title="{{ a.brands|join(', ') }}">on {{ a.brands|length }} newsrooms</span>
+          {% else %}<span class="tag">random draw</span>{% endif %}
+          {% if pinned %}<span class="tag">on the trial front page</span>{% endif %}
+        </div>
+        {% if a.kind == 'gate' %}<p class="note">{{ a.brands|join(' · ') }}</p>{% endif %}
+        <p class="hl"><a href="{{ a.url }}" target="_blank" rel="noopener noreferrer">{{ a.title }}</a></p>
+      </article>
+{% endmacro %}
+<div class="wrap">
+
+  <div class="masthead">
+    <a class="back" href="index.html">&larr; The Standing Order</a>
+    <h1 class="brand">Top News &mdash; trial</h1>
+    <p class="tagline">Not live. About {{ share_pct }}% of slots go to stories at least
+      {{ min_newsrooms }} newsrooms are running in the last {{ vote_hours }} hours; the rest
+      stay the ordinary random draw.</p>
+    <div class="strip">
+      <div><span class="k">Edition</span><span class="v">{{ drawn or '—' }}</span></div>
+      <div><span class="k">Headlines read</span><span class="v">{{ headlines }}</span></div>
+      <div><span class="k">Newsrooms</span><span class="v">{{ newsrooms|length }}</span></div>
+      <div><span class="k">Qualifying</span><span class="v">{{ qualifying|length }}</span></div>
+    </div>
+  </div>
+
+  <div class="sections one-col">
+
+    <section class="section">
+      <div class="shead static">
+        <span class="sname">Trial front page</span>
+        <span class="squota">{{ front_gate }} gated + {{ front|length - front_gate }} random</span>
+      </div>
+      {% for a in front %}{{ card(a) }}{% endfor %}
+    </section>
+
+    <section class="section">
+      <div class="shead static">
+        <span class="sname">Trial section page</span>
+        <span class="squota">{{ section_gate }} gated + {{ section|length - section_gate }} random</span>
+      </div>
+      {% for a in section %}{{ card(a, pinned=loop.index <= front|length) }}{% endfor %}
+    </section>
+
+    <section class="section">
+      <div class="shead static">
+        <span class="sname">The live Top News page, for comparison</span>
+        <span class="squota">{{ live|length }} / {{ section_quota }}</span>
+      </div>
+      {% for a in live %}
+      <article class="story wide">
+        <div class="meta">
+          <span class="src">{{ a.source }}</span><span class="dot">&bull;</span><span>{{ a.age }}</span>
+          {% if a.on_front %}<span class="tag">on the front page</span>{% endif %}
+        </div>
+        <p class="hl"><a href="{{ a.url }}" target="_blank" rel="noopener noreferrer">{{ a.title }}</a></p>
+      </article>
+      {% endfor %}
+    </section>
+
+    <section class="section mech">
+      <h2>How the trial was drawn</h2>
+      <p class="sub">{{ headlines }} headlines from {{ newsrooms|join(', ') }} were matched by
+        shared words. A story <b>qualifies</b> when at least {{ min_newsrooms }} different
+        newsrooms carry it; {{ qualifying|length }} did. The count is a gate, not a score:
+        among qualifying stories the draw is random, and a story on six newsrooms is no likelier
+        to be picked than one on two. Two versions of the same event are never both drawn.
+        The random slots come from the ordinary pool of {{ pool }} Top News candidates.</p>
+      <p class="sub">AP counts as a newsroom here but is not in the live draw. Its copy can
+        appear only for a story another newsroom is also running.</p>
+    </section>
+
+    <section class="section">
+      <div class="shead static">
+        <span class="sname">Every qualifying story</span>
+        <span class="squota">{{ qualifying|length }}</span>
+      </div>
+      {% for s in qualifying %}
+      <article class="story">
+        <div class="meta">
+          <span>{{ s.brands|join(' · ') }}</span>
+          {% if s.drawn %}<span class="tag">drawn</span>{% endif %}
+        </div>
+        <p class="hl"><a href="{{ s.drawable[0].url }}" target="_blank" rel="noopener noreferrer">{{ s.drawable[0].title }}</a></p>
+      </article>
+      {% else %}
+      <p class="empty">No story is on {{ min_newsrooms }} newsrooms in this window.</p>
+      {% endfor %}
+      <p class="foot">
+        Listed alphabetically. Headline matching is by shared words, so check the groupings above
+        before trusting the counts.<br>
+        The trial keeps no memory between editions, so a big story can recur &mdash; a live
+        version would apply the front page's dedup window.
+      </p>
+    </section>
+
+  </div>
+</div>
+</body>
+</html>

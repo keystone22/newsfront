@@ -390,6 +390,28 @@ QUOTAS = {
     "Human Interest":  1,
 }
 
+# A source in this group is PULLED like any other but never DRAWN: it is in
+# neither SECTIONS nor QUOTAS, so no draw reads it and no page lists it. It
+# exists to be counted -- its headlines vote in the trial below.
+SIGNALS = "Signals"
+
+# --- The 70/30 trial. trial.py, rendered at trial.html; NOT the live page.
+# Frank, 2026-09-13: Top News lacks editorial direction. Proposal: about 70% of
+# slots go to stories at least TRIAL_MIN_NEWSROOMS newsrooms are running at the
+# same time, and the rest stay the ordinary random draw. The count is a GATE --
+# a story is in or out -- and the draw among stories that are in stays random.
+TRIAL_SHARE = 0.7
+TRIAL_MIN_NEWSROOMS = 2
+TRIAL_VOTE_HOURS = 24                     # "at the same time"
+TRIAL_VOTE_SECTIONS = ("Top News", "World", SIGNALS)
+# Two headlines are one story at this word overlap (Jaccard over 5-letter
+# stems). Measured 2026-09-13 on 395 headlines: 32 stories on 2+ newsrooms,
+# nearly all genuine. The failure is the other way -- one event SPLITS into
+# several groups (Sweden x2, the Indonesian ferry x3) -- so the draw refuses a
+# story resembling one already picked, at the looser TRIAL_SAME_EVENT bar.
+TRIAL_MATCH = 0.3
+TRIAL_SAME_EVENT = 0.2
+
 SOURCES = [
     # name,                section,           endpoint,                                                          cap, recency, exclude
 
@@ -397,15 +419,15 @@ SOURCES = [
     #     to a 24h window because a stale lead story is worse than a thin one.
     ("NYT",                "Top News",        "https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml",        1,   24,  NEWS_NOISE),
     ("Guardian US",        "Top News",        "https://www.theguardian.com/us-news/rss",                          1,   24,  NEWS_NOISE),
-    # AP reads from its OWN sitemap rather than Google News. Frank's call,
-    # 2026-08-25: "AP has the best US content", so it is worth sourcing
-    # properly. apnews.com publishes no RSS (index.rss answers 401, every other
-    # path 404s) but robots.txt advertises this sitemap and disallows nothing
-    # that touches it. Three wins over the Google News route: real apnews.com
-    # URLs so the path filters work, a per-article language tag that drops AP's
-    # Spanish wire cleanly, and ~3x the volume. The 7th field selects the
-    # reader; every other source stays on the default 'rss'.
-    ("AP",                 "Top News",        "https://apnews.com/news-sitemap-content.xml",                      1,   24,  AP_NEWS, "sitemap"),
+    # AP is a VOTE, not a candidate. From 2026-08-25 it read its own sitemap
+    # (real URLs, so AP_NEWS could strip sport), but since 2026-09-09 that sits
+    # behind a Cloudflare bot check, from home and runner alike. The Google News
+    # route works but carries AP's sport with no URL path to filter on -- 2026-09-13
+    # it was full of college football and the US Open. So AP sits in SIGNALS:
+    # it counts toward what the day's big stories are, and in the trial its copy
+    # can be drawn only for a story another newsroom is also running.
+    # read_sitemap and AP_NEWS stay, for the day the sitemap opens again.
+    ("AP",                 SIGNALS,           GN + "when:1d+site:apnews.com",                                     1,   24,  WIRE_NEWS),
     ("Reuters",            "Top News",        GN + "when:1d+site:reuters.com/world",                                    1,   24,  WIRE_NEWS),
     # Added 2026-08-25. Top News read as a random slice of everything the wires
     # published -- "How the No. 2 pencil became a uniquely American school
@@ -645,7 +667,10 @@ SOURCES = [
 
     # --- Sports: general first, then Frank's three teams. Team feeds get long
     #     windows because a single-team blog goes quiet between games.
-    ("AP Sports",          "Sports",          GN + "when:2d+site:apnews.com+sports",                              1,   48,  WIRE_JUNK),
+    # AP Sports was REMOVED 2026-09-13. Its "+sports" keyword never filtered (see
+    # CLAUDE.md): 68 of its 73 items in 24h were general news -- BRICS, Ukraine,
+    # the Lil Durk verdict -- landing on the Sports page. Owning those URLs, it
+    # also starved the AP signal row of the same stories (url_key is UNIQUE).
     # ESPN's four feeds were REMOVED on 2026-08-27. They work perfectly from a
     # home connection and return NOTHING from a GitHub Actions runner -- ESPN
     # serves datacenter IPs an empty feed. Verified both ways on the same day,

@@ -50,7 +50,8 @@ def main():
     out = Path(sys.argv[1]) if len(sys.argv) > 1 else HERE / "docs"
     out.mkdir(parents=True, exist_ok=True)
 
-    pages = ["index.html"] + [f"{slug(s)}.html" for s in cfg.SECTIONS]
+    # trial.html is the NOT-LIVE 70/30 trial; nothing links to it.
+    pages = ["index.html", "trial.html"] + [f"{slug(s)}.html" for s in cfg.SECTIONS]
     total = 0
     for page in pages:
         html = render("/" + page)

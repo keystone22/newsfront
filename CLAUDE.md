@@ -63,6 +63,10 @@ see the deployment rule below, where it is not.
 - **AP's sitemap sits behind a Cloudflare bot check** ("Just a moment...") since
   2026-09-09, from home as well as the runner, while robots.txt still lists it.
   Do not route around it with scraping mirrors or proxy services.
+- **AP Sports was mostly NOT sport** — 68 of 73 items in 24h were general news,
+  because `site:apnews.com+sports` does not filter. Removed 2026-09-13. It also
+  starved the AP signal row: `url_key` is UNIQUE, so a query that overlaps
+  another silently owns the shared stories (the url_key race, below).
 - **Corriere della Sera's RSS is DEAD** — frozen at 13 May 2024, all sections,
   while still answering 200 with 69 items. Don't re-test it. Same class of trap
   as the Boston Globe feed below.
@@ -292,6 +296,29 @@ Two traps this shipped with:
   `.mech .bar{flex-direction:column}` also turns the FRONT page's horizontal
   stacked bar on its side. Caught in review; verify a `.mech` change by reading
   `getComputedStyle` on the front page's bar, which must stay `row`.
+
+## The 70/30 trial (Sep 13 2026) — NOT LIVE
+
+`trial.py`, rendered at `/trial.html` and exported with the other pages; nothing
+links to it. Frank found Top News lacked editorial direction and proposed
+letting the big newsrooms' own choices lead: about **70% of slots go to stories
+at least 2 newsrooms are running in the last 24h**, the rest stay the ordinary
+random draw. Knobs are the `TRIAL_*` constants in `sources.py`.
+
+- **The newsroom count is a GATE, never a score.** A story is in or out; among
+  qualifying stories the draw is random. This is what keeps it inside the design
+  rule — the same move as preferring a newsroom's front page.
+- **A newsroom is the brand** (`NYT World` and `NYT` are one vote). Votes come
+  from Top News, World and `SIGNALS`; only Top News or signal copy may be DRAWN.
+- **`SIGNALS` is a section that is pulled but never drawn** — in neither
+  `SECTIONS` nor `QUOTAS`. AP lives there: it votes, and its copy appears only
+  for a story another newsroom is also running, which keeps its sport out.
+- **Matching is shared headline words** (5-letter stems, Jaccard 0.3, no
+  chaining — chaining merged unrelated stories). Its failure is SPLITTING one
+  event into several groups, so the draw refuses anything resembling a pick at
+  0.2. Check the "every qualifying story" list before trusting a count.
+- The trial writes nothing and keeps no memory between editions; a live version
+  would need the front page's dedup.
 
 ## Phase status
 
