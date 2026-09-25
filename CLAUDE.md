@@ -353,6 +353,17 @@ the folder is ever rebuilt from a clone.
 ## Note on memory
 
 Claude Code's memory is scoped per working directory. Notes written while
-working out of `/Users/scibilia/FinanceHub` do **not** load in a session opened
+working out of `/Users/fmsmini/FinanceHub` do **not** load in a session opened
 here. That is why this file exists — durable project knowledge belongs in the
 repo, not in memory.
+
+## Machine (since Sep 24, 2026)
+
+The local copy lives on the Mac mini at `/Users/fmsmini/NewsFront`, in the
+macOS account dedicated to Claude. It moved from the MacBook
+(`/Users/scibilia/NewsFront`). The `venv/` was rebuilt there with Homebrew
+Python 3.14 (`/opt/homebrew/bin/python3.14`). The published site is unaffected:
+GitHub Actions does the draws, so the local copy falls behind `origin/main` by
+bot commits and needs `git pull --ff-only` before local work. That account has
+**no GitHub login yet**. Fetch and pull work because the repo is public, but
+**push will fail** until Frank signs in (e.g. `gh auth login`).
