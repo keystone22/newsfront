@@ -366,5 +366,4 @@ Python 3.14 (`/opt/homebrew/bin/python3.14`). The published site is unaffected:
 GitHub Actions does the draws, so the local copy falls behind `origin/main` by
 bot commits and needs `git pull --ff-only` before local work. GitHub access is
 through `gh` (`/opt/homebrew/bin/gh`, signed in as keystone22, git credential
-helper set up); commits use the private noreply address. A stale Intel `gh` in
-`/usr/local/bin` fails with "bad CPU type", so use the Homebrew one.
+helper set up); commits use the private noreply address.
