@@ -233,6 +233,19 @@ does not restyle controls. Verify by rendering with the browser forced to dark.
 
 Fonts: Newsreader (headlines) / IBM Plex Sans (labels) / IBM Plex Mono (data).
 
+**The home-screen icon is cut from `static/icon.svg`** — a front page in the
+site's green on cream, Frank's pick of three on 2026-09-28. `apple-touch-icon.png`
+(180, what the iPhone uses) and `icon-32.png` (browser tab) live in `static/`,
+are served by `news.py` under those exact names, and are copied into `docs/` by
+`export.py` — so the one relative `href` works locally and on Pages alike. There
+is **no image library on this Mac** (no Pillow, no rsvg, no cairosvg); the PNGs
+were cut with macOS tools, and `qlmanage` starts its own sandbox, so it only
+runs OUTSIDE Claude's:
+
+```bash
+qlmanage -t -s 1024 -o /tmp static/icon.svg && sips -z 180 180 /tmp/icon.svg.png --out static/apple-touch-icon.png
+```
+
 ## Deployment
 
 Runs on **GitHub Actions**, not on Frank's machines:

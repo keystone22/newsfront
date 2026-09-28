@@ -15,6 +15,7 @@ named exactly as news.py serves them, so the plain relative links between them
 work unchanged on the static site.
 """
 import re
+import shutil
 import sys
 from pathlib import Path
 
@@ -23,6 +24,9 @@ from news import TRIAL_PAGES, app, slug
 
 HERE = Path(__file__).parent
 CSS = HERE / "static" / "news.css"
+# Copied, not rendered: the home-screen icon Safari fetches by name when the
+# page is added to a phone. static/icon.svg is the source both are cut from.
+ICONS = ("apple-touch-icon.png", "icon-32.png")
 
 
 def render(path):
@@ -54,6 +58,9 @@ def main():
     # not link to them.
     pages = (["index.html"] + [f"{p}.html" for p in TRIAL_PAGES]
              + [f"{slug(s)}.html" for s in cfg.SECTIONS])
+    for icon in ICONS:
+        shutil.copyfile(HERE / "static" / icon, out / icon)
+
     total = 0
     for page in pages:
         html = render("/" + page)

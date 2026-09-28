@@ -16,7 +16,7 @@ import datetime as dt
 import re
 from zoneinfo import ZoneInfo
 
-from flask import Flask, abort, render_template
+from flask import Flask, abort, render_template, send_from_directory
 
 import sources as cfg
 import trial
@@ -25,6 +25,20 @@ from store import connect
 LOCAL = ZoneInfo("America/New_York")
 
 app = Flask(__name__)
+
+
+# The home-screen icon, served under the FILE name the pages link to, the same
+# rule the section pages follow. One relative href then works here and on Pages,
+# where export.py has copied the file next to the pages.
+@app.route("/apple-touch-icon.png")
+@app.route("/apple-touch-icon-precomposed.png")
+def touch_icon():
+    return send_from_directory(app.static_folder, "apple-touch-icon.png")
+
+
+@app.route("/icon-32.png")
+def small_icon():
+    return send_from_directory(app.static_folder, "icon-32.png")
 
 
 def slug(name):
