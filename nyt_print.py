@@ -71,41 +71,50 @@ def collect(key, pages, **params):
     return docs, hits, None
 
 
+def summarise(label, docs):
+    """Print-field facts about a set of articles, read client-side.
+
+    The first probe's fq filters (_exists_:print_section, print_page:1) matched
+    NOTHING with no error, while the same day held 169 articles -- so the print
+    fields are read from each article here instead of trusting a filter."""
+    have = [d for d in docs if d.get("print_section") or d.get("print_page")]
+    print(f"\n{label}: {len(docs)} articles read, {len(have)} carry print fields")
+    by = collections.defaultdict(collections.Counter)
+    for doc in have:
+        by[str(doc.get("print_section") or "?")][doc.get("section_name") or "?"] += 1
+    for sec in sorted(by):
+        print(f"  {sec:>4}  {sum(by[sec].values()):3}  web desks: {dict(by[sec].most_common(4))}")
+    fronts = [d for d in have if str(d.get("print_page")) == "1"]
+    print(f"  section fronts (print_page 1): {len(fronts)}")
+    for doc in sorted(fronts, key=lambda x: str(x.get("print_section"))):
+        print(f"    {str(doc.get('print_section')):>4} {(doc.get('section_name') or '?')[:12]:12} "
+              f"{headline(doc)[:80]}")
+
+
 def main():
     key = os.environ.get("NYT_API_KEY")
     if not key:
         print("NYT_API_KEY is not set -- nothing to do")
         return 1
 
-    # Articles published online YESTERDAY are the bulk of THIS MORNING's paper,
-    # and their print fields are filled in once that paper has been laid out.
-    day = (dt.datetime.now(dt.timezone.utc) - dt.timedelta(days=1)).date()
-    d = day.strftime("%Y%m%d")
-    print(f"NYT articles published {day} (UTC)\n")
+    # Articles published online YESTERDAY are the bulk of THIS MORNING's paper.
+    # A day four back is sampled too, in case print placement is filled in late.
+    now = dt.datetime.now(dt.timezone.utc).date()
+    day1, day4 = now - dt.timedelta(days=1), now - dt.timedelta(days=4)
 
-    _, hits_all, err = collect(key, 1, begin_date=d, end_date=d)
-    print(f"  all articles          hits={hits_all}  {err or ''}")
+    d = day1.strftime("%Y%m%d")
+    docs1, hits1, err = collect(key, 20, begin_date=d, end_date=d)
+    print(f"NYT articles published {day1} (UTC): hits={hits1}, read {len(docs1)}  {err or ''}")
+    if docs1:
+        print("  fields on an article:", sorted(docs1[0].keys()))
+        print("  print fields, first 8:", [(x.get("print_section"), x.get("print_page")) for x in docs1[:8]])
+    summarise(f"Published {day1}", docs1)
+
     time.sleep(PAUSE)
-
-    printed, hits_print, err = collect(key, 6, begin_date=d, end_date=d,
-                                       fq="_exists_:print_section")
-    print(f"  ran in print          hits={hits_print}  {err or ''}")
-    time.sleep(PAUSE)
-
-    fronts, hits_front, err = collect(key, 3, begin_date=d, end_date=d, fq="print_page:1")
-    print(f"  page 1 of a section   hits={hits_front}  {err or ''}")
-
-    print(f"\nPrint sections in the first {len(printed)} printed articles:")
-    by = collections.defaultdict(collections.Counter)
-    for doc in printed:
-        by[doc.get("print_section") or "?"][doc.get("section_name") or "?"] += 1
-    for sec in sorted(by):
-        print(f"  {sec:>4}  {sum(by[sec].values()):3}  web desks: {dict(by[sec].most_common(4))}")
-
-    print(f"\nSection fronts (print_page 1), {len(fronts)} found:")
-    for doc in sorted(fronts, key=lambda x: str(x.get("print_section"))):
-        print(f"  {str(doc.get('print_section')):>4} p{str(doc.get('print_page')):<3} "
-              f"{(doc.get('section_name') or '?')[:12]:12} {headline(doc)[:80]}")
+    d = day4.strftime("%Y%m%d")
+    docs4, hits4, err = collect(key, 3, begin_date=d, end_date=d)
+    print(f"\nNYT articles published {day4} (UTC): hits={hits4}, read {len(docs4)}  {err or ''}")
+    summarise(f"Published {day4} (first {len(docs4)})", docs4)
     return 0
 
 
