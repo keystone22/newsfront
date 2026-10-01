@@ -6,6 +6,12 @@ name: NYT print-edition probe
 # secrets, and GitHub masks it in the log even if something tried to print it.
 on:
   workflow_dispatch:
+    inputs:
+      mode:
+        description: "summary = print sections; timing = when section fronts went online"
+        type: choice
+        options: [summary, timing]
+        default: summary
 
 permissions:
   contents: read
@@ -25,4 +31,4 @@ jobs:
       - name: Summarise yesterday's print edition
         env:
           NYT_API_KEY: ${{ secrets.NYT_API_KEY }}
-        run: python nyt_print.py
+        run: python nyt_print.py ${{ inputs.mode == 'timing' && 'timing' || '' }}

@@ -17,6 +17,7 @@ import collections
 import datetime as dt
 import json
 import os
+import re
 import sys
 import time
 import urllib.error
@@ -91,11 +92,37 @@ def summarise(label, docs):
               f"{headline(doc)[:80]}")
 
 
+def timing(key):
+    """When did each section-front story go ONLINE, in Eastern time?
+
+    The API carries print_section and print_page but no print DATE, so which
+    morning's paper a story ran in has to be inferred from its web pub_date.
+    This prints the times so the cutoff between two editions can be seen."""
+    from zoneinfo import ZoneInfo
+    eastern = ZoneInfo("America/New_York")
+    today = dt.datetime.now(eastern).date()
+    for i, day in enumerate((today - dt.timedelta(days=1), today)):
+        if i:
+            time.sleep(PAUSE)
+        d = day.strftime("%Y%m%d")
+        docs, hits, err = collect(key, 25, begin_date=d, end_date=d)
+        fronts = [x for x in docs if str(x.get("print_page")) == "1" and x.get("print_section")]
+        print(f"\npublished {day}: hits={hits} read={len(docs)} section fronts={len(fronts)}  {err or ''}")
+        for x in sorted(fronts, key=lambda x: x.get("pub_date") or ""):
+            raw = re.sub(r"([+-]\d\d)(\d\d)$", r"\1:\2", (x.get("pub_date") or "").replace("Z", "+00:00"))
+            when = dt.datetime.fromisoformat(raw).astimezone(eastern) if raw else None
+            stamp = f"{when:%a %m-%d %H:%M}" if when else "?"
+            print(f"   {stamp} ET  {x['print_section']:>3}  {(x.get('section_name') or '')[:10]:10} {headline(x)[:70]}")
+
+
 def main():
     key = os.environ.get("NYT_API_KEY")
     if not key:
         print("NYT_API_KEY is not set -- nothing to do")
         return 1
+    if sys.argv[1:] == ["timing"]:
+        timing(key)
+        return 0
 
     # Articles published online YESTERDAY are the bulk of THIS MORNING's paper.
     # A day four back is sampled too, in case print placement is filled in late.
