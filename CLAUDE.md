@@ -250,8 +250,9 @@ qlmanage -t -s 1024 -o /tmp static/icon.svg && sips -z 180 180 /tmp/icon.svg.png
 ## Deployment
 
 Runs on **GitHub Actions**, not on Frank's machines:
-`github.com/keystone22/newsfront` (public — this app uses **no API keys at
-all**, so there is nothing to leak). `.github/workflows/edition.yml` draws
+`github.com/keystone22/newsfront` (public — the one credential is the NYT API
+key, held as the GitHub secret `NYT_API_KEY` and never in the repo, so there is
+nothing to leak). `.github/workflows/edition.yml` draws
 4x/day and commits; Pages serves `docs/` at
 **https://keystone22.github.io/newsfront/**. `workflow_dispatch` gives a "Run
 workflow" button in the GitHub phone app.
@@ -379,8 +380,14 @@ count, not from any weighting.
   2026-10-01 (it answered 200 on Sep 13). Do not spoof a browser. The planned
   route is the NYT Article Search API, which tags each article with
   `print_page` and `print_section` — usable for ANY print section, not just A1.
-  Frank is creating the free key; it goes in a GitHub secret `NYT_API_KEY`,
-  never in the repo or the chat.
+  The key is in the GitHub secret `NYT_API_KEY` (added 2026-10-01), never in
+  the repo or the chat; `nyt_print.py`, run by the by-hand `nyt-probe.yml`,
+  reads it. First probe, articles published Sep 30: 169 in all, **51 with print
+  fields** — A 31 (U.S. 14, World 9, New York 4), B 9 (Business), C 4 (Arts),
+  a few S/D/AR/ST — and 10 section fronts, 5 of them on A1. **`fq` filters on
+  the print fields match NOTHING, with no error** (unprinted articles carry
+  empty strings), so the fields are read client-side: one call per 10
+  articles, at 5 calls a minute.
 - Also checked 2026-10-01: WSJ's RSS is dead (newest item ~20 months old);
   Washington Post feeds work but Frank declined them for the paywall.
 
