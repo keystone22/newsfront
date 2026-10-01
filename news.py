@@ -12,6 +12,7 @@ into docs/ for GitHub Pages. Serving them under the same names means one set of
 plain relative links works both locally and on the static site, with nothing to
 rewrite at export time.
 """
+import collections
 import datetime as dt
 import re
 from zoneinfo import ZoneInfo
@@ -57,6 +58,7 @@ assert "index" not in SLUGS, "a section named 'Index' would collide with the fro
 TRIAL_PAGES = {("trial" if i == 0 else f"trial-{slug(s)}"): s
                for i, s in enumerate(cfg.TRIAL_SECTIONS)}
 assert not set(TRIAL_PAGES) & set(SLUGS), "a section slug collides with a trial page"
+assert "todays-paper" not in SLUGS, "a section slug collides with todays-paper.html"
 
 
 def to_local(iso):
@@ -222,6 +224,35 @@ def trial_section_page(name):
     if f"trial-{name}" not in TRIAL_PAGES:
         abort(404)
     return render_trial(f"trial-{name}")
+
+
+@app.route("/todays-paper.html")
+def todays_paper():
+    """The front of each NYT print section, as nyt_print.py stored it. NOT a
+    draw: it is the paper's own layout, shown whole, and the page says so.
+    Within a section the order is alphabetical, because the API does not say
+    where on the page a story ran -- any other order would be ours."""
+    db = connect()
+    latest = db.execute("SELECT edition, MAX(fetched_at) AS f FROM print_edition "
+                        "GROUP BY edition ORDER BY edition DESC LIMIT 1").fetchone()
+    groups, edition, fetched = [], None, None
+    if latest:
+        edition = dt.date.fromisoformat(latest["edition"]).strftime("%a %-d %b")
+        stamp = to_local(latest["f"])
+        fetched = stamp.strftime("%-d %b %-I:%M %p") if stamp else None
+        by = {}
+        for r in db.execute("SELECT print_section, desk, title, url FROM print_edition "
+                            "WHERE edition = ?", (latest["edition"],)):
+            by.setdefault(r["print_section"], []).append(dict(r))
+        for sec in sorted(by, key=lambda s: (s != "A", s)):
+            desks = collections.Counter(a["desk"] for a in by[sec] if a["desk"])
+            label = ("The front page" if sec == "A" else
+                     f"Section {sec}" + (f" — {desks.most_common(1)[0][0]}" if desks else ""))
+            groups.append(dict(label=label, stories=sorted(by[sec], key=lambda a: a["title"].lower())))
+    page = render_template("todays_paper.html", groups=groups, edition=edition, fetched=fetched,
+                           total=sum(len(g["stories"]) for g in groups), **masthead(db))
+    db.close()
+    return page
 
 
 @app.route("/<page>.html")

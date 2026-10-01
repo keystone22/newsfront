@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Standing Order">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" href="icon-32.png" sizes="32x32">
+<title>Today's Paper &mdash; The Standing Order</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="{{ url_for('static', filename='news.css') }}">
+</head>
+<body>
+<div class="wrap">
+
+  <div class="masthead">
+    <a class="back" href="index.html">&larr; The Standing Order</a>
+    <h1 class="brand">Today's Paper</h1>
+    <p class="tagline">The front of each section of The New York Times as it printed
+      {{ edition or 'today' }} &mdash; its editors' choice, shown whole, not drawn.</p>
+    <div class="strip">
+      <div><span class="k">Edition</span><span class="v">{{ edition or '—' }}</span></div>
+      <div><span class="k">Stories</span><span class="v">{{ total }}</span></div>
+      <div><span class="k">Sections</span><span class="v">{{ groups|length }}</span></div>
+      <div><span class="k">Fetched</span><span class="v">{{ fetched or '—' }}</span></div>
+    </div>
+  </div>
+
+  <div class="sections one-col">
+
+    {% for g in groups %}
+    <section class="section">
+      <div class="shead static">
+        <span class="sname">{{ g.label }}</span>
+        <span class="squota">{{ g.stories|length }}</span>
+      </div>
+      {% for a in g.stories %}
+      <article class="story wide">
+        <div class="meta"><span class="src">{{ a.desk or 'NYT' }}</span></div>
+        <p class="hl"><a href="{{ a.url }}" target="_blank" rel="noopener noreferrer">{{ a.title }}</a></p>
+      </article>
+      {% endfor %}
+    </section>
+    {% else %}
+    <section class="section">
+      <p class="empty">No print edition stored yet. It is fetched on GitHub, where the
+        NYT key lives, once NYT has filled in where each story ran.</p>
+    </section>
+    {% endfor %}
+
+    <section class="section mech">
+      <h2>How this page is made</h2>
+      <p class="sub">Not drawn, and the one page here that is not. These are the stories The
+        New York Times ran on <b>page 1 of each print section</b> &mdash; the front page, then
+        each section's front &mdash; read from NYT's Article Search API, which records where
+        every article ran in print.</p>
+      <p class="sub">The API records the section and page but not the date of the paper, so this
+        page takes stories published online the day before: NYT fills in print placement once a
+        paper is laid out, and this morning's paper is made of yesterday's online stories. Within
+        a section the order is alphabetical, because the API does not say where on the page a
+        story ran.</p>
+      <p class="foot">Data provided by The New York Times.</p>
+    </section>
+
+  </div>
+</div>
+</body>
+</html>

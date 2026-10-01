@@ -37,3 +37,17 @@ CREATE TABLE IF NOT EXISTS articles (
 CREATE INDEX IF NOT EXISTS idx_articles_current ON articles(is_current);
 CREATE INDEX IF NOT EXISTS idx_articles_shown   ON articles(shown_date);
 CREATE INDEX IF NOT EXISTS idx_articles_section ON articles(section, published_at);
+
+-- The NYT print edition behind todays-paper.html (nyt_print.py): the front of
+-- each print section, as the paper laid it out. Its own table, not `articles`:
+-- nothing here is drawn, and the same URLs may already be owned in `articles`
+-- by an NYT feed, whose url_key is UNIQUE. Kept 14 days, so it stays small.
+CREATE TABLE IF NOT EXISTS print_edition (
+    edition       TEXT NOT NULL,   -- YYYY-MM-DD, the printed paper's date (US Eastern)
+    print_section TEXT NOT NULL,   -- 'A', 'B', 'C' ... as NYT reports it
+    desk          TEXT,            -- NYT's web section, e.g. 'U.S.', 'Business'
+    title         TEXT NOT NULL,
+    url           TEXT NOT NULL,
+    fetched_at    TEXT NOT NULL,   -- ISO-8601 UTC
+    PRIMARY KEY (edition, url)
+);

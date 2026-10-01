@@ -31,6 +31,7 @@ import urllib.error
 import xml.etree.ElementTree as ET
 
 import feedparser
+import nyt_print
 import sources as cfg
 from store import connect
 
@@ -644,6 +645,14 @@ def main():
             print(f"::warning title=Section running dry::{h['section']} has "
                   f"{h['drawable']} drawable article(s), {h['days']:.1f} days at "
                   f"{h['per_day']}/day. Add a feed or lower its quota.")
+
+    # The NYT print edition behind todays-paper.html. Last, and fenced off: the
+    # paper above is already drawn, and nothing here may cost the run.
+    print("\nprint edition")
+    try:
+        print(f"     {nyt_print.refresh(db)}")
+    except Exception as ex:
+        print(f"  !! NYT print        {ex}"[:200])
 
     db.close()
     # Always zero. A thin section is a CONTENT problem and is surfaced three

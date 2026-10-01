@@ -56,7 +56,7 @@ def main():
 
     # The trial-*.html pages are the NOT-LIVE 70/30 trial; the front page does
     # not link to them.
-    pages = (["index.html"] + [f"{p}.html" for p in TRIAL_PAGES]
+    pages = (["index.html", "todays-paper.html"] + [f"{p}.html" for p in TRIAL_PAGES]
              + [f"{slug(s)}.html" for s in cfg.SECTIONS])
     for icon in ICONS:
         shutil.copyfile(HERE / "static" / icon, out / icon)

@@ -21,7 +21,9 @@ concurrency:
 jobs:
   draw:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    # 15, not 10: once a day the NYT print edition adds ~17 API calls, paced
+    # 13s apart to stay under NYT's limit of 5 a minute (~4 minutes).
+    timeout-minutes: 15
 
     steps:
       - uses: actions/checkout@v4
@@ -34,9 +36,11 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Pull the feeds and draw
-        # fetch.py exits nonzero only when a SECTION could not be filled, which
-        # is worth failing the run for. Individual feeds erroring is routine and
-        # already reported on the page itself.
+        # fetch.py always exits 0 -- a thin section or a failing feed is
+        # reported on the page and as a warning, never fatal (see CLAUDE.md).
+        # The NYT key is the project's one secret; it reaches only this step.
+        env:
+          NYT_API_KEY: ${{ secrets.NYT_API_KEY }}
         run: python fetch.py
 
       - name: Export the page

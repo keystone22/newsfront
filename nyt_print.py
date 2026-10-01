@@ -72,6 +72,83 @@ def collect(key, pages, **params):
     return docs, hits, None
 
 
+# --- Today's Paper (todays-paper.html) --------------------------------------
+# Measured 2026-10-01 with the timing probe: every section-front story
+# published online on Sep 30 (Eastern, 03:00-16:49) carried print fields that
+# afternoon, and NOTHING published on Oct 1 did yet. So print placement is
+# filled in once a paper is laid out, and THIS morning's paper is made of
+# YESTERDAY's online stories. That is the rule used here, and the page says so.
+A1_COMPLETE = 3       # an edition with fewer A1 stories than this is fetched again
+GIVE_UP_AFTER = 5     # pages read with NO print fields at all: not laid out yet
+
+
+def _eastern():
+    from zoneinfo import ZoneInfo
+    return ZoneInfo("America/New_York")
+
+
+def title_of(doc):
+    """The WEB headline, which is the fuller one; print headlines are cut to fit
+    a column and carry layout spacing ("Save  Plane")."""
+    h = doc.get("headline") or {}
+    return " ".join((h.get("main") or h.get("print_headline") or "").split())
+
+
+def fronts(key, published):
+    """Section fronts among the articles published online on `published`.
+    Returns (fronts, articles_read, error)."""
+    d = published.strftime("%Y%m%d")
+    docs, seen_print, err = [], False, None
+    for page in range(25):                    # ~170 articles a day; 25 pages is headroom
+        if page:
+            time.sleep(PAUSE)
+        try:
+            got, _ = unpack(search(key, page=page, begin_date=d, end_date=d))
+        except RuntimeError as e:
+            err = str(e)
+            break
+        docs += got
+        seen_print = seen_print or any(x.get("print_section") for x in got)
+        if len(got) < 10 or (page + 1 >= GIVE_UP_AFTER and not seen_print):
+            break
+    out = []
+    for doc in docs:
+        url = doc.get("web_url") or doc.get("url")
+        if str(doc.get("print_page")) == "1" and doc.get("print_section") and url and title_of(doc):
+            out.append(dict(print_section=str(doc["print_section"]).strip(),
+                            desk=doc.get("section_name") or "", title=title_of(doc), url=url))
+    return out, len(docs), err
+
+
+def refresh(db):
+    """Store today's section fronts once NYT has filled them in. Called at the
+    end of every fetch.py run; a complete edition is never fetched twice, so it
+    costs ~17 calls a day of the 500 allowed. Returns a one-line report."""
+    key = os.environ.get("NYT_API_KEY")
+    if not key:
+        return "skipped -- NYT_API_KEY is not set (it exists only on GitHub)"
+    edition = dt.datetime.now(_eastern()).date()
+    have = db.execute("SELECT COUNT(*) FROM print_edition WHERE edition = ? AND print_section = 'A'",
+                      (edition.isoformat(),)).fetchone()[0]
+    if have >= A1_COMPLETE:
+        return f"{edition}: already complete ({have} on A1)"
+    got, read, err = fronts(key, edition - dt.timedelta(days=1))
+    if got:
+        now = dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds")
+        db.execute("DELETE FROM print_edition WHERE edition = ?", (edition.isoformat(),))
+        db.executemany("""INSERT OR IGNORE INTO print_edition
+                          (edition, print_section, desk, title, url, fetched_at)
+                          VALUES (?, ?, ?, ?, ?, ?)""",
+                       [(edition.isoformat(), g["print_section"], g["desk"], g["title"], g["url"], now)
+                        for g in got])
+        db.execute("DELETE FROM print_edition WHERE edition < ?",
+                   ((edition - dt.timedelta(days=14)).isoformat(),))
+        db.commit()
+    a1 = sum(g["print_section"] == "A" for g in got)
+    return (f"{edition}: {len(got)} section fronts ({a1} on A1) from {read} articles"
+            f" published {edition - dt.timedelta(days=1)}" + (f"  [{err}]" if err else ""))
+
+
 def summarise(label, docs):
     """Print-field facts about a set of articles, read client-side.
 

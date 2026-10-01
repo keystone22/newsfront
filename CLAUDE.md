@@ -391,6 +391,35 @@ count, not from any weighting.
 - Also checked 2026-10-01: WSJ's RSS is dead (newest item ~20 months old);
   Washington Post feeds work but Frank declined them for the paywall.
 
+## Today's Paper (Oct 1 2026)
+
+`todays-paper.html`, linked from the front page's tagline: the stories NYT ran
+on **page 1 of each print section** (A1, then each section front), from the
+Article Search API. Frank's idea and choice — over feeding the sections, for
+now. **It is the one page that is not drawn**: NYT's own layout, shown whole,
+and the page says so. Within a section the order is alphabetical, because the
+API does not say where on the page a story ran; any other order would be ours.
+
+- **The API has `print_section` and `print_page` but no print DATE.** The
+  timing probe (`nyt-probe.yml`, mode `timing`) showed every section-front story
+  published online Sep 30 ET (03:00–16:49) carrying print fields that afternoon,
+  and nothing published Oct 1 yet. So print placement is filled in once a paper
+  is laid out, and **today's paper = yesterday's online stories** with
+  `print_page == "1"`. Inferred, not documented — re-run the timing probe if the
+  page ever looks a day off.
+- **Once a day.** `nyt_print.refresh()` runs at the end of every `fetch.py` and
+  skips once today's edition has `A1_COMPLETE` (3) front-page stories, so a
+  complete day costs ~17 calls of the 500 allowed. Until NYT has filled in
+  placement it stops after `GIVE_UP_AFTER` pages with no print fields and tries
+  again next run. Calls are paced 13s apart for the 5-a-minute limit, which is
+  why `edition.yml`'s timeout is 15 minutes, not 10.
+- **Fenced off from the paper**: it runs after the draw inside a try/except, so
+  an NYT failure is an `!! NYT print` line, never a failed run. Locally it skips,
+  because the key exists only on GitHub.
+- **Its own table**, `print_edition`, not `articles`: nothing there is drawn, and
+  the same URLs may already be owned in `articles` by an NYT feed (url_key is
+  UNIQUE). Kept 14 days. The page carries "Data provided by The New York Times".
+
 ## Phase status
 
 Phases 0, 1 and 2 shipped Aug 23, 2026. **Not built, deliberately:** Comics
