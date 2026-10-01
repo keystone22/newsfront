@@ -1,0 +1,28 @@
+name: NYT print-edition probe
+
+# By hand only ("Run workflow"). Reads the NYT Article Search API with the
+# NYT_API_KEY secret and prints a summary of yesterday's print edition to the
+# log. Writes nothing and commits nothing; the key exists only in GitHub's
+# secrets, and GitHub masks it in the log even if something tried to print it.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Summarise yesterday's print edition
+        env:
+          NYT_API_KEY: ${{ secrets.NYT_API_KEY }}
+        run: python nyt_print.py
