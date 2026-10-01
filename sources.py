@@ -366,7 +366,7 @@ LANG = {
 
 # Front-page order, like a print paper. Quotas total 15, matching the spec's
 # "~13-15 headlines/day, sized like a print front page".
-SECTIONS = ["Top News", "World", "Europe", "Italy", "Finance", "Science",
+SECTIONS = ["Top News", "US", "World", "Europe", "Italy", "Finance", "Science",
             "History", "Tech & Hobbies", "Arts & Culture", "Sports",
             "Human Interest"]
 
@@ -378,6 +378,7 @@ SECTIONS = ["Top News", "World", "Europe", "Italy", "Finance", "Science",
 # matches the spec's own draft (Top 3, World 2-3).
 QUOTAS = {
     "Top News":        3,
+    "US":              2,
     "World":           3,
     "Europe":          2,
     "Italy":           1,
@@ -418,6 +419,18 @@ TRIAL_VOTE_SECTIONS = TRIAL_SECTIONS + (SIGNALS,)
 TRIAL_MATCH = 0.3
 TRIAL_SAME_EVENT = 0.2
 
+# The Boston Globe. Its old feed died in May 2020, but the Arc platform it runs
+# on serves a live one: 100 items over ~3 days, verified 2026-10-01. robots.txt
+# has no rules for general agents -- it blocks AI crawlers by name, and this is
+# a feed reader taking headlines and links only. The feed is the WHOLE SITE
+# (sports 29 of 100), so each row keeps one desk by URL path, include-only and
+# anchored on the scheme so the lookahead can never match a title.
+# The RSS, not the news sitemap the robots.txt also lists: the sitemap's
+# publication_date is the LAST EDIT, so every story looked under 15h old.
+GLOBE = "https://www.bostonglobe.com/arc/outboundfeeds/rss/?outputType=xml"
+GLOBE_NATION = r"^https?://(?!www\.bostonglobe\.com/\d{4}/\d\d/\d\d/nation/)"
+GLOBE_METRO = r"^https?://(?!www\.bostonglobe\.com/\d{4}/\d\d/\d\d/metro/)"
+
 SOURCES = [
     # name,                section,           endpoint,                                                          cap, recency, exclude
 
@@ -453,6 +466,21 @@ SOURCES = [
     # afp.com/en/news/rss.xml 404s, afp.com/rss.xml is a corporate feed with
     # nothing in 48h, and site:afp.com via Google News returns press releases.
     ("France 24",          "Top News",        "https://www.france24.com/en/rss",                                  1,   24,  NEWS_NOISE),
+
+    # --- US. Added 2026-10-01, Frank's ask: national news with "a few local
+    #     stories", and not Top News a second time. Local is the Globe's Metro
+    #     desk (Boston and Rhode Island) -- one source of five, so the round-robin
+    #     deals it about two of the ten section slots. NYT and NPR overlap their
+    #     Top News feeds, but url_key is UNIQUE and those rows import first, so a
+    #     story already on NYT's or NPR's front page stays in Top News and these
+    #     rows only add what the front page did not carry. Reuters' US desk is
+    #     NOT here: site:reuters.com/world already covers /world/us/.
+    ("NYT US",             "US",              "https://rss.nytimes.com/services/xml/rss/nyt/US.xml",              1,   48,  NEWS_NOISE),
+    ("NPR National",       "US",              "https://feeds.npr.org/1003/rss.xml",                               1,   48,  NEWS_NOISE),
+    ("PBS NewsHour",       "US",              "https://www.pbs.org/newshour/feeds/rss/nation",                    1,   48,  NEWS_NOISE),
+    #     72h, not 48h: Nation runs ~4-5 a day and the feed holds ~3 days.
+    ("Globe Nation",       "US",              GLOBE,                                                              1,   72,  GLOBE_NATION),
+    ("Globe Metro",        "US",              GLOBE,                                                              1,   72,  GLOBE_METRO),
 
     # --- World
     ("NYT World",          "World",           "https://rss.nytimes.com/services/xml/rss/nyt/World.xml",           1,   48,  NEWS_NOISE),

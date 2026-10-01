@@ -76,7 +76,8 @@ see the deployment rule below, where it is not.
   Florentine needs 720h for the same reason. A silent source is usually this,
   not a broken feed.
 - **Verify a feed before relying on it.** From the original draft list: Boston
-  Globe's only reachable feed last updated **May 2020**, National Geographic
+  Globe's legacy feed last updated **May 2020** (its live Arc feed was found on
+  2026-10-01 — see "US section" below), National Geographic
   404s, Wired Ideas is abandoned, NYT Sports is empty, and WBUR's documented URL
   serves HTML (the real one is `wbur.org/feed`).
 - **A sitemap can be a source.** AP publishes no RSS but its `robots.txt`
@@ -350,6 +351,38 @@ random draw. Knobs are the `TRIAL_*` constants in `sources.py`.
   because Le Monde files European stories under `/international/` as well. Fixed
   2026-09-13 by switching to Le Monde's own `/en/europe/` and `/en/france/`
   feeds, which carry its own classification, and removing Le Monde Economy.
+
+## US section (Oct 1 2026)
+
+Frank's ask: national news with **a few local stories**, and not Top News a
+second time. Sources: NYT US, NPR National, PBS NewsHour, Globe Nation, Globe
+Metro. Local is Globe Metro (Boston, Rhode Island) — one source of five, so the
+round-robin deals it ~2 of the 10 section slots. The mix comes from the source
+count, not from any weighting.
+
+- **The Globe is reachable** through its Arc feed
+  (`/arc/outboundfeeds/rss/?outputType=xml`): 100 items over ~3 days, the whole
+  site, so each Globe row is include-only on its URL desk (`/YYYY/MM/DD/nation/`).
+  robots.txt has no rules for general agents; it blocks AI crawlers by name.
+- **Not its news sitemap**, though robots.txt lists one: the sitemap's
+  `publication_date` is the LAST EDIT, so every story looked under 15h old.
+- **NYT and NPR rows overlap their Top News feeds harmlessly** — url_key is
+  UNIQUE and the Top News rows import first, so a story on NYT's or NPR's front
+  page stays in Top News. No Reuters US row: `site:reuters.com/world` already
+  owns `/world/us/`.
+- **Cross-section repeats, measured:** 0 in the last 40 published editions
+  (Sep 21 – Oct 1). Simulated over 2,000 editions with US added: the US and Top
+  News FRONT slots share a story in 0.7% of editions, their SECTION pages in
+  ~1 edition in 6. Frank chose to wait for his trial review before adding a
+  one-story-one-section rule to the live draw (the trial pages already have it).
+- **NYT's Today's Paper page answers 403** to an honest user agent as of
+  2026-10-01 (it answered 200 on Sep 13). Do not spoof a browser. The planned
+  route is the NYT Article Search API, which tags each article with
+  `print_page` and `print_section` — usable for ANY print section, not just A1.
+  Frank is creating the free key; it goes in a GitHub secret `NYT_API_KEY`,
+  never in the repo or the chat.
+- Also checked 2026-10-01: WSJ's RSS is dead (newest item ~20 months old);
+  Washington Post feeds work but Frank declined them for the paywall.
 
 ## Phase status
 
