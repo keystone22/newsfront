@@ -150,6 +150,20 @@ a.shead:hover .more{color:var(--accent);}
 .key .sw{background:var(--pool);}
 .key .sw.slot{background:var(--accent); margin-left:10px;}
 
+/* Tap-to-reveal English gloss on an Italian headline (translate.py). Closed by
+   default and deliberately quiet: the Italian sources are there for reading
+   practice, so the gloss is a crib you choose to look at, never a replacement.
+   Plain <details>, so it works on the exported static pages with no script. */
+.xl{margin:5px 0 0;}
+.xl summary{display:inline-block; cursor:pointer; list-style:none;
+            font-family:var(--mono); font-size:.6rem; font-weight:600; letter-spacing:.08em;
+            color:var(--muted); border:1px solid var(--rule); border-radius:3px; padding:1px 6px;}
+.xl summary::-webkit-details-marker{display:none}
+.xl summary:hover, .xl[open] summary{color:var(--accent); border-color:var(--accent);}
+.xl summary:focus-visible{outline:2px solid var(--accent); outline-offset:2px;}
+.xl p{margin:6px 0 0; font-family:var(--serif); font-size:.98rem; line-height:1.3;
+      color:var(--muted); max-width:52ch;}
+
 </style>
 </head>
 <body>
@@ -161,9 +175,9 @@ a.shead:hover .more{color:var(--accent);}
     <p class="tagline">The full section for this edition &mdash; 10 slots,
       dealt one per source per round.</p>
     <div class="strip">
-      <div><span class="k">Edition</span><span class="v">17 Oct 2:28 PM</span></div>
+      <div><span class="k">Edition</span><span class="v">17 Oct 3:22 PM</span></div>
       <div><span class="k">Stories</span><span class="v">10 <span class="u">of 10</span></span></div>
-      <div><span class="k">Candidates</span><span class="v">506</span></div>
+      <div><span class="k">Candidates</span><span class="v">507</span></div>
       <div><span class="k">Sources</span><span class="v">10</span></div>
     </div>
   </div>
@@ -178,52 +192,24 @@ a.shead:hover .more{color:var(--accent);}
       
       <article class="story wide">
         <div class="meta">
-          <span class="src">Project Syndicate</span><span class="dot">&bull;</span><span>5d ago</span>
+          <span class="src">Breakingviews</span><span class="dot">&bull;</span><span>2d ago</span>
           
           
           <span class="tag">on the front page</span>
         </div>
-        <p class="hl"><a href="https://www.project-syndicate.org/commentary/global-south-networks-key-to-sustainable-responsible-mining-governance-by-hasrul-hanif-2026-10?utm_source=rss&amp;utm_medium=feed&amp;utm_campaign=main&amp;utm_content=en" target="_blank" rel="noopener noreferrer">How to Improve Global Mineral Governance</a></p>
+        <p class="hl"><a href="https://news.google.com/rss/articles/CBMinwFBVV95cUxQMFNib3RvZjY5Z1Y4am9mellfT3I3UXNFSjdieUpUWkFITEIyWFhyMGMtVGVFRE9SM29aV09YeEdFYnZSZl9IXzBGWEl3N3ZQa2ZhRFRwYXUxZVE0QXRQUlJONHcwb1R3MXZPYlE0T19IQkNVSVV0NDhqWXhWS3JOaFZqQXlvMGxoLWhRMGtVcXBhTWFMaGtBSHp0YjB4QTg?oc=5" target="_blank" rel="noopener noreferrer">Bones from Iraqi cave hint at violence and compassion in Neanderthals</a></p>
+        
       </article>
       
       <article class="story wide">
         <div class="meta">
-          <span class="src">CNBC</span><span class="dot">&bull;</span><span>5h ago</span>
+          <span class="src">Reuters Business</span><span class="dot">&bull;</span><span>33h ago</span>
           
           
           <span class="tag">on the front page</span>
         </div>
-        <p class="hl"><a href="https://www.cnbc.com/2026/10/17/trump-student-loans-bankruptcy.html" target="_blank" rel="noopener noreferrer">Trump&#39;s student loan overhaul could lead to more bankruptcy filings, former judge says</a></p>
-      </article>
-      
-      <article class="story wide">
-        <div class="meta">
-          <span class="src">Project Syndicate</span><span class="dot">&bull;</span><span>4d ago</span>
-          
-          
-          
-        </div>
-        <p class="hl"><a href="https://www.project-syndicate.org/commentary/us-defense-department-by-peter-singer-2026-10?utm_source=rss&amp;utm_medium=feed&amp;utm_campaign=main&amp;utm_content=en" target="_blank" rel="noopener noreferrer">Trump’s Misguided War Against Effective Altruism</a></p>
-      </article>
-      
-      <article class="story wide">
-        <div class="meta">
-          <span class="src">CNBC</span><span class="dot">&bull;</span><span>27h ago</span>
-          
-          
-          
-        </div>
-        <p class="hl"><a href="https://www.cnbc.com/2026/10/16/spacex-policy-manger-to-testify-in-nyc-council-ai-safety-investigation.html" target="_blank" rel="noopener noreferrer">SpaceX AI policy leader grilled by NYC Council on Grok safety, sexualized images</a></p>
-      </article>
-      
-      <article class="story wide">
-        <div class="meta">
-          <span class="src">Econbrowser</span><span class="dot">&bull;</span><span>43h ago</span>
-          
-          
-          
-        </div>
-        <p class="hl"><a href="https://econbrowser.com/archives/2026/10/the-cost-of-living-and-wages" target="_blank" rel="noopener noreferrer">The Cost of Living and Wages</a></p>
+        <p class="hl"><a href="https://news.google.com/rss/articles/CBMitgFBVV95cUxQLTFJTlBURGN2am9IMTFlUUppek9EdGlIcEQzMzJscE9LekhoWVE1LVJnVlVhUVFDVTA2WElwQlpQM2M1eG1CVXF5SnR6SnRRNm81akFzeU9VamlZOFA1dVExbWxrRy1heExNVjFyZWI4c0NnNDZTTzgtWVlabVZzQ3RMWFRqYlRKMTdCWktVYlYtZkluS3JwaHVDTWd2RW01VVBTMWFNMXozY3Zhbm1uU0ZPRFg5UQ?oc=5" target="_blank" rel="noopener noreferrer">Europe must boost growth or borrow less to keep debt sustainable, IMF says</a></p>
+        
       </article>
       
       <article class="story wide">
@@ -233,7 +219,8 @@ a.shead:hover .more{color:var(--accent);}
           
           
         </div>
-        <p class="hl"><a href="https://news.google.com/rss/articles/CBMisgFBVV95cUxNbERjb3RFVUdmYXZ6ZktrZ0tiVUlEck5vRGtxd2dXTnA4UGFoSF9QNEU5Y3FfVUxZOHp1cEt3UktQUXZicnI5UDByaW5hTDdhanhtb2JsVTZsRkxYSjRsd2VZZUx2Yy1lZzNhWGdJSWxOalZoZGJNU0g1NGFkUEFkZHNob2RXaVVqb3BxTkZGVFJaUHg4cVNTTXJMcnFtSGZTZDZ1TVVBOWxSSGhjZ0Z6SFpB?oc=5" target="_blank" rel="noopener noreferrer">Anthropic grants outside evaluator METR employee-level access in AI safety push</a></p>
+        <p class="hl"><a href="https://news.google.com/rss/articles/CBMiugFBVV95cUxQdmRyazZaaVFyYmFRZFRVTV9PSnJWUUd3aFdFLW1LcTlmMlY4XzNBMGVkRDkxMGpkYXJESF9aSnhiOEFfdnc2MHlUU0dmR19yQTVEX1Fjc0RxQ0NTbWRFRy1QV1laU1ZiUTZDU3ZFQU56aTFnOWx1aEdNT0xILTVDRTZMVkdkano3a2htVXVCVE8yenl3SEw1V2NuWHZPOG9vSU9IdFdNVHp2V1RYQ2Q0aUxtYzdwV0JfSlE?oc=5" target="_blank" rel="noopener noreferrer">France, Germany near deal on car emissions, Britain &#39;Made in EU&#39; status</a></p>
+        
       </article>
       
       <article class="story wide">
@@ -243,37 +230,74 @@ a.shead:hover .more{color:var(--accent);}
           
           
         </div>
-        <p class="hl"><a href="https://news.google.com/rss/articles/CBMivAFBVV95cUxOeEJrbGVXVGZlSEYzZnNuUVJYQVJKTHY4R2xJcWo4aVdGMERyS3p3YzQtNXFNbmUzMk1seXAydGtmZzhDeFNiWjBuWkpxa25PdUlpeU92bkdnZnFETDFGQ1VGMjR0S0J0RnZ3dE9sa1BCOU1FRlBSZ1h2R3BOeUJLT3JMc29Ib05BeC1FV0FxdUQyS3ZNajcxNXZ3ZVF1bmNWdkhqMElBMDNNa2dNVUM4NVRQeWl2dDkzLWJrSg?oc=5" target="_blank" rel="noopener noreferrer">Israeli firm used online ads to run vast spy operation, researchers say</a></p>
+        <p class="hl"><a href="https://news.google.com/rss/articles/CBMiwgFBVV95cUxNMG44ZzNRQldEWlduVDQ1cEtwOV9YenBLWTAyUEZMRFFGbHVFRWxCaGhzMVdpR1IyQTRPMVAweUVhOW5YdnY0MkJuVjlXbllKSTZfcEtCYzBHa2Y5X2JUaThHUnVJNENWalU4WVJzallqd2o0RzJ0UUlZYlpfbWJZb1JCRUJTQmh1NGJDeFAtejFUZWtsYWZaSk1XYzFZYWN5ZUlMRi1vYWpGXzBLb0ZtajNpQnZ5YVlOSF8wdGZKT0FsZw?oc=5" target="_blank" rel="noopener noreferrer">Judge calls $3,000 hourly rate &#39;patently unreasonable&#39; as lawyer billing soars</a></p>
+        
       </article>
       
       <article class="story wide">
         <div class="meta">
-          <span class="src">NYT Business</span><span class="dot">&bull;</span><span>9h ago</span>
+          <span class="src">Project Syndicate</span><span class="dot">&bull;</span><span>3d ago</span>
           
           
           
         </div>
-        <p class="hl"><a href="https://www.nytimes.com/2026/10/17/business/trump-corporate-tax-revenue.html" target="_blank" rel="noopener noreferrer">Corporate Tax Revenue Falls Even as Profits Soar Under Trump</a></p>
+        <p class="hl"><a href="https://www.project-syndicate.org/onpoint/china-excessive-surveillance-has-taught-people-to-hide-the-truth-by-yaqiu-wang-2026-10?utm_source=rss&amp;utm_medium=feed&amp;utm_campaign=main&amp;utm_content=en" target="_blank" rel="noopener noreferrer">The Blindness of China’s All-Seeing State</a></p>
+        
       </article>
       
       <article class="story wide">
         <div class="meta">
-          <span class="src">Guardian Business</span><span class="dot">&bull;</span><span>2d ago</span>
+          <span class="src">Econbrowser</span><span class="dot">&bull;</span><span>4d ago</span>
           
           
           
         </div>
-        <p class="hl"><a href="https://www.theguardian.com/news/2026/oct/15/a-perfect-storm-how-the-super-el-nino-is-devastating-the-fishing-industry" target="_blank" rel="noopener noreferrer">A perfect storm: how the super El Niño is devastating the fishing industry</a></p>
+        <p class="hl"><a href="https://econbrowser.com/archives/2026/10/the-2026-economic-sciences-laureates" target="_blank" rel="noopener noreferrer">The 2026 economic sciences laureates</a></p>
+        
       </article>
       
       <article class="story wide">
         <div class="meta">
-          <span class="src">BBC Business</span><span class="dot">&bull;</span><span>36h ago</span>
+          <span class="src">MarketWatch</span><span class="dot">&bull;</span><span>25h ago</span>
           
           
           
         </div>
-        <p class="hl"><a href="https://www.bbc.co.uk/news/articles/c9rky27ljrxno?at_medium=RSS&amp;at_campaign=rss" target="_blank" rel="noopener noreferrer">Fuel costs squeezing margins for some businesses</a></p>
+        <p class="hl"><a href="https://www.marketwatch.com/story/the-u-s-budget-deficit-just-hit-almost-2-trillion-and-washington-isnt-doing-much-about-it-a1b5c4ea?mod=mw_rss_topstories" target="_blank" rel="noopener noreferrer">The U.S. budget deficit just hit almost $2 trillion — and Washington isn’t doing much about it</a></p>
+        
+      </article>
+      
+      <article class="story wide">
+        <div class="meta">
+          <span class="src">CNBC</span><span class="dot">&bull;</span><span>25h ago</span>
+          
+          
+          
+        </div>
+        <p class="hl"><a href="https://www.cnbc.com/2026/10/16/debt-payments-rise-more-than-income.html" target="_blank" rel="noopener noreferrer">Debt is eating up a bigger chunk of your raise, research shows</a></p>
+        
+      </article>
+      
+      <article class="story wide">
+        <div class="meta">
+          <span class="src">Guardian Business</span><span class="dot">&bull;</span><span>4h ago</span>
+          
+          
+          
+        </div>
+        <p class="hl"><a href="https://www.theguardian.com/business/2026/oct/17/why-britain-should-reject-the-lure-of-cheap-and-scary-chinese-ai" target="_blank" rel="noopener noreferrer">Why Britain should reject the lure of cheap – and scary – Chinese AI</a></p>
+        
+      </article>
+      
+      <article class="story wide">
+        <div class="meta">
+          <span class="src">BBC Business</span><span class="dot">&bull;</span><span>2d ago</span>
+          
+          
+          
+        </div>
+        <p class="hl"><a href="https://www.bbc.co.uk/news/articles/c9j3dvezpdz0o?at_medium=RSS&amp;at_campaign=rss" target="_blank" rel="noopener noreferrer">&#39;I paid thousands to a company for jobs that never came&#39;</a></p>
+        
       </article>
       
     </section>
@@ -287,7 +311,7 @@ a.shead:hover .more{color:var(--accent);}
 
     <section class="section mech split">
       <h2>How this page was drawn</h2>
-      <p class="sub">506 candidates from 10 sources, filling
+      <p class="sub">507 candidates from 10 sources, filling
         10 slots. The 2 stories already on the front page
         lead this one, and the rest are
         dealt <b>one per source per round</b>, with the source order reshuffled each round.
@@ -299,12 +323,12 @@ a.shead:hover .more{color:var(--accent);}
         <div class="row">
           <div class="rtop">
             <b class="">Reuters Business</b>
-            <span>181 candidates
-                  &rarr; 1 slot</span>
+            <span>182 candidates
+                  &rarr; 2 slots</span>
           </div>
           <div class="bar">
-            <i style="width:35.8%"></i>
-            <i class="slot" style="width:10.0%"></i>
+            <i style="width:35.9%"></i>
+            <i class="slot" style="width:20.0%"></i>
           </div>
         </div>
         
@@ -312,11 +336,11 @@ a.shead:hover .more{color:var(--accent);}
           <div class="rtop">
             <b class="">Breakingviews</b>
             <span>103 candidates
-                  &rarr; 1 slot</span>
+                  &rarr; 2 slots</span>
           </div>
           <div class="bar">
-            <i style="width:20.4%"></i>
-            <i class="slot" style="width:10.0%"></i>
+            <i style="width:20.3%"></i>
+            <i class="slot" style="width:20.0%"></i>
           </div>
         </div>
         
@@ -324,11 +348,11 @@ a.shead:hover .more{color:var(--accent);}
           <div class="rtop">
             <b class="">CNBC</b>
             <span>67 candidates
-                  &rarr; 2 slots</span>
+                  &rarr; 1 slot</span>
           </div>
           <div class="bar">
             <i style="width:13.2%"></i>
-            <i class="slot" style="width:20.0%"></i>
+            <i class="slot" style="width:10.0%"></i>
           </div>
         </div>
         
@@ -336,11 +360,11 @@ a.shead:hover .more{color:var(--accent);}
           <div class="rtop">
             <b class="">MarketWatch</b>
             <span>46 candidates
-                  &rarr; 0 slots</span>
+                  &rarr; 1 slot</span>
           </div>
           <div class="bar">
             <i style="width:9.1%"></i>
-            <i class="slot" style="width:0.0%"></i>
+            <i class="slot" style="width:10.0%"></i>
           </div>
         </div>
         
@@ -360,11 +384,11 @@ a.shead:hover .more{color:var(--accent);}
           <div class="rtop">
             <b class="">Project Syndicate</b>
             <span>27 candidates
-                  &rarr; 2 slots</span>
+                  &rarr; 1 slot</span>
           </div>
           <div class="bar">
             <i style="width:5.3%"></i>
-            <i class="slot" style="width:20.0%"></i>
+            <i class="slot" style="width:10.0%"></i>
           </div>
         </div>
         
@@ -372,11 +396,11 @@ a.shead:hover .more{color:var(--accent);}
           <div class="rtop">
             <b class="">NYT Business</b>
             <span>19 candidates
-                  &rarr; 1 slot</span>
+                  &rarr; 0 slots</span>
           </div>
           <div class="bar">
-            <i style="width:3.8%"></i>
-            <i class="slot" style="width:10.0%"></i>
+            <i style="width:3.7%"></i>
+            <i class="slot" style="width:0.0%"></i>
           </div>
         </div>
         
@@ -424,9 +448,11 @@ a.shead:hover .more{color:var(--accent);}
 
       <p class="foot">
         Random draw within the round-robin. No ranking, no click data, no personalization.<br>
+        Italian headlines carry a tap-to-reveal <b>EN</b> gloss, machine-translated
+        by MyMemory &mdash; a crib, not the paper's own wording.<br>
         Nothing here is marked as shown &mdash; the dedup window applies to the front page,
         so a story can sit in its section for as long as its source's window allows.<br>
-        Phase 2 &middot; 93 feeds &middot; 12 sections.
+        Phase 2 &middot; 96 feeds &middot; 12 sections.
       </p>
     </section>
 

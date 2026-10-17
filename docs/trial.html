@@ -148,6 +148,20 @@ a.shead:hover .more{color:var(--accent);}
 .key .sw{background:var(--pool);}
 .key .sw.slot{background:var(--accent); margin-left:10px;}
 
+/* Tap-to-reveal English gloss on an Italian headline (translate.py). Closed by
+   default and deliberately quiet: the Italian sources are there for reading
+   practice, so the gloss is a crib you choose to look at, never a replacement.
+   Plain <details>, so it works on the exported static pages with no script. */
+.xl{margin:5px 0 0;}
+.xl summary{display:inline-block; cursor:pointer; list-style:none;
+            font-family:var(--mono); font-size:.6rem; font-weight:600; letter-spacing:.08em;
+            color:var(--muted); border:1px solid var(--rule); border-radius:3px; padding:1px 6px;}
+.xl summary::-webkit-details-marker{display:none}
+.xl summary:hover, .xl[open] summary{color:var(--accent); border-color:var(--accent);}
+.xl summary:focus-visible{outline:2px solid var(--accent); outline-offset:2px;}
+.xl p{margin:6px 0 0; font-family:var(--serif); font-size:.98rem; line-height:1.3;
+      color:var(--muted); max-width:52ch;}
+
 </style>
 </head>
 <body>
@@ -161,10 +175,10 @@ a.shead:hover .more{color:var(--accent);}
       2 newsrooms are running in the last 24 hours; the rest
       stay the ordinary random draw.</p>
     <div class="strip">
-      <div><span class="k">Edition</span><span class="v">17 Oct 2:28 PM</span></div>
-      <div><span class="k">Headlines read</span><span class="v">806</span></div>
+      <div><span class="k">Edition</span><span class="v">17 Oct 3:22 PM</span></div>
+      <div><span class="k">Headlines read</span><span class="v">819</span></div>
       <div><span class="k">Newsrooms</span><span class="v">12</span></div>
-      <div><span class="k">Qualifying</span><span class="v">54</span></div>
+      <div><span class="k">Qualifying</span><span class="v">56</span></div>
     </div>
   </div>
 
@@ -185,34 +199,34 @@ a.shead:hover .more{color:var(--accent);}
       
       <article class="story wide">
         <div class="meta">
-          <span class="src">NYT</span><span class="dot">&bull;</span><span>34h ago</span>
+          <span class="src">AP</span><span class="dot">&bull;</span><span>28h ago</span>
+          <span class="tag" title="AP, BBC, Guardian">on 3 newsrooms</span>
+          
+          
+        </div>
+        <p class="note">AP · BBC · Guardian</p>
+        <p class="hl"><a href="https://news.google.com/rss/articles/CBMiqgFBVV95cUxOb3VHQjBiWlFzb3V5N3I1anY5UXBwUFVDZEZ4RjFQQXlYRVY3WEVMeTl4d2x3d2NJVkVYTy11bjdFTmVjemVfX1JEQXhpNFFhYUtGVHFLb1V6Tkp6UjhXeDZ5Y1ItbDhwWHNhYi1lZ2dJM2FkYnd3UTM1ODV1SnM4MWUta0F1cWhlTldJM0JMczlNbzN4RlVuRE1FUU9JaHVfd0F1LUNSeXo4UQ?oc=5" target="_blank" rel="noopener noreferrer">British man fined without jail in Cyprus after pleading guilty to negligence in son’s fatal fall</a></p>
+      </article>
+
+      <article class="story wide">
+        <div class="meta">
+          <span class="src">Reuters</span><span class="dot">&bull;</span><span>38h ago</span>
           <span class="tag">random draw</span>
           
         </div>
         
-        <p class="hl"><a href="https://www.nytimes.com/2026/10/16/world/europe/paris-schools-abuse-crisis.html" target="_blank" rel="noopener noreferrer">The Sexual Abuse Crisis in Paris’s Public Schools</a></p>
+        <p class="hl"><a href="https://news.google.com/rss/articles/CBMixgFBVV95cUxPNUtHZnNpWUhzLURSUE1MLTNLUTJwUm9QMFdZd0wzb3dMUkRKTFVLb0dVN0RTbXFNR0JMNUhiU1dYbDFJZ3otaklsTmhoeFhWUkxFcHVnaGRfa0pYdnZKaDZzOU9hVzJIV3ZHb3hOYm04M0pmOUxNblZnS2ZucFhHTEFWajd3RkpNYkpFeERLSHhpaHE3YUtDYk51MlgtYmhmLXNBN2R4b1ltRmVsTVo4SFhsMGtPY3NSYVdGSklKdnBBWURzSkE?oc=5" target="_blank" rel="noopener noreferrer">India&#39;s Wipro gains after quarterly revenue beat offsets concerns over weak deal wins</a></p>
       </article>
 
       <article class="story wide">
         <div class="meta">
-          <span class="src">AP</span><span class="dot">&bull;</span><span>5h ago</span>
-          <span class="tag" title="AP, NPR">on 2 newsrooms</span>
+          <span class="src">Guardian US</span><span class="dot">&bull;</span><span>20h ago</span>
+          <span class="tag" title="AP, Euronews, Guardian">on 3 newsrooms</span>
           
           
         </div>
-        <p class="note">AP · NPR</p>
-        <p class="hl"><a href="https://news.google.com/rss/articles/CBMimgFBVV95cUxNWmRHbHlmZUhGb2xmVFZXeFBmNTFodEJ3U2xmUkZmZDhzdGR2aTEzTHRXOVRIWmx1REtWbHpGY2NQQUFVSk9PaHY3dFRjSUVqZUM3LURoSWlQQ3dDNlEtMnpmQmY3bVJtZEJWNV9vd0hDczg4OGV3UGJ0QmFWX0xLTHpzQ2c3ME5XcE9PN3Zidl9tV0xESXY5aW9R?oc=5" target="_blank" rel="noopener noreferrer">Scuffles break out as protesters rally across France, joining students</a></p>
-      </article>
-
-      <article class="story wide">
-        <div class="meta">
-          <span class="src">Reuters</span><span class="dot">&bull;</span><span>25h ago</span>
-          <span class="tag" title="Guardian, Reuters">on 2 newsrooms</span>
-          
-          
-        </div>
-        <p class="note">Guardian · Reuters</p>
-        <p class="hl"><a href="https://news.google.com/rss/articles/CBMivgFBVV95cUxQUVphQXp1WHJBUlFhekxrSzFTVGJfSGlqWFFmSktKcEVzV0REMU1faWt6UGVSWkVXNFNqQm9maVUzemNRVVVteUhhNklocGVZN2loVW5HTzY0ZFhYWW9vVW0xbUlabEE0YTZzaU9OSEtwOXR2d3k4MU1RZm1acXRaYVJSZnNTaTZsQTVYWTdqRE1aVW1UOFIwWVlSWmJidExOUHFLdTBlS2E3OUxMUHNQVS1neEw2akRBZzAyNVZR?oc=5" target="_blank" rel="noopener noreferrer">Putin says Russia is building non-negotiable &#39;security zone&#39; in Ukraine along border</a></p>
+        <p class="note">AP · Euronews · Guardian</p>
+        <p class="hl"><a href="https://www.theguardian.com/us-news/2026/oct/16/bend-oregon-shooting-victims" target="_blank" rel="noopener noreferrer">Oregon shooting victims: three boys and female teacher killed at elementary school</a></p>
       </article>
 
     </section>
@@ -225,109 +239,109 @@ a.shead:hover .more{color:var(--accent);}
       
       <article class="story wide">
         <div class="meta">
-          <span class="src">NYT</span><span class="dot">&bull;</span><span>34h ago</span>
-          <span class="tag">random draw</span>
+          <span class="src">AP</span><span class="dot">&bull;</span><span>28h ago</span>
+          <span class="tag" title="AP, BBC, Guardian">on 3 newsrooms</span>
+          
           <span class="tag">on the trial front page</span>
         </div>
-        
-        <p class="hl"><a href="https://www.nytimes.com/2026/10/16/world/europe/paris-schools-abuse-crisis.html" target="_blank" rel="noopener noreferrer">The Sexual Abuse Crisis in Paris’s Public Schools</a></p>
+        <p class="note">AP · BBC · Guardian</p>
+        <p class="hl"><a href="https://news.google.com/rss/articles/CBMiqgFBVV95cUxOb3VHQjBiWlFzb3V5N3I1anY5UXBwUFVDZEZ4RjFQQXlYRVY3WEVMeTl4d2x3d2NJVkVYTy11bjdFTmVjemVfX1JEQXhpNFFhYUtGVHFLb1V6Tkp6UjhXeDZ5Y1ItbDhwWHNhYi1lZ2dJM2FkYnd3UTM1ODV1SnM4MWUta0F1cWhlTldJM0JMczlNbzN4RlVuRE1FUU9JaHVfd0F1LUNSeXo4UQ?oc=5" target="_blank" rel="noopener noreferrer">British man fined without jail in Cyprus after pleading guilty to negligence in son’s fatal fall</a></p>
       </article>
 
       <article class="story wide">
         <div class="meta">
-          <span class="src">AP</span><span class="dot">&bull;</span><span>5h ago</span>
-          <span class="tag" title="AP, NPR">on 2 newsrooms</span>
+          <span class="src">Reuters</span><span class="dot">&bull;</span><span>38h ago</span>
+          <span class="tag">random draw</span>
+          <span class="tag">on the trial front page</span>
+        </div>
+        
+        <p class="hl"><a href="https://news.google.com/rss/articles/CBMixgFBVV95cUxPNUtHZnNpWUhzLURSUE1MLTNLUTJwUm9QMFdZd0wzb3dMUkRKTFVLb0dVN0RTbXFNR0JMNUhiU1dYbDFJZ3otaklsTmhoeFhWUkxFcHVnaGRfa0pYdnZKaDZzOU9hVzJIV3ZHb3hOYm04M0pmOUxNblZnS2ZucFhHTEFWajd3RkpNYkpFeERLSHhpaHE3YUtDYk51MlgtYmhmLXNBN2R4b1ltRmVsTVo4SFhsMGtPY3NSYVdGSklKdnBBWURzSkE?oc=5" target="_blank" rel="noopener noreferrer">India&#39;s Wipro gains after quarterly revenue beat offsets concerns over weak deal wins</a></p>
+      </article>
+
+      <article class="story wide">
+        <div class="meta">
+          <span class="src">Guardian US</span><span class="dot">&bull;</span><span>20h ago</span>
+          <span class="tag" title="AP, Euronews, Guardian">on 3 newsrooms</span>
           
           <span class="tag">on the trial front page</span>
         </div>
-        <p class="note">AP · NPR</p>
-        <p class="hl"><a href="https://news.google.com/rss/articles/CBMimgFBVV95cUxNWmRHbHlmZUhGb2xmVFZXeFBmNTFodEJ3U2xmUkZmZDhzdGR2aTEzTHRXOVRIWmx1REtWbHpGY2NQQUFVSk9PaHY3dFRjSUVqZUM3LURoSWlQQ3dDNlEtMnpmQmY3bVJtZEJWNV9vd0hDczg4OGV3UGJ0QmFWX0xLTHpzQ2c3ME5XcE9PN3Zidl9tV0xESXY5aW9R?oc=5" target="_blank" rel="noopener noreferrer">Scuffles break out as protesters rally across France, joining students</a></p>
+        <p class="note">AP · Euronews · Guardian</p>
+        <p class="hl"><a href="https://www.theguardian.com/us-news/2026/oct/16/bend-oregon-shooting-victims" target="_blank" rel="noopener noreferrer">Oregon shooting victims: three boys and female teacher killed at elementary school</a></p>
       </article>
 
       <article class="story wide">
         <div class="meta">
           <span class="src">Reuters</span><span class="dot">&bull;</span><span>25h ago</span>
+          <span class="tag" title="Euronews, Reuters">on 2 newsrooms</span>
+          
+          
+        </div>
+        <p class="note">Euronews · Reuters</p>
+        <p class="hl"><a href="https://news.google.com/rss/articles/CBMinAFBVV95cUxNa3JNbWNyLUNJd0hreG5VVkZYenNyVlpsTEQ4alQtS19BNEFESTFVaGczM29mM0t3Y19lc1dvaDVZd2llMHJFb1VGakxmS255QzZ5NEtSNE9GV1FxRkFtQWlaMVlpTGVOTEdBclN1MmFMZ3pHM0tfSE42N1hJWGcwT3BlVG5rUFI2ZzJ4VktzSHgycHVUdDNQWjFxbnk?oc=5" target="_blank" rel="noopener noreferrer">Putin agrees to cooperate with Pope Leo&#39;s plea for aid for Ukrainian town</a></p>
+      </article>
+
+      <article class="story wide">
+        <div class="meta">
+          <span class="src">Reuters</span><span class="dot">&bull;</span><span>41h ago</span>
           <span class="tag" title="Guardian, Reuters">on 2 newsrooms</span>
           
-          <span class="tag">on the trial front page</span>
+          
         </div>
         <p class="note">Guardian · Reuters</p>
-        <p class="hl"><a href="https://news.google.com/rss/articles/CBMivgFBVV95cUxQUVphQXp1WHJBUlFhekxrSzFTVGJfSGlqWFFmSktKcEVzV0REMU1faWt6UGVSWkVXNFNqQm9maVUzemNRVVVteUhhNklocGVZN2loVW5HTzY0ZFhYWW9vVW0xbUlabEE0YTZzaU9OSEtwOXR2d3k4MU1RZm1acXRaYVJSZnNTaTZsQTVYWTdqRE1aVW1UOFIwWVlSWmJidExOUHFLdTBlS2E3OUxMUHNQVS1neEw2akRBZzAyNVZR?oc=5" target="_blank" rel="noopener noreferrer">Putin says Russia is building non-negotiable &#39;security zone&#39; in Ukraine along border</a></p>
+        <p class="hl"><a href="https://news.google.com/rss/articles/CBMiwwFBVV95cUxPYWZ5Q2NzcDZWYmYwWE1UY2JuUHFWMkJMUjZhdHFKZlpBV25IUzRxelJDUGp2MTZfMnY2b0tkNGNOcTlfUDJwdUVWWmF6TGR0bHFCMTRhejZwQ1FoS3d3LWk3M0Z2dmJJNVFobndCNVYtLTZDbjdNN3ZFTDhYbUl4U2o1WWV0TW1FcHhtTU1vSkdyZzNuZ1FXUVpncUdWbTZqSlpkM1VWcE9HMzhDVTVWRnNJS29OeHg4TmlBRC00STN6MXM?oc=5" target="_blank" rel="noopener noreferrer">Lula defends cutting Brazil&#39;s criminal responsibility age to 16 for heinous crimes</a></p>
       </article>
 
       <article class="story wide">
         <div class="meta">
-          <span class="src">Reuters</span><span class="dot">&bull;</span><span>39h ago</span>
-          <span class="tag" title="AP, Reuters">on 2 newsrooms</span>
-          
-          
-        </div>
-        <p class="note">AP · Reuters</p>
-        <p class="hl"><a href="https://news.google.com/rss/articles/CBMisAFBVV95cUxPTGZDclBEV0w3ZFJ3bE8tckwwTE1YTXBXTG1GdGNfN2Vkb1BsaXFoZVo1QUF4YUhzanBOM05HNmR6X1gyalBGR05HQk5NM1VhY0VGbUhqb0dIN2txQklscWtMaVd3MVE3QTdISTRVbDZXdEpXa25EUHpZejdrZ1ozdFlOOTBBT2VfT3VFcmh5UmpjRWFoelZTUEZKOTl5UEhrc1dpWVQ3ZUpMd1NmVE8ybA?oc=5" target="_blank" rel="noopener noreferrer">Indonesian stocks sink most since 1998 on MSCI downgrade warning</a></p>
-      </article>
-
-      <article class="story wide">
-        <div class="meta">
-          <span class="src">Guardian US</span><span class="dot">&bull;</span><span>3h ago</span>
-          <span class="tag" title="AP, Guardian">on 2 newsrooms</span>
-          
-          
-        </div>
-        <p class="note">AP · Guardian</p>
-        <p class="hl"><a href="https://www.theguardian.com/us-news/2026/oct/17/alligator-attack-florida-fisher-killed" target="_blank" rel="noopener noreferrer">Florida fisher dragged into water and killed by 12ft alligator</a></p>
-      </article>
-
-      <article class="story wide">
-        <div class="meta">
-          <span class="src">NPR</span><span class="dot">&bull;</span><span>29h ago</span>
-          <span class="tag" title="AP, NPR">on 2 newsrooms</span>
-          
-          
-        </div>
-        <p class="note">AP · NPR</p>
-        <p class="hl"><a href="https://www.npr.org/2026/10/16/g-s1-148383/crowds-throng-new-delhi-and-wave-indian-flags-amid-escalating-protests" target="_blank" rel="noopener noreferrer">Crowds throng New Delhi and wave Indian flags amid escalating protests</a></p>
-      </article>
-
-      <article class="story wide">
-        <div class="meta">
-          <span class="src">Reuters</span><span class="dot">&bull;</span><span>20h ago</span>
-          <span class="tag" title="BBC, Reuters">on 2 newsrooms</span>
-          
-          
-        </div>
-        <p class="note">BBC · Reuters</p>
-        <p class="hl"><a href="https://news.google.com/rss/articles/CBMiqwFBVV95cUxOaV9ndEpmLXU4eGNVbG0wQXBqZEdKUWFTaHlERGNXcWFpeFBvVXNEX0g5UTA2NFQ0UHVtSWN5S1ctQ2Rua2RTVVZXSmZSWjcybGIzR2xCVy1McFFRUmE5akdsWWxkMGozXzVlUUxhNVBfbF9kTXUzN1pXZDFISXdqNk5oYmZnQVNVZFRBMm5iOXNmRS1Jd0tQdmNDSHd1WEpCRzFmeUdaLVhLaHc?oc=5" target="_blank" rel="noopener noreferrer">Actor Selma Blair did not intend harm on flight, spokesperson says</a></p>
-      </article>
-
-      <article class="story wide">
-        <div class="meta">
-          <span class="src">BBC</span><span class="dot">&bull;</span><span>30h ago</span>
+          <span class="src">NPR</span><span class="dot">&bull;</span><span>31h ago</span>
           <span class="tag">random draw</span>
           
         </div>
         
-        <p class="hl"><a href="https://www.bbc.co.uk/news/articles/cmly0n4nzq5qo?at_medium=RSS&amp;at_campaign=rss" target="_blank" rel="noopener noreferrer">Catherine says nature can help children&#39;s emotional growth</a></p>
+        <p class="hl"><a href="https://www.npr.org/2026/10/16/nx-s1-6004838/sally-rooney-books-uk-palestinian-action-support" target="_blank" rel="noopener noreferrer">Sally Rooney&#39;s books will no longer be sold in U.K. after Palestinian Action support</a></p>
       </article>
 
       <article class="story wide">
         <div class="meta">
-          <span class="src">France 24</span><span class="dot">&bull;</span><span>22h ago</span>
+          <span class="src">France 24</span><span class="dot">&bull;</span><span>13h ago</span>
+          <span class="tag" title="Al Jazeera, Euronews, France 24">on 3 newsrooms</span>
+          
+          
+        </div>
+        <p class="note">Al Jazeera · Euronews · France 24</p>
+        <p class="hl"><a href="https://www.france24.com/en/middle-east/20261017-yemen-s-houthis-claim-responsibility-for-fresh-missile-strike-on-aden-airport" target="_blank" rel="noopener noreferrer">Yemen&#39;s Houthis claim responsibility for fresh missile strike on Aden airport</a></p>
+      </article>
+
+      <article class="story wide">
+        <div class="meta">
+          <span class="src">BBC</span><span class="dot">&bull;</span><span>15h ago</span>
+          <span class="tag" title="BBC, Guardian">on 2 newsrooms</span>
+          
+          
+        </div>
+        <p class="note">BBC · Guardian</p>
+        <p class="hl"><a href="https://www.bbc.co.uk/news/articles/cw0k07d2nj43o?at_medium=RSS&amp;at_campaign=rss" target="_blank" rel="noopener noreferrer">Third runway at Heathrow Airport would drive growth, Healey says</a></p>
+      </article>
+
+      <article class="story wide">
+        <div class="meta">
+          <span class="src">Reuters</span><span class="dot">&bull;</span><span>29h ago</span>
+          <span class="tag" title="Al Jazeera, Reuters">on 2 newsrooms</span>
+          
+          
+        </div>
+        <p class="note">Al Jazeera · Reuters</p>
+        <p class="hl"><a href="https://news.google.com/rss/articles/CBMivgFBVV95cUxOTjVCUjhWQ05fM0dEYS1oR29yb3RhREZxYkUyX2hTeS1xQlVHSjk3SWZSZHVNb2Zla0lsTmhKLXNsYXBQNlBHTkdiQ1AzYW5rdWp0SEtiZWNUZk5lMDlKallXUEZKT0xROWpJS3JzaFRTaGV0SmdwQmw1VVluWlYyRjFjT1FKWWJldWo5RUNNQlN3YWd3c3daOURld0NjNEczVlU5cUhtc2NPNUJzcVFwVWVqdzdXSlZmNTViWmNR?oc=5" target="_blank" rel="noopener noreferrer">Italy names senior Israelis, Katz in probe over Gaza flotilla activists</a></p>
+      </article>
+
+      <article class="story wide">
+        <div class="meta">
+          <span class="src">NYT</span><span class="dot">&bull;</span><span>33h ago</span>
           <span class="tag">random draw</span>
           
         </div>
         
-        <p class="hl"><a href="https://www.france24.com/en/kenya-confirms-third-ebola-case" target="_blank" rel="noopener noreferrer">KENYA CONFIRMS THIRD EBOLA CASE</a></p>
-      </article>
-
-      <article class="story wide">
-        <div class="meta">
-          <span class="src">Reuters</span><span class="dot">&bull;</span><span>30h ago</span>
-          <span class="tag" title="BBC, Reuters">on 2 newsrooms</span>
-          
-          
-        </div>
-        <p class="note">BBC · Reuters</p>
-        <p class="hl"><a href="https://news.google.com/rss/articles/CBMiwgFBVV95cUxNU080YlI5Y2Q5SEtsVkNRaEFkT2k2ckY1aUxTOUdZMzdhUUlsaXdWcmRTS0hHUXZreVVKODJ3dGNFc25XTm1rcnE1aEx3TUtVUTdyOE4yS1VUdS14UFhmNHRGSVBfSDM1NHAyb1RlT3Y0Z3BBbm5JMXMzdTBZRzdzT1NXQ1BsVkczTE5vNlVCSUxUV1ZOa0Y4enlMSjFONTRIaE10TkdsODRRb3lnczA2c0tVaktORTQwRnpRNTAzUmtYUQ?oc=5" target="_blank" rel="noopener noreferrer">About 200 people rescued from unregistered South African rehab centre, police say</a></p>
+        <p class="hl"><a href="https://www.nytimes.com/2026/10/16/world/middleeast/israel-mansour-abbas.html" target="_blank" rel="noopener noreferrer">The Arab Kingmaker in Israel’s Election Who Wants a Partnership With Jews</a></p>
       </article>
 
     </section>
@@ -340,91 +354,91 @@ a.shead:hover .more{color:var(--accent);}
       
       <article class="story wide">
         <div class="meta">
-          <span class="src">NPR</span><span class="dot">&bull;</span><span>7h ago</span>
+          <span class="src">BBC</span><span class="dot">&bull;</span><span>39h ago</span>
           <span class="tag">on the front page</span>
         </div>
-        <p class="hl"><a href="https://www.npr.org/2026/10/17/nx-s1-5987671/south-africa-justice-sharpeville-apartheid" target="_blank" rel="noopener noreferrer">Decades after apartheid, South Africans seek justice for crimes of the past</a></p>
+        <p class="hl"><a href="https://www.bbc.co.uk/news/articles/cm89zp48k4kzo?at_medium=RSS&amp;at_campaign=rss" target="_blank" rel="noopener noreferrer">Children aged 5, 8 and 11 killed in US school shooting before suspect shot by bystander</a></p>
       </article>
       
       <article class="story wide">
         <div class="meta">
-          <span class="src">Reuters</span><span class="dot">&bull;</span><span>21h ago</span>
+          <span class="src">Reuters</span><span class="dot">&bull;</span><span>30h ago</span>
           <span class="tag">on the front page</span>
         </div>
-        <p class="hl"><a href="https://news.google.com/rss/articles/CBMiugFBVV95cUxPZ3Aydy1nYlZxQ2piclRHUDR2NVN0U3dDenVoX1NlNTJRNjNSMDVwV2VpZk5rYjlXSHl0MzRpY0JzUUIxaW0wbTNvN1U5c2VoaS1aVFgxNDc1dEp1cTRHVjhZZVdjRHNoc0gybW5vSFdlVHlMSFd4SmQ5azBSZERzY01MSVB5eElybWd6N1dPcXNldVM1MEZqV1FtOUE5OHhwM3lvcUYtZlJSNnh1VHdYWFdNLVY1OFZ3dlE?oc=5" target="_blank" rel="noopener noreferrer">Thames Water wins majority support among key Class B creditors for recapitalisation</a></p>
+        <p class="hl"><a href="https://news.google.com/rss/articles/CBMipAFBVV95cUxQV2dUYmtmWmhNUC0wU2dOVjRIb3FfcThUU0UwcDRpelc4aTExcHhwMWhjaWtyT0VlSC1pVmZwS2c5YUwwYWowT0ZsNUJtVm5GYWQ1TWRZTG1VbGpGbXFHWnBXLThsTGYzMXR4R1dkME5RRU9kRXNrZjVVbFotRC1VWjRaOF9rSjNGWXdZNGpzb0xiVlp4cHRNb3FJQjR6cE9sQ0tWdw?oc=5" target="_blank" rel="noopener noreferrer">Indian IT firm LTM beats second-quarter revenue view</a></p>
       </article>
       
       <article class="story wide">
         <div class="meta">
-          <span class="src">NYT</span><span class="dot">&bull;</span><span>23h ago</span>
+          <span class="src">Guardian US</span><span class="dot">&bull;</span><span>6h ago</span>
           <span class="tag">on the front page</span>
         </div>
-        <p class="hl"><a href="https://www.nytimes.com/2026/10/16/weather/malibu-wildfire-wind-california.html" target="_blank" rel="noopener noreferrer">Firefighters Race to Control California Wildfires as Winds Threaten to Spark More</a></p>
+        <p class="hl"><a href="https://www.theguardian.com/us-news/2026/oct/17/bend-oregon-school-shooting" target="_blank" rel="noopener noreferrer">After the unimaginable happens, an Oregon town mourns: ‘You can’t stop thinking about the kids’</a></p>
       </article>
       
       <article class="story wide">
         <div class="meta">
-          <span class="src">France 24</span><span class="dot">&bull;</span><span>31h ago</span>
+          <span class="src">NYT</span><span class="dot">&bull;</span><span>12h ago</span>
           
         </div>
-        <p class="hl"><a href="https://www.france24.com/en/tv-shows/fashion/20261016-spring-summer-2027-ready-to-wear-collections-africa-in-the-spotlight-at-paris-fashion-week" target="_blank" rel="noopener noreferrer">Spring-summer 2027 ready-to-wear collections: Africa in the spotlight at Paris Fashion Week</a></p>
+        <p class="hl"><a href="https://www.nytimes.com/2026/10/16/us/politics/trump-order-russia-sanctions.html" target="_blank" rel="noopener noreferrer">Trump Signs Order Exempting Russia From Sanctions Law</a></p>
       </article>
       
       <article class="story wide">
         <div class="meta">
-          <span class="src">Reuters</span><span class="dot">&bull;</span><span>32h ago</span>
+          <span class="src">Guardian US</span><span class="dot">&bull;</span><span>21h ago</span>
           
         </div>
-        <p class="hl"><a href="https://news.google.com/rss/articles/CBMitgFBVV95cUxPVU5SVzFTSk9Hd2RpR3VCc2lINWtMc1QyUTB0QmFfbW12WEt3aktMU2p3ZUlMbnN5MGNVbS1zY1pTUEc5c0Qzd1JodGcwNnBzOWhNSHhjcVlLTm9tNUVDQVBCVXZ5clNCT1pscnVwV2hVZmJOc2lUeFFFbzNDWU93U2kwSkdGdDRCNnBqYkpIcTYydmx2UkJYWjltV1plLVZRcTctdFB2MU5zdGlETXN1SW43ZHc4UQ?oc=5" target="_blank" rel="noopener noreferrer">Sterling set for third weekly rise against euro, hits 3-week high vs dollar</a></p>
+        <p class="hl"><a href="https://www.theguardian.com/us-news/2026/oct/16/katie-zacharia-trump-tv-driven-hiring" target="_blank" rel="noopener noreferrer">Katie Zacharia’s five days as press secretary expose flaws in Trump’s TV-driven hiring</a></p>
       </article>
       
       <article class="story wide">
         <div class="meta">
-          <span class="src">BBC</span><span class="dot">&bull;</span><span>30h ago</span>
+          <span class="src">BBC</span><span class="dot">&bull;</span><span>15h ago</span>
           
         </div>
-        <p class="hl"><a href="https://www.bbc.co.uk/news/articles/cj040z4ngnz1o?at_medium=RSS&amp;at_campaign=rss" target="_blank" rel="noopener noreferrer">Street Fighter movie is &#39;made by fans for fans&#39; - but can it KO the critics?</a></p>
+        <p class="hl"><a href="https://www.bbc.co.uk/news/articles/cw0k07d2nj43o?at_medium=RSS&amp;at_campaign=rss" target="_blank" rel="noopener noreferrer">Third runway at Heathrow Airport would drive growth, Healey says</a></p>
       </article>
       
       <article class="story wide">
         <div class="meta">
-          <span class="src">NYT</span><span class="dot">&bull;</span><span>38h ago</span>
+          <span class="src">Reuters</span><span class="dot">&bull;</span><span>6h ago</span>
           
         </div>
-        <p class="hl"><a href="https://www.nytimes.com/2026/10/15/nyregion/tisch-mamdani-alfred-e-smith-dinner.html" target="_blank" rel="noopener noreferrer">At High-Powered Dinner, Lots of Love for Tisch, Less for Mayor</a></p>
+        <p class="hl"><a href="https://news.google.com/rss/articles/CBMitAFBVV95cUxPSnRmWGFHY2E5VUVuby10c1hDVllKMlRaWTlQWnViTGxiR3ZLYXYzeWQwTmRHMExGMzhUNXdxdE5sWnd0c3RPUUlUekpMd1haZ3V3bE9EbUxLY2MtWVpiN01pdGw5RkNHaGV4THNkYkRlYlE2UF8zRktxelNxeEx0bkIwM0Z6VW1QamhyMnNOUGlsRWw0X21OMUswNG1EcEdxZU1oNWFDMkUtTzdtZjNFVHFNMS0?oc=5" target="_blank" rel="noopener noreferrer">Ukraine says Russia&#39;s claimed territorial advances are &#39;an illusion&#39;</a></p>
       </article>
       
       <article class="story wide">
         <div class="meta">
-          <span class="src">NPR</span><span class="dot">&bull;</span><span>24h ago</span>
+          <span class="src">France 24</span><span class="dot">&bull;</span><span>22h ago</span>
           
         </div>
-        <p class="hl"><a href="https://www.npr.org/2026/10/16/nx-s1-6005317/trump-casts-doubt-on-press-secretarys-future" target="_blank" rel="noopener noreferrer">Katie Zacharia is &#39;transitioning out&#39; as press secretary, White House says</a></p>
+        <p class="hl"><a href="https://www.france24.com/en/europe/20261016-zelensky-turns-to-europe-for-backing-as-ties-with-trump-deteriorate" target="_blank" rel="noopener noreferrer">Zelensky turns to Europe for backing as ties with Trump deteriorate</a></p>
       </article>
       
       <article class="story wide">
         <div class="meta">
-          <span class="src">Guardian US</span><span class="dot">&bull;</span><span>19h ago</span>
+          <span class="src">NPR</span><span class="dot">&bull;</span><span>32h ago</span>
           
         </div>
-        <p class="hl"><a href="https://www.theguardian.com/us-news/2026/oct/16/bystander-parent-oregon-school-shooting" target="_blank" rel="noopener noreferrer">Bystander who killed Oregon shooter identified as father of girls at elementary school</a></p>
+        <p class="hl"><a href="https://www.npr.org/2026/10/16/g-s1-148373/up-first-newsletter-bend-oregon-school-shooting-california-doj-voters-presidential-papers" target="_blank" rel="noopener noreferrer">Teen kills 4 at Oregon school. And, DOJ sues California over alleged noncitizens</a></p>
       </article>
       
       <article class="story wide">
         <div class="meta">
-          <span class="src">BBC</span><span class="dot">&bull;</span><span>5h ago</span>
+          <span class="src">France 24</span><span class="dot">&bull;</span><span>24h ago</span>
           
         </div>
-        <p class="hl"><a href="https://www.bbc.co.uk/news/articles/cmze4y9rjepro?at_medium=RSS&amp;at_campaign=rss" target="_blank" rel="noopener noreferrer">UK must protect against Russian &#39;hybrid attacks&#39;, ex-national security adviser says</a></p>
+        <p class="hl"><a href="https://www.france24.com/en/tv-shows/spotlight/20261016-us-tilting-toward-russia-europeans-are-standing-more-and-more-solidly-with-zelensky" target="_blank" rel="noopener noreferrer">&#39;US tilting toward Russia: Europeans are standing more and more solidly with Zelensky&#39;</a></p>
       </article>
       
     </section>
 
     <section class="section mech">
       <h2>How the trial was drawn</h2>
-      <p class="sub">806 headlines from AP, Al Jazeera, BBC, DW, Euronews, France 24, Guardian, Le Monde, NPR, NYT, Politico, Reuters were matched by
+      <p class="sub">819 headlines from AP, Al Jazeera, BBC, DW, Euronews, France 24, Guardian, Le Monde, NPR, NYT, Politico, Reuters were matched by
         shared words. A story <b>qualifies</b> for Top News when Top News's own feeds carry
-        it and at least 2 different newsrooms are running it; 54
+        it and at least 2 different newsrooms are running it; 56
         did. The count is a gate, not a score: among qualifying stories the draw is random, and a
         story on six newsrooms is no likelier to be picked than one on two. The random slots come
         from the ordinary pool of 357 Top News candidates.</p>
@@ -439,7 +453,7 @@ a.shead:hover .more{color:var(--accent);}
     <section class="section">
       <div class="shead static">
         <span class="sname">Every qualifying story</span>
-        <span class="squota">54</span>
+        <span class="squota">56</span>
       </div>
       
       <article class="story">
@@ -453,8 +467,7 @@ a.shead:hover .more{color:var(--accent);}
       <article class="story">
         <div class="meta">
           <span>BBC · Reuters</span>
-          <span class="tag">drawn</span>
-          
+          <span class="tag">drawn for World</span>
         </div>
         <p class="hl"><a href="https://news.google.com/rss/articles/CBMiwgFBVV95cUxNU080YlI5Y2Q5SEtsVkNRaEFkT2k2ckY1aUxTOUdZMzdhUUlsaXdWcmRTS0hHUXZreVVKODJ3dGNFc25XTm1rcnE1aEx3TUtVUTdyOE4yS1VUdS14UFhmNHRGSVBfSDM1NHAyb1RlT3Y0Z3BBbm5JMXMzdTBZRzdzT1NXQ1BsVkczTE5vNlVCSUxUV1ZOa0Y4enlMSjFONTRIaE10TkdsODRRb3lnczA2c0tVaktORTQwRnpRNTAzUmtYUQ?oc=5" target="_blank" rel="noopener noreferrer">About 200 people rescued from unregistered South African rehab centre, police say</a></p>
       </article>
@@ -462,10 +475,17 @@ a.shead:hover .more{color:var(--accent);}
       <article class="story">
         <div class="meta">
           <span>BBC · Reuters</span>
-          <span class="tag">drawn</span>
           
         </div>
         <p class="hl"><a href="https://news.google.com/rss/articles/CBMiqwFBVV95cUxOaV9ndEpmLXU4eGNVbG0wQXBqZEdKUWFTaHlERGNXcWFpeFBvVXNEX0g5UTA2NFQ0UHVtSWN5S1ctQ2Rua2RTVVZXSmZSWjcybGIzR2xCVy1McFFRUmE5akdsWWxkMGozXzVlUUxhNVBfbF9kTXUzN1pXZDFISXdqNk5oYmZnQVNVZFRBMm5iOXNmRS1Jd0tQdmNDSHd1WEpCRzFmeUdaLVhLaHc?oc=5" target="_blank" rel="noopener noreferrer">Actor Selma Blair did not intend harm on flight, spokesperson says</a></p>
+      </article>
+      
+      <article class="story">
+        <div class="meta">
+          <span>AP · Euronews · Reuters</span>
+          <span class="tag">drawn for Europe</span>
+        </div>
+        <p class="hl"><a href="https://news.google.com/rss/articles/CBMirgFBVV95cUxPVlJCekoweVlrYktkQmJZZ2V4aFFnRFpHdnRBMlYzZDlJS0xFS1JWQVMtOVNvbURNdUNHU09BTnBkNjBwdi0yaFVNR2Nqbm9sTUxHTFZQQk1PWkU2ZzdVeC04UVdLb2lJNFoxWHVsSWJJQTlrNXBYZ0NfNWJ4YTdENjlBYmwtdDlOMHhMOWtJY2NxUDJHRlJ1emtpa2h4UmFwZlBOQ0dEQlBORTREQ0E?oc=5" target="_blank" rel="noopener noreferrer">Albanian anti-government protesters clash with police in Tirana</a></p>
       </article>
       
       <article class="story">
@@ -487,6 +507,7 @@ a.shead:hover .more{color:var(--accent);}
       <article class="story">
         <div class="meta">
           <span>AP · BBC · Guardian</span>
+          <span class="tag">drawn</span>
           
         </div>
         <p class="hl"><a href="https://www.bbc.co.uk/news/articles/cvj6j1klez88o?at_medium=RSS&amp;at_campaign=rss" target="_blank" rel="noopener noreferrer">British father fined for causing his two-year-old son&#39;s death in Cyprus hotel fall</a></p>
@@ -502,7 +523,7 @@ a.shead:hover .more{color:var(--accent);}
       
       <article class="story">
         <div class="meta">
-          <span>Al Jazeera · BBC · NPR · Reuters</span>
+          <span>Al Jazeera · BBC · Guardian · NPR · NYT · Reuters</span>
           
         </div>
         <p class="hl"><a href="https://news.google.com/rss/articles/CBMiwgFBVV95cUxOcjJwejF3dFROT1V2Mnd1MWktUnVuc2xLUzNFOFk1YkpQNjhYR2k0LS1PVUppR1F6ekgzbHd2X0hCYW1zVC0zXzIzMXp1ZXl3eHJ6ZzIwaVZnbFB0ZWlFNW1UU2I4VW5UOG4zWS1vclpyS1ZySGVxZzFLN01YdGhBcnQ4d2UwRmdSdU1vcUlTOHpRMmUxdGY2dWVkUlFuVWdRR2JkMEZKRTBDbTVxWmVxblljZEMwU0R4MzdRemt1YXlrQQ?oc=5" target="_blank" rel="noopener noreferrer">China says Israel should stop its &#39;forced establishment&#39; of West Bank settlements</a></p>
@@ -511,7 +532,7 @@ a.shead:hover .more{color:var(--accent);}
       <article class="story">
         <div class="meta">
           <span>Al Jazeera · Euronews · France 24</span>
-          <span class="tag">drawn for Europe</span>
+          
         </div>
         <p class="hl"><a href="https://www.france24.com/en/europe/20261016-clashes-grip-tirana-as-albanian-pm-blames-foreign-hands" target="_blank" rel="noopener noreferrer">Clashes grip Tirana as Albanian PM blames &#39;foreign hands&#39; for mounting unrest</a></p>
       </article>
@@ -519,7 +540,6 @@ a.shead:hover .more{color:var(--accent);}
       <article class="story">
         <div class="meta">
           <span>AP · NPR</span>
-          <span class="tag">drawn</span>
           
         </div>
         <p class="hl"><a href="https://www.npr.org/2026/10/16/g-s1-148383/crowds-throng-new-delhi-and-wave-indian-flags-amid-escalating-protests" target="_blank" rel="noopener noreferrer">Crowds throng New Delhi and wave Indian flags amid escalating protests</a></p>
@@ -536,7 +556,7 @@ a.shead:hover .more{color:var(--accent);}
       <article class="story">
         <div class="meta">
           <span>NYT · Reuters</span>
-          <span class="tag">drawn for World</span>
+          
         </div>
         <p class="hl"><a href="https://news.google.com/rss/articles/CBMimgFBVV95cUxNM3NvbzVWSnc2ZlZISTRVY1BTaXo5ejd4dHJXTXZ2UlBxTkZzSWx3ZWlRY0hfeHlsLXJIR3M0aEVHcVBTckJDUk43TktZUHYwblZCX0xkNmdVSTZsTnA4bW1fQ3JJYVRwaWJHdTZ3TE4tbzRDQWoxcWJ3ZUVVZ3A5a1VnVVEyNEdXZ2E2UnFGb2hnVmJSQ2s2a1p3?oc=5" target="_blank" rel="noopener noreferrer">Egypt&#39;s Sisi says his presidency will end in 2030</a></p>
       </article>
@@ -560,7 +580,6 @@ a.shead:hover .more{color:var(--accent);}
       <article class="story">
         <div class="meta">
           <span>AP · Guardian</span>
-          <span class="tag">drawn</span>
           
         </div>
         <p class="hl"><a href="https://www.theguardian.com/us-news/2026/oct/17/alligator-attack-florida-fisher-killed" target="_blank" rel="noopener noreferrer">Florida fisher dragged into water and killed by 12ft alligator</a></p>
@@ -576,6 +595,14 @@ a.shead:hover .more{color:var(--accent);}
       
       <article class="story">
         <div class="meta">
+          <span>AP · Guardian</span>
+          
+        </div>
+        <p class="hl"><a href="https://www.theguardian.com/us-news/2026/oct/17/ice-crash-houston" target="_blank" rel="noopener noreferrer">ICE agent who crashed into man in Texas was targeting suspect who died years ago, family says</a></p>
+      </article>
+      
+      <article class="story">
+        <div class="meta">
           <span>AP · NYT</span>
           
         </div>
@@ -585,7 +612,6 @@ a.shead:hover .more{color:var(--accent);}
       <article class="story">
         <div class="meta">
           <span>AP · Reuters</span>
-          <span class="tag">drawn</span>
           
         </div>
         <p class="hl"><a href="https://news.google.com/rss/articles/CBMisAFBVV95cUxPTGZDclBEV0w3ZFJ3bE8tckwwTE1YTXBXTG1GdGNfN2Vkb1BsaXFoZVo1QUF4YUhzanBOM05HNmR6X1gyalBGR05HQk5NM1VhY0VGbUhqb0dIN2txQklscWtMaVd3MVE3QTdISTRVbDZXdEpXa25EUHpZejdrZ1ozdFlOOTBBT2VfT3VFcmh5UmpjRWFoelZTUEZKOTl5UEhrc1dpWVQ3ZUpMd1NmVE8ybA?oc=5" target="_blank" rel="noopener noreferrer">Indonesian stocks sink most since 1998 on MSCI downgrade warning</a></p>
@@ -594,7 +620,7 @@ a.shead:hover .more{color:var(--accent);}
       <article class="story">
         <div class="meta">
           <span>AP · Al Jazeera · BBC · Euronews · France 24 · Guardian · NYT · Reuters</span>
-          <span class="tag">drawn for World</span>
+          
         </div>
         <p class="hl"><a href="https://news.google.com/rss/articles/CBMivwFBVV95cUxPQkU1bHk0ei02ZkZRZndPemRvNGZFQnM5ODdrR2EyTU9WRjBUN3MwcGdtLXY2NnZnWld0UkM2MjBUMDUzWVV6ak1vcGNSV05KMllWVWotQS1TdGNLQnVFOERMRElid09YaVB2bUhGLXE4TlFJelBfRFg3QS1vOVBSLXVJWTV3R01CQ3FSZzVZMHlub3V1ZjFtYlJYNGwwRDRFeUxTeWFzNlJjS1dwSGo1a0xOaXRMc0tiWnlrbVBtMA?oc=5" target="_blank" rel="noopener noreferrer">Israeli settlers burn olive trees, injure journalist in West Bank attack</a></p>
       </article>
@@ -602,7 +628,8 @@ a.shead:hover .more{color:var(--accent);}
       <article class="story">
         <div class="meta">
           <span>Al Jazeera · Reuters</span>
-          <span class="tag">drawn for World</span>
+          <span class="tag">drawn</span>
+          
         </div>
         <p class="hl"><a href="https://news.google.com/rss/articles/CBMivgFBVV95cUxOTjVCUjhWQ05fM0dEYS1oR29yb3RhREZxYkUyX2hTeS1xQlVHSjk3SWZSZHVNb2Zla0lsTmhKLXNsYXBQNlBHTkdiQ1AzYW5rdWp0SEtiZWNUZk5lMDlKallXUEZKT0xROWpJS3JzaFRTaGV0SmdwQmw1VVluWlYyRjFjT1FKWWJldWo5RUNNQlN3YWd3c3daOURld0NjNEczVlU5cUhtc2NPNUJzcVFwVWVqdzdXSlZmNTViWmNR?oc=5" target="_blank" rel="noopener noreferrer">Italy names senior Israelis, Katz in probe over Gaza flotilla activists</a></p>
       </article>
@@ -626,7 +653,7 @@ a.shead:hover .more{color:var(--accent);}
       <article class="story">
         <div class="meta">
           <span>Al Jazeera · Guardian</span>
-          
+          <span class="tag">drawn for World</span>
         </div>
         <p class="hl"><a href="https://www.theguardian.com/us-news/2026/oct/16/katie-zacharia-trump-tv-driven-hiring" target="_blank" rel="noopener noreferrer">Katie Zacharia’s five days as press secretary expose flaws in Trump’s TV-driven hiring</a></p>
       </article>
@@ -634,7 +661,7 @@ a.shead:hover .more{color:var(--accent);}
       <article class="story">
         <div class="meta">
           <span>AP · Al Jazeera · France 24</span>
-          
+          <span class="tag">drawn for World</span>
         </div>
         <p class="hl"><a href="https://www.france24.com/en/kenya-confirms-third-ebola-case" target="_blank" rel="noopener noreferrer">KENYA CONFIRMS THIRD EBOLA CASE</a></p>
       </article>
@@ -642,7 +669,8 @@ a.shead:hover .more{color:var(--accent);}
       <article class="story">
         <div class="meta">
           <span>Guardian · Reuters</span>
-          <span class="tag">drawn for World</span>
+          <span class="tag">drawn</span>
+          
         </div>
         <p class="hl"><a href="https://news.google.com/rss/articles/CBMiwwFBVV95cUxPYWZ5Q2NzcDZWYmYwWE1UY2JuUHFWMkJMUjZhdHFKZlpBV25IUzRxelJDUGp2MTZfMnY2b0tkNGNOcTlfUDJwdUVWWmF6TGR0bHFCMTRhejZwQ1FoS3d3LWk3M0Z2dmJJNVFobndCNVYtLTZDbjdNN3ZFTDhYbUl4U2o1WWV0TW1FcHhtTU1vSkdyZzNuZ1FXUVpncUdWbTZqSlpkM1VWcE9HMzhDVTVWRnNJS29OeHg4TmlBRC00STN6MXM?oc=5" target="_blank" rel="noopener noreferrer">Lula defends cutting Brazil&#39;s criminal responsibility age to 16 for heinous crimes</a></p>
       </article>
@@ -666,7 +694,7 @@ a.shead:hover .more{color:var(--accent);}
       <article class="story">
         <div class="meta">
           <span>AP · BBC · Euronews · Guardian</span>
-          <span class="tag">drawn for Europe</span>
+          
         </div>
         <p class="hl"><a href="https://www.bbc.co.uk/news/articles/cw8rzpl1ldkdo?at_medium=RSS&amp;at_campaign=rss" target="_blank" rel="noopener noreferrer">Norwegian teen &#39;hitman&#39; detained for UK murder plot</a></p>
       </article>
@@ -674,6 +702,7 @@ a.shead:hover .more{color:var(--accent);}
       <article class="story">
         <div class="meta">
           <span>AP · Euronews · Guardian</span>
+          <span class="tag">drawn</span>
           
         </div>
         <p class="hl"><a href="https://www.theguardian.com/us-news/2026/oct/16/bend-oregon-shooting-victims" target="_blank" rel="noopener noreferrer">Oregon shooting victims: three boys and female teacher killed at elementary school</a></p>
@@ -706,7 +735,7 @@ a.shead:hover .more{color:var(--accent);}
       <article class="story">
         <div class="meta">
           <span>AP · Al Jazeera · BBC · France 24 · Guardian · NPR · Reuters</span>
-          <span class="tag">drawn for Europe</span>
+          
         </div>
         <p class="hl"><a href="https://www.france24.com/en/europe/20261016-pope-leo-xiv-celebrates-mass-in-hospital-while-recovering-from-lung-cancer-operation" target="_blank" rel="noopener noreferrer">Pope Leo XIV celebrates mass in hospital while recovering from lung cancer operation</a></p>
       </article>
@@ -714,7 +743,7 @@ a.shead:hover .more{color:var(--accent);}
       <article class="story">
         <div class="meta">
           <span>Euronews · France 24 · Politico · Reuters</span>
-          <span class="tag">drawn for Europe</span>
+          
         </div>
         <p class="hl"><a href="https://news.google.com/rss/articles/CBMihgFBVV95cUxPWEJmRHZXRTB5bU1Xb1FoXzVTVG4yTkVQUmM2cS1oZzZrcGZIbjVnRU5MMFBtc0FVQjBOTUFFdU1YbldSSkpTWm40Vll2YmtMaDFVRTVvREN1ODJsQ2FRaU5lRmM1cnp3d2FnU1Fsc1MtNmVzX2JrenRfM3lnQ0k1Vk1GeEExZw?oc=5" target="_blank" rel="noopener noreferrer">Protesters clash with police in Brussels</a></p>
       </article>
@@ -722,6 +751,7 @@ a.shead:hover .more{color:var(--accent);}
       <article class="story">
         <div class="meta">
           <span>Euronews · Reuters</span>
+          <span class="tag">drawn</span>
           
         </div>
         <p class="hl"><a href="https://news.google.com/rss/articles/CBMinAFBVV95cUxNa3JNbWNyLUNJd0hreG5VVkZYenNyVlpsTEQ4alQtS19BNEFESTFVaGczM29mM0t3Y19lc1dvaDVZd2llMHJFb1VGakxmS255QzZ5NEtSNE9GV1FxRkFtQWlaMVlpTGVOTEdBclN1MmFMZ3pHM0tfSE42N1hJWGcwT3BlVG5rUFI2ZzJ4VktzSHgycHVUdDNQWjFxbnk?oc=5" target="_blank" rel="noopener noreferrer">Putin agrees to cooperate with Pope Leo&#39;s plea for aid for Ukrainian town</a></p>
@@ -730,7 +760,6 @@ a.shead:hover .more{color:var(--accent);}
       <article class="story">
         <div class="meta">
           <span>Guardian · Reuters</span>
-          <span class="tag">drawn</span>
           
         </div>
         <p class="hl"><a href="https://news.google.com/rss/articles/CBMivgFBVV95cUxQUVphQXp1WHJBUlFhekxrSzFTVGJfSGlqWFFmSktKcEVzV0REMU1faWt6UGVSWkVXNFNqQm9maVUzemNRVVVteUhhNklocGVZN2loVW5HTzY0ZFhYWW9vVW0xbUlabEE0YTZzaU9OSEtwOXR2d3k4MU1RZm1acXRaYVJSZnNTaTZsQTVYWTdqRE1aVW1UOFIwWVlSWmJidExOUHFLdTBlS2E3OUxMUHNQVS1neEw2akRBZzAyNVZR?oc=5" target="_blank" rel="noopener noreferrer">Putin says Russia is building non-negotiable &#39;security zone&#39; in Ukraine along border</a></p>
@@ -755,7 +784,6 @@ a.shead:hover .more{color:var(--accent);}
       <article class="story">
         <div class="meta">
           <span>AP · NPR</span>
-          <span class="tag">drawn</span>
           
         </div>
         <p class="hl"><a href="https://www.npr.org/2026/10/17/nx-s1-6006773/student-protests-france" target="_blank" rel="noopener noreferrer">Scuffles and fires break out as protesters rally across France, joining students</a></p>
@@ -788,7 +816,8 @@ a.shead:hover .more{color:var(--accent);}
       <article class="story">
         <div class="meta">
           <span>BBC · Guardian</span>
-          <span class="tag">drawn for World</span>
+          <span class="tag">drawn</span>
+          
         </div>
         <p class="hl"><a href="https://www.bbc.co.uk/news/articles/cw0k07d2nj43o?at_medium=RSS&amp;at_campaign=rss" target="_blank" rel="noopener noreferrer">Third runway at Heathrow Airport would drive growth, Healey says</a></p>
       </article>
@@ -820,7 +849,7 @@ a.shead:hover .more{color:var(--accent);}
       <article class="story">
         <div class="meta">
           <span>Al Jazeera · Reuters</span>
-          
+          <span class="tag">drawn for World</span>
         </div>
         <p class="hl"><a href="https://news.google.com/rss/articles/CBMirAFBVV95cUxOUW1idXlSVm1fUVQtdFk1T0pYTU8tcEx2YTBiQnQ4M0ZmeDFDeGpXUUpqMEZRbC0zT0g4dkoySTlXM05fbkNRZE5RbzFZcEktTHpBYlJxcklTaHpkRHgzRnAyakp4cGVIQjRITGtWZG1XZTlNdF9LcmlVRjJIaDQweHRxR0NUQS1jeUYtc0NsWWlEMTNTcEd3dUhFZjZMYnhWbU9CZVNKWS1TTjBz?oc=5" target="_blank" rel="noopener noreferrer">Trump says he is talking to Russia and China about denuclearization</a></p>
       </article>
@@ -828,7 +857,7 @@ a.shead:hover .more{color:var(--accent);}
       <article class="story">
         <div class="meta">
           <span>BBC · Reuters</span>
-          <span class="tag">drawn for World</span>
+          
         </div>
         <p class="hl"><a href="https://news.google.com/rss/articles/CBMitgFBVV95cUxNT3ZNUmdIdkZCY09EdEY2WWhKWGhCQmlWOGhFQ3FxRDExUVNORW94dUZkNmR5V1lycjlOejZVYWIxbExDSGoxYkJldWRfU1ZYejZfa3NvQ2lZSlBCcGRMTkwtLWgtaThXUE9jTUJmUFVmdlAxR3NjeC1UWFlVYW95Uk9pbExFeW5lV2w3RzllME5YTE9JcjFBUmFtMVdUQUJuTndIcWdNcElUcUdxSWV4SUF2V3BUQQ?oc=5" target="_blank" rel="noopener noreferrer">Trump says neither he nor Musk responsible for Ukraine loss of Starlink access</a></p>
       </article>
@@ -852,7 +881,7 @@ a.shead:hover .more{color:var(--accent);}
       <article class="story">
         <div class="meta">
           <span>Euronews · NYT</span>
-          
+          <span class="tag">drawn for Europe</span>
         </div>
         <p class="hl"><a href="https://www.nytimes.com/2026/10/17/world/europe/pope-leo-discharged-hospital.html" target="_blank" rel="noopener noreferrer">Vatican Says Pope Leo Will Leave Hospital on Saturday, Days After Lung Surgery</a></p>
       </article>
@@ -860,6 +889,7 @@ a.shead:hover .more{color:var(--accent);}
       <article class="story">
         <div class="meta">
           <span>Al Jazeera · Euronews · France 24</span>
+          <span class="tag">drawn</span>
           
         </div>
         <p class="hl"><a href="https://www.france24.com/en/middle-east/20261017-yemen-s-houthis-claim-responsibility-for-fresh-missile-strike-on-aden-airport" target="_blank" rel="noopener noreferrer">Yemen&#39;s Houthis claim responsibility for fresh missile strike on Aden airport</a></p>

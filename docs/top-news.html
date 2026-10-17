@@ -150,6 +150,20 @@ a.shead:hover .more{color:var(--accent);}
 .key .sw{background:var(--pool);}
 .key .sw.slot{background:var(--accent); margin-left:10px;}
 
+/* Tap-to-reveal English gloss on an Italian headline (translate.py). Closed by
+   default and deliberately quiet: the Italian sources are there for reading
+   practice, so the gloss is a crib you choose to look at, never a replacement.
+   Plain <details>, so it works on the exported static pages with no script. */
+.xl{margin:5px 0 0;}
+.xl summary{display:inline-block; cursor:pointer; list-style:none;
+            font-family:var(--mono); font-size:.6rem; font-weight:600; letter-spacing:.08em;
+            color:var(--muted); border:1px solid var(--rule); border-radius:3px; padding:1px 6px;}
+.xl summary::-webkit-details-marker{display:none}
+.xl summary:hover, .xl[open] summary{color:var(--accent); border-color:var(--accent);}
+.xl summary:focus-visible{outline:2px solid var(--accent); outline-offset:2px;}
+.xl p{margin:6px 0 0; font-family:var(--serif); font-size:.98rem; line-height:1.3;
+      color:var(--muted); max-width:52ch;}
+
 </style>
 </head>
 <body>
@@ -161,9 +175,9 @@ a.shead:hover .more{color:var(--accent);}
     <p class="tagline">The full section for this edition &mdash; 10 slots,
       dealt one per source per round.</p>
     <div class="strip">
-      <div><span class="k">Edition</span><span class="v">17 Oct 2:28 PM</span></div>
+      <div><span class="k">Edition</span><span class="v">17 Oct 3:22 PM</span></div>
       <div><span class="k">Stories</span><span class="v">10 <span class="u">of 10</span></span></div>
-      <div><span class="k">Candidates</span><span class="v">373</span></div>
+      <div><span class="k">Candidates</span><span class="v">376</span></div>
       <div><span class="k">Sources</span><span class="v">6</span></div>
     </div>
   </div>
@@ -178,102 +192,112 @@ a.shead:hover .more{color:var(--accent);}
       
       <article class="story wide">
         <div class="meta">
-          <span class="src">NPR</span><span class="dot">&bull;</span><span>7h ago</span>
+          <span class="src">BBC</span><span class="dot">&bull;</span><span>39h ago</span>
           
           
           <span class="tag">on the front page</span>
         </div>
-        <p class="hl"><a href="https://www.npr.org/2026/10/17/nx-s1-5987671/south-africa-justice-sharpeville-apartheid" target="_blank" rel="noopener noreferrer">Decades after apartheid, South Africans seek justice for crimes of the past</a></p>
+        <p class="hl"><a href="https://www.bbc.co.uk/news/articles/cm89zp48k4kzo?at_medium=RSS&amp;at_campaign=rss" target="_blank" rel="noopener noreferrer">Children aged 5, 8 and 11 killed in US school shooting before suspect shot by bystander</a></p>
+        
       </article>
       
       <article class="story wide">
         <div class="meta">
-          <span class="src">Reuters</span><span class="dot">&bull;</span><span>21h ago</span>
+          <span class="src">Reuters</span><span class="dot">&bull;</span><span>30h ago</span>
           
           
           <span class="tag">on the front page</span>
         </div>
-        <p class="hl"><a href="https://news.google.com/rss/articles/CBMiugFBVV95cUxPZ3Aydy1nYlZxQ2piclRHUDR2NVN0U3dDenVoX1NlNTJRNjNSMDVwV2VpZk5rYjlXSHl0MzRpY0JzUUIxaW0wbTNvN1U5c2VoaS1aVFgxNDc1dEp1cTRHVjhZZVdjRHNoc0gybW5vSFdlVHlMSFd4SmQ5azBSZERzY01MSVB5eElybWd6N1dPcXNldVM1MEZqV1FtOUE5OHhwM3lvcUYtZlJSNnh1VHdYWFdNLVY1OFZ3dlE?oc=5" target="_blank" rel="noopener noreferrer">Thames Water wins majority support among key Class B creditors for recapitalisation</a></p>
+        <p class="hl"><a href="https://news.google.com/rss/articles/CBMipAFBVV95cUxQV2dUYmtmWmhNUC0wU2dOVjRIb3FfcThUU0UwcDRpelc4aTExcHhwMWhjaWtyT0VlSC1pVmZwS2c5YUwwYWowT0ZsNUJtVm5GYWQ1TWRZTG1VbGpGbXFHWnBXLThsTGYzMXR4R1dkME5RRU9kRXNrZjVVbFotRC1VWjRaOF9rSjNGWXdZNGpzb0xiVlp4cHRNb3FJQjR6cE9sQ0tWdw?oc=5" target="_blank" rel="noopener noreferrer">Indian IT firm LTM beats second-quarter revenue view</a></p>
+        
       </article>
       
       <article class="story wide">
         <div class="meta">
-          <span class="src">NYT</span><span class="dot">&bull;</span><span>23h ago</span>
+          <span class="src">Guardian US</span><span class="dot">&bull;</span><span>6h ago</span>
           
           
           <span class="tag">on the front page</span>
         </div>
-        <p class="hl"><a href="https://www.nytimes.com/2026/10/16/weather/malibu-wildfire-wind-california.html" target="_blank" rel="noopener noreferrer">Firefighters Race to Control California Wildfires as Winds Threaten to Spark More</a></p>
+        <p class="hl"><a href="https://www.theguardian.com/us-news/2026/oct/17/bend-oregon-school-shooting" target="_blank" rel="noopener noreferrer">After the unimaginable happens, an Oregon town mourns: ‘You can’t stop thinking about the kids’</a></p>
+        
       </article>
       
       <article class="story wide">
         <div class="meta">
-          <span class="src">France 24</span><span class="dot">&bull;</span><span>31h ago</span>
+          <span class="src">NYT</span><span class="dot">&bull;</span><span>12h ago</span>
           
           
           
         </div>
-        <p class="hl"><a href="https://www.france24.com/en/tv-shows/fashion/20261016-spring-summer-2027-ready-to-wear-collections-africa-in-the-spotlight-at-paris-fashion-week" target="_blank" rel="noopener noreferrer">Spring-summer 2027 ready-to-wear collections: Africa in the spotlight at Paris Fashion Week</a></p>
+        <p class="hl"><a href="https://www.nytimes.com/2026/10/16/us/politics/trump-order-russia-sanctions.html" target="_blank" rel="noopener noreferrer">Trump Signs Order Exempting Russia From Sanctions Law</a></p>
+        
       </article>
       
       <article class="story wide">
         <div class="meta">
-          <span class="src">Reuters</span><span class="dot">&bull;</span><span>32h ago</span>
+          <span class="src">Guardian US</span><span class="dot">&bull;</span><span>21h ago</span>
           
           
           
         </div>
-        <p class="hl"><a href="https://news.google.com/rss/articles/CBMitgFBVV95cUxPVU5SVzFTSk9Hd2RpR3VCc2lINWtMc1QyUTB0QmFfbW12WEt3aktMU2p3ZUlMbnN5MGNVbS1zY1pTUEc5c0Qzd1JodGcwNnBzOWhNSHhjcVlLTm9tNUVDQVBCVXZ5clNCT1pscnVwV2hVZmJOc2lUeFFFbzNDWU93U2kwSkdGdDRCNnBqYkpIcTYydmx2UkJYWjltV1plLVZRcTctdFB2MU5zdGlETXN1SW43ZHc4UQ?oc=5" target="_blank" rel="noopener noreferrer">Sterling set for third weekly rise against euro, hits 3-week high vs dollar</a></p>
+        <p class="hl"><a href="https://www.theguardian.com/us-news/2026/oct/16/katie-zacharia-trump-tv-driven-hiring" target="_blank" rel="noopener noreferrer">Katie Zacharia’s five days as press secretary expose flaws in Trump’s TV-driven hiring</a></p>
+        
       </article>
       
       <article class="story wide">
         <div class="meta">
-          <span class="src">BBC</span><span class="dot">&bull;</span><span>30h ago</span>
+          <span class="src">BBC</span><span class="dot">&bull;</span><span>15h ago</span>
           
           
           
         </div>
-        <p class="hl"><a href="https://www.bbc.co.uk/news/articles/cj040z4ngnz1o?at_medium=RSS&amp;at_campaign=rss" target="_blank" rel="noopener noreferrer">Street Fighter movie is &#39;made by fans for fans&#39; - but can it KO the critics?</a></p>
+        <p class="hl"><a href="https://www.bbc.co.uk/news/articles/cw0k07d2nj43o?at_medium=RSS&amp;at_campaign=rss" target="_blank" rel="noopener noreferrer">Third runway at Heathrow Airport would drive growth, Healey says</a></p>
+        
       </article>
       
       <article class="story wide">
         <div class="meta">
-          <span class="src">NYT</span><span class="dot">&bull;</span><span>38h ago</span>
+          <span class="src">Reuters</span><span class="dot">&bull;</span><span>6h ago</span>
           
           
           
         </div>
-        <p class="hl"><a href="https://www.nytimes.com/2026/10/15/nyregion/tisch-mamdani-alfred-e-smith-dinner.html" target="_blank" rel="noopener noreferrer">At High-Powered Dinner, Lots of Love for Tisch, Less for Mayor</a></p>
+        <p class="hl"><a href="https://news.google.com/rss/articles/CBMitAFBVV95cUxPSnRmWGFHY2E5VUVuby10c1hDVllKMlRaWTlQWnViTGxiR3ZLYXYzeWQwTmRHMExGMzhUNXdxdE5sWnd0c3RPUUlUekpMd1haZ3V3bE9EbUxLY2MtWVpiN01pdGw5RkNHaGV4THNkYkRlYlE2UF8zRktxelNxeEx0bkIwM0Z6VW1QamhyMnNOUGlsRWw0X21OMUswNG1EcEdxZU1oNWFDMkUtTzdtZjNFVHFNMS0?oc=5" target="_blank" rel="noopener noreferrer">Ukraine says Russia&#39;s claimed territorial advances are &#39;an illusion&#39;</a></p>
+        
       </article>
       
       <article class="story wide">
         <div class="meta">
-          <span class="src">NPR</span><span class="dot">&bull;</span><span>24h ago</span>
+          <span class="src">France 24</span><span class="dot">&bull;</span><span>22h ago</span>
           
           
           
         </div>
-        <p class="hl"><a href="https://www.npr.org/2026/10/16/nx-s1-6005317/trump-casts-doubt-on-press-secretarys-future" target="_blank" rel="noopener noreferrer">Katie Zacharia is &#39;transitioning out&#39; as press secretary, White House says</a></p>
+        <p class="hl"><a href="https://www.france24.com/en/europe/20261016-zelensky-turns-to-europe-for-backing-as-ties-with-trump-deteriorate" target="_blank" rel="noopener noreferrer">Zelensky turns to Europe for backing as ties with Trump deteriorate</a></p>
+        
       </article>
       
       <article class="story wide">
         <div class="meta">
-          <span class="src">Guardian US</span><span class="dot">&bull;</span><span>19h ago</span>
+          <span class="src">NPR</span><span class="dot">&bull;</span><span>32h ago</span>
           
           
           
         </div>
-        <p class="hl"><a href="https://www.theguardian.com/us-news/2026/oct/16/bystander-parent-oregon-school-shooting" target="_blank" rel="noopener noreferrer">Bystander who killed Oregon shooter identified as father of girls at elementary school</a></p>
+        <p class="hl"><a href="https://www.npr.org/2026/10/16/g-s1-148373/up-first-newsletter-bend-oregon-school-shooting-california-doj-voters-presidential-papers" target="_blank" rel="noopener noreferrer">Teen kills 4 at Oregon school. And, DOJ sues California over alleged noncitizens</a></p>
+        
       </article>
       
       <article class="story wide">
         <div class="meta">
-          <span class="src">BBC</span><span class="dot">&bull;</span><span>5h ago</span>
+          <span class="src">France 24</span><span class="dot">&bull;</span><span>24h ago</span>
           
           
           
         </div>
-        <p class="hl"><a href="https://www.bbc.co.uk/news/articles/cmze4y9rjepro?at_medium=RSS&amp;at_campaign=rss" target="_blank" rel="noopener noreferrer">UK must protect against Russian &#39;hybrid attacks&#39;, ex-national security adviser says</a></p>
+        <p class="hl"><a href="https://www.france24.com/en/tv-shows/spotlight/20261016-us-tilting-toward-russia-europeans-are-standing-more-and-more-solidly-with-zelensky" target="_blank" rel="noopener noreferrer">&#39;US tilting toward Russia: Europeans are standing more and more solidly with Zelensky&#39;</a></p>
+        
       </article>
       
     </section>
@@ -287,7 +311,7 @@ a.shead:hover .more{color:var(--accent);}
 
     <section class="section mech split">
       <h2>How this page was drawn</h2>
-      <p class="sub">373 candidates from 6 sources, filling
+      <p class="sub">376 candidates from 6 sources, filling
         10 slots. The 3 stories already on the front page
         lead this one, and the rest are
         dealt <b>one per source per round</b>, with the source order reshuffled each round.
@@ -303,7 +327,7 @@ a.shead:hover .more{color:var(--accent);}
                   &rarr; 2 slots</span>
           </div>
           <div class="bar">
-            <i style="width:45.0%"></i>
+            <i style="width:44.7%"></i>
             <i class="slot" style="width:20.0%"></i>
           </div>
         </div>
@@ -311,11 +335,11 @@ a.shead:hover .more{color:var(--accent);}
         <div class="row">
           <div class="rtop">
             <b class="">BBC</b>
-            <span>54 candidates
+            <span>56 candidates
                   &rarr; 2 slots</span>
           </div>
           <div class="bar">
-            <i style="width:14.5%"></i>
+            <i style="width:14.9%"></i>
             <i class="slot" style="width:20.0%"></i>
           </div>
         </div>
@@ -324,23 +348,23 @@ a.shead:hover .more{color:var(--accent);}
           <div class="rtop">
             <b class="">NYT</b>
             <span>53 candidates
-                  &rarr; 2 slots</span>
+                  &rarr; 1 slot</span>
           </div>
           <div class="bar">
-            <i style="width:14.2%"></i>
-            <i class="slot" style="width:20.0%"></i>
+            <i style="width:14.1%"></i>
+            <i class="slot" style="width:10.0%"></i>
           </div>
         </div>
         
         <div class="row">
           <div class="rtop">
             <b class="">Guardian US</b>
-            <span>38 candidates
-                  &rarr; 1 slot</span>
+            <span>39 candidates
+                  &rarr; 2 slots</span>
           </div>
           <div class="bar">
-            <i style="width:10.2%"></i>
-            <i class="slot" style="width:10.0%"></i>
+            <i style="width:10.4%"></i>
+            <i class="slot" style="width:20.0%"></i>
           </div>
         </div>
         
@@ -348,11 +372,11 @@ a.shead:hover .more{color:var(--accent);}
           <div class="rtop">
             <b class="">France 24</b>
             <span>31 candidates
-                  &rarr; 1 slot</span>
+                  &rarr; 2 slots</span>
           </div>
           <div class="bar">
-            <i style="width:8.3%"></i>
-            <i class="slot" style="width:10.0%"></i>
+            <i style="width:8.2%"></i>
+            <i class="slot" style="width:20.0%"></i>
           </div>
         </div>
         
@@ -360,11 +384,11 @@ a.shead:hover .more{color:var(--accent);}
           <div class="rtop">
             <b class="">NPR</b>
             <span>29 candidates
-                  &rarr; 2 slots</span>
+                  &rarr; 1 slot</span>
           </div>
           <div class="bar">
-            <i style="width:7.8%"></i>
-            <i class="slot" style="width:20.0%"></i>
+            <i style="width:7.7%"></i>
+            <i class="slot" style="width:10.0%"></i>
           </div>
         </div>
         
@@ -376,9 +400,11 @@ a.shead:hover .more{color:var(--accent);}
 
       <p class="foot">
         Random draw within the round-robin. No ranking, no click data, no personalization.<br>
+        Italian headlines carry a tap-to-reveal <b>EN</b> gloss, machine-translated
+        by MyMemory &mdash; a crib, not the paper's own wording.<br>
         Nothing here is marked as shown &mdash; the dedup window applies to the front page,
         so a story can sit in its section for as long as its source's window allows.<br>
-        Phase 2 &middot; 93 feeds &middot; 12 sections.
+        Phase 2 &middot; 96 feeds &middot; 12 sections.
       </p>
     </section>
 

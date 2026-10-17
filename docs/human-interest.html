@@ -150,6 +150,20 @@ a.shead:hover .more{color:var(--accent);}
 .key .sw{background:var(--pool);}
 .key .sw.slot{background:var(--accent); margin-left:10px;}
 
+/* Tap-to-reveal English gloss on an Italian headline (translate.py). Closed by
+   default and deliberately quiet: the Italian sources are there for reading
+   practice, so the gloss is a crib you choose to look at, never a replacement.
+   Plain <details>, so it works on the exported static pages with no script. */
+.xl{margin:5px 0 0;}
+.xl summary{display:inline-block; cursor:pointer; list-style:none;
+            font-family:var(--mono); font-size:.6rem; font-weight:600; letter-spacing:.08em;
+            color:var(--muted); border:1px solid var(--rule); border-radius:3px; padding:1px 6px;}
+.xl summary::-webkit-details-marker{display:none}
+.xl summary:hover, .xl[open] summary{color:var(--accent); border-color:var(--accent);}
+.xl summary:focus-visible{outline:2px solid var(--accent); outline-offset:2px;}
+.xl p{margin:6px 0 0; font-family:var(--serif); font-size:.98rem; line-height:1.3;
+      color:var(--muted); max-width:52ch;}
+
 </style>
 </head>
 <body>
@@ -161,9 +175,9 @@ a.shead:hover .more{color:var(--accent);}
     <p class="tagline">The full section for this edition &mdash; 10 slots,
       dealt one per source per round.</p>
     <div class="strip">
-      <div><span class="k">Edition</span><span class="v">17 Oct 2:28 PM</span></div>
+      <div><span class="k">Edition</span><span class="v">17 Oct 3:22 PM</span></div>
       <div><span class="k">Stories</span><span class="v">10 <span class="u">of 10</span></span></div>
-      <div><span class="k">Candidates</span><span class="v">146</span></div>
+      <div><span class="k">Candidates</span><span class="v">147</span></div>
       <div><span class="k">Sources</span><span class="v">6</span></div>
     </div>
   </div>
@@ -178,92 +192,13 @@ a.shead:hover .more{color:var(--accent);}
       
       <article class="story wide">
         <div class="meta">
-          <span class="src">WBUR</span><span class="dot">&bull;</span><span>26h ago</span>
+          <span class="src">Good News Network</span><span class="dot">&bull;</span><span>32h ago</span>
           
           
           <span class="tag">on the front page</span>
         </div>
-        <p class="hl"><a href="https://www.wbur.org/hereandnow/2026/10/16/texas-senate-trump-campaigns" target="_blank" rel="noopener noreferrer">Democrats feel bullish about Texas Senate race as Trump campaigns in states he won</a></p>
-      </article>
-      
-      <article class="story wide">
-        <div class="meta">
-          <span class="src">Reasons to be Cheerful</span><span class="dot">&bull;</span><span>5d ago</span>
-          
-          
-          
-        </div>
-        <p class="hl"><a href="https://reasonstobecheerful.world/can-students-and-teachers-learn-to-trust-each-other-in-the-age-of-ai/" target="_blank" rel="noopener noreferrer">Can Students and Teachers Learn to Trust Each Other in the Age of A.I.?</a></p>
-      </article>
-      
-      <article class="story wide">
-        <div class="meta">
-          <span class="src">NYT Style</span><span class="dot">&bull;</span><span>38h ago</span>
-          
-          
-          
-        </div>
-        <p class="hl"><a href="https://www.nytimes.com/2026/10/16/style/ethan-wise-jake-perlson-wedding.html" target="_blank" rel="noopener noreferrer">The First Date Was a Dud, So They Tried Again</a></p>
-      </article>
-      
-      <article class="story wide">
-        <div class="meta">
-          <span class="src">Guardian Life</span><span class="dot">&bull;</span><span>12h ago</span>
-          
-          
-          
-        </div>
-        <p class="hl"><a href="https://www.theguardian.com/lifeandstyle/2026/oct/17/why-does-my-crisp-packet-puff-up-when-i-climb-up-a-mountain-the-kids-quiz" target="_blank" rel="noopener noreferrer">Why does my crisp packet puff up when I climb up a mountain? The kids’ quiz</a></p>
-      </article>
-      
-      <article class="story wide">
-        <div class="meta">
-          <span class="src">Good News Network</span><span class="dot">&bull;</span><span>7d ago</span>
-          
-          
-          
-        </div>
-        <p class="hl"><a href="https://www.goodnewsnetwork.org/daughter-gets-to-join-dad-as-co-pilot-with-mom-serving-on-cabin-crew/" target="_blank" rel="noopener noreferrer">Daughter Gets to Join Dad as Co-Pilot, With Mom Serving on Flight’s Cabin Crew: A Surprise Full Circle Moment</a></p>
-      </article>
-      
-      <article class="story wide">
-        <div class="meta">
-          <span class="src">Positive News</span><span class="dot">&bull;</span><span>8d ago</span>
-          
-          
-          
-        </div>
-        <p class="hl"><a href="https://www.positive.news/society/media/readers-share-their-experiences-of-a-more-balanced-media-diet/" target="_blank" rel="noopener noreferrer">‘I can breathe again’. Readers share their experiences of a more balanced media diet</a></p>
-      </article>
-      
-      <article class="story wide">
-        <div class="meta">
-          <span class="src">WBUR</span><span class="dot">&bull;</span><span>33h ago</span>
-          
-          
-          
-        </div>
-        <p class="hl"><a href="https://www.wbur.org/upnext/2026/10/16/starter-homes-all-party-ballots" target="_blank" rel="noopener noreferrer">Cramming for the ballot questions? We&#39;ll help.</a></p>
-      </article>
-      
-      <article class="story wide">
-        <div class="meta">
-          <span class="src">WBUR</span><span class="dot">&bull;</span><span>33h ago</span>
-          
-          
-          
-        </div>
-        <p class="hl"><a href="https://www.wbur.org/news/2026/10/16/aaron-sorkin-to-kill-a-mockingbird-the-huntington-review" target="_blank" rel="noopener noreferrer">Aaron Sorkin&#39;s &#39;To Kill a Mockingbird&#39; is beautiful and heart-wrenching</a></p>
-      </article>
-      
-      <article class="story wide">
-        <div class="meta">
-          <span class="src">Guardian Life</span><span class="dot">&bull;</span><span>2d ago</span>
-          
-          
-          
-        </div>
-        <p class="hl"><a href="https://www.theguardian.com/lifeandstyle/2026/oct/15/the-year-i-turned-18-it-was-1990-and-the-news-was-full-of-riots-but-i-was-dreaming-of-love-and-the-life-to-come" target="_blank" rel="noopener noreferrer">18 again: I returned to my life in 1990. Who – and what – would I find there?</a></p>
+        <p class="hl"><a href="https://www.goodnewsnetwork.org/largest-private-conservation-project-in-the-us-hits-major-milestone-as-free-roaming-bison-pass-1000/" target="_blank" rel="noopener noreferrer">Largest Private Conservation Project in the US Hits Major Milestone as Free-Roaming Bison Pass 1,000</a></p>
+        
       </article>
       
       <article class="story wide">
@@ -273,7 +208,96 @@ a.shead:hover .more{color:var(--accent);}
           
           
         </div>
-        <p class="hl"><a href="https://www.nytimes.com/2026/10/14/style/conor-kennedy-giulia-be-wedding-marriage-rio-de-janeiro.html" target="_blank" rel="noopener noreferrer">Conor Kennedy and Giulia Be Celebrate Their Wedding in Rio de Janeiro</a></p>
+        <p class="hl"><a href="https://www.nytimes.com/2026/10/14/style/avantika-vandanapu-not-suitable-for-work-diwali-party.html" target="_blank" rel="noopener noreferrer">Avantika’s Diwali Party Mixed Family Traditions with Chai Cocktails and 50 Cent</a></p>
+        
+      </article>
+      
+      <article class="story wide">
+        <div class="meta">
+          <span class="src">Good News Network</span><span class="dot">&bull;</span><span>24h ago</span>
+          
+          
+          
+        </div>
+        <p class="hl"><a href="https://www.goodnewsnetwork.org/north-americas-largest-wildlife-overpass-is-working-animal-collisions-on-i-25-down-91/" target="_blank" rel="noopener noreferrer">North America’s Largest Wildlife Overpass Is Working: Animal Collisions on I-25 Down 91%</a></p>
+        
+      </article>
+      
+      <article class="story wide">
+        <div class="meta">
+          <span class="src">Guardian Life</span><span class="dot">&bull;</span><span>33h ago</span>
+          
+          
+          
+        </div>
+        <p class="hl"><a href="https://www.theguardian.com/lifeandstyle/picture/2026/oct/16/on-a-planet-far-away-the-stephen-collins-cartoon" target="_blank" rel="noopener noreferrer">On a planet far, far away … the Stephen Collins cartoon</a></p>
+        
+      </article>
+      
+      <article class="story wide">
+        <div class="meta">
+          <span class="src">Positive News</span><span class="dot">&bull;</span><span>5d ago</span>
+          
+          
+          
+        </div>
+        <p class="hl"><a href="https://www.positive.news/society/putting-a-ring-on-it-the-plan-to-green-londons-beloved-edges/" target="_blank" rel="noopener noreferrer">Putting a ring on it: the plan to green London’s beloved edges</a></p>
+        
+      </article>
+      
+      <article class="story wide">
+        <div class="meta">
+          <span class="src">WBUR</span><span class="dot">&bull;</span><span>2d ago</span>
+          
+          
+          
+        </div>
+        <p class="hl"><a href="https://www.wbur.org/hereandnow/2026/10/15/house-races-democrats" target="_blank" rel="noopener noreferrer">Will the midterms be a &#39;blue wave&#39; for Democrats?</a></p>
+        
+      </article>
+      
+      <article class="story wide">
+        <div class="meta">
+          <span class="src">Reasons to be Cheerful</span><span class="dot">&bull;</span><span>12d ago</span>
+          
+          
+          
+        </div>
+        <p class="hl"><a href="https://reasonstobecheerful.world/the-hospital-that-silenced-the-machines/" target="_blank" rel="noopener noreferrer">The Hospital That Silenced the Machines</a></p>
+        
+      </article>
+      
+      <article class="story wide">
+        <div class="meta">
+          <span class="src">Reasons to be Cheerful</span><span class="dot">&bull;</span><span>4d ago</span>
+          
+          
+          
+        </div>
+        <p class="hl"><a href="https://reasonstobecheerful.world/young-adults-are-building-safe-spaces-for-unhoused-peers/" target="_blank" rel="noopener noreferrer">Young Adults Are Building Safe Spaces for Unhoused Peers</a></p>
+        
+      </article>
+      
+      <article class="story wide">
+        <div class="meta">
+          <span class="src">Positive News</span><span class="dot">&bull;</span><span>3d ago</span>
+          
+          
+          
+        </div>
+        <p class="hl"><a href="https://www.positive.news/society/wildlife-photographer-of-the-year-2026-the-winning-images/" target="_blank" rel="noopener noreferrer">Wildlife photographer of the year 2026, the winning images</a></p>
+        
+      </article>
+      
+      <article class="story wide">
+        <div class="meta">
+          <span class="src">WBUR</span><span class="dot">&bull;</span><span>40h ago</span>
+          
+          
+          
+        </div>
+        <p class="hl"><a href="https://www.wbur.org/news/2026/10/15/healey-and-minogue-meet-in-unbridled-final-debate-before-election" target="_blank" rel="noopener noreferrer">Healey and Minogue meet in unbridled final debate before election</a></p>
+        
       </article>
       
     </section>
@@ -287,7 +311,7 @@ a.shead:hover .more{color:var(--accent);}
 
     <section class="section mech split">
       <h2>How this page was drawn</h2>
-      <p class="sub">146 candidates from 6 sources, filling
+      <p class="sub">147 candidates from 6 sources, filling
         10 slots. The story already on the front page leads this one, and the
         rest are
         dealt <b>one per source per round</b>, with the source order reshuffled each round.
@@ -300,11 +324,11 @@ a.shead:hover .more{color:var(--accent);}
           <div class="rtop">
             <b class="">WBUR</b>
             <span>55 candidates
-                  &rarr; 3 slots</span>
+                  &rarr; 2 slots</span>
           </div>
           <div class="bar">
-            <i style="width:37.7%"></i>
-            <i class="slot" style="width:30.0%"></i>
+            <i style="width:37.4%"></i>
+            <i class="slot" style="width:20.0%"></i>
           </div>
         </div>
         
@@ -312,10 +336,22 @@ a.shead:hover .more{color:var(--accent);}
           <div class="rtop">
             <b class="">Good News Network</b>
             <span>30 candidates
+                  &rarr; 2 slots</span>
+          </div>
+          <div class="bar">
+            <i style="width:20.4%"></i>
+            <i class="slot" style="width:20.0%"></i>
+          </div>
+        </div>
+        
+        <div class="row">
+          <div class="rtop">
+            <b class="">Guardian Life</b>
+            <span>20 candidates
                   &rarr; 1 slot</span>
           </div>
           <div class="bar">
-            <i style="width:20.5%"></i>
+            <i style="width:13.6%"></i>
             <i class="slot" style="width:10.0%"></i>
           </div>
         </div>
@@ -324,23 +360,11 @@ a.shead:hover .more{color:var(--accent);}
           <div class="rtop">
             <b class="">NYT Style</b>
             <span>20 candidates
-                  &rarr; 2 slots</span>
+                  &rarr; 1 slot</span>
           </div>
           <div class="bar">
-            <i style="width:13.7%"></i>
-            <i class="slot" style="width:20.0%"></i>
-          </div>
-        </div>
-        
-        <div class="row">
-          <div class="rtop">
-            <b class="">Guardian Life</b>
-            <span>19 candidates
-                  &rarr; 2 slots</span>
-          </div>
-          <div class="bar">
-            <i style="width:13.0%"></i>
-            <i class="slot" style="width:20.0%"></i>
+            <i style="width:13.6%"></i>
+            <i class="slot" style="width:10.0%"></i>
           </div>
         </div>
         
@@ -348,11 +372,11 @@ a.shead:hover .more{color:var(--accent);}
           <div class="rtop">
             <b class="">Positive News</b>
             <span>12 candidates
-                  &rarr; 1 slot</span>
+                  &rarr; 2 slots</span>
           </div>
           <div class="bar">
             <i style="width:8.2%"></i>
-            <i class="slot" style="width:10.0%"></i>
+            <i class="slot" style="width:20.0%"></i>
           </div>
         </div>
         
@@ -360,11 +384,11 @@ a.shead:hover .more{color:var(--accent);}
           <div class="rtop">
             <b class="">Reasons to be Cheerful</b>
             <span>10 candidates
-                  &rarr; 1 slot</span>
+                  &rarr; 2 slots</span>
           </div>
           <div class="bar">
             <i style="width:6.8%"></i>
-            <i class="slot" style="width:10.0%"></i>
+            <i class="slot" style="width:20.0%"></i>
           </div>
         </div>
         
@@ -376,9 +400,11 @@ a.shead:hover .more{color:var(--accent);}
 
       <p class="foot">
         Random draw within the round-robin. No ranking, no click data, no personalization.<br>
+        Italian headlines carry a tap-to-reveal <b>EN</b> gloss, machine-translated
+        by MyMemory &mdash; a crib, not the paper's own wording.<br>
         Nothing here is marked as shown &mdash; the dedup window applies to the front page,
         so a story can sit in its section for as long as its source's window allows.<br>
-        Phase 2 &middot; 93 feeds &middot; 12 sections.
+        Phase 2 &middot; 96 feeds &middot; 12 sections.
       </p>
     </section>
 
