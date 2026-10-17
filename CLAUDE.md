@@ -420,6 +420,56 @@ API does not say where on the page a story ran; any other order would be ours.
   the same URLs may already be owned in `articles` by an NYT feed (url_key is
   UNIQUE). Kept 14 days. The page carries "Data provided by The New York Times".
 
+## Italian sources, and the English gloss (Oct 17 2026)
+
+**The Local Italy was removed** — Frank reports its articles now need a
+subscription, so the page was linking to a wall. Four Italian papers replace
+it, all verified that day: **Il Post** (`/italia/feed/`; its whole-site `/feed/`
+answers 403), **Il Sole 24 Ore** (`/rss/italia.xml`), **Gazzetta del Sud** and
+**La Stampa**. Italy now holds ~130 days of supply.
+
+- **Repubblica was tested and REJECTED.** Its feeds are good (cronaca 25 items,
+  0–24h), but a sample article returned **124 words behind
+  `"isAccessibleForFree": false`** — the same wall as The Local. Il Post is the
+  one confirmed free: ~700 words, marked freely accessible.
+- **La Sicilia has no feed.** None advertised on the site, the usual addresses
+  404, and its sitemaps are `.jsp` pages. Don't re-test.
+- **Gazzetta del Sud is scoped by its own `<category>`** (`CATEGORY_EXCLUDE`),
+  because its URLs are all `/articoli/<slug>`. Of 120 items: cronaca 55,
+  mondo 15, calcio 13, politica 11, economia 10. Dropping foreign and non-news
+  channels leaves ~85, and 0 of 40 stored rows looked sporting.
+- **La Stampa's "copertina" feed is its whole cover** — esteri 15, torino 10,
+  sport 4, columns, and archive items up to two years old. Include-only on
+  `cronaca|politica|economia|torino` (`LASTAMPA_IT`), and **48h is deliberate**:
+  the tight window is what keeps the archive pieces out.
+- Its sitemap-style feed URL is long and unobvious
+  (`/upload/assets/rss/producer-nazionale-homepage.xml`, found via the home
+  page's own link tags) — the lesson being to read what a site advertises
+  rather than guessing `/rss/` and `/feed/`.
+
+**The English gloss** (`translate.py`): Italian headlines carry a tap-to-reveal
+`EN`. Frank's choice over always-on, 2026-10-17 — the Italian sources exist for
+reading practice, so the Italian stays primary and the gloss is a crib you
+choose to open.
+
+- **MyMemory, keyless**, documented at 5,000 chars/day anonymously. Only
+  headlines ALREADY DRAWN are sent (~20/day, ~1,300 chars), each translated
+  once and stored in `articles.title_en`, so nothing is ever sent twice.
+  LibreTranslate now requires a key and the public mirrors failed; DeepL's free
+  tier may no longer be purchasable. This is the one keyless option left.
+- **Quality is crib-grade**: sense right every time in testing, but a protest
+  `corteo` comes back as "parade". The page says "machine-translated by
+  MyMemory — a crib, not the paper's own wording", and the chip carries
+  `title="machine translation"`.
+- **Runs after the draw, fenced** like the NYT print edition: a failure is a
+  `!! translations` line, never a lost edition. It gives up after 3 failures
+  with no success, which is also what an exhausted allowance looks like.
+  MyMemory counts anonymous use **by IP**, and GitHub runners share Azure IPs,
+  so the allowance may be spent by strangers; a run that glosses nothing is not
+  necessarily broken.
+- Pure `<details>`, no JavaScript, so it works on the exported static pages.
+  CSS is scoped to `.xl`.
+
 ## Phase status
 
 Phases 0, 1 and 2 shipped Aug 23, 2026. **Not built, deliberately:** Comics

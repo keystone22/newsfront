@@ -98,7 +98,7 @@ def stories(db, slot_col, section=None):
     assert slot_col in SLOT_COLUMNS
     where = f"a.{slot_col} > 0" + (" AND a.section = ?" if section else "")
     rows = db.execute(f"""
-        SELECT a.title, a.url, a.published_at, a.section, a.is_current,
+        SELECT a.title, a.title_en, a.url, a.published_at, a.section, a.is_current,
                a.{slot_col} AS slot, s.name AS source
           FROM articles a
           JOIN sources s ON s.id = a.source_id
@@ -108,6 +108,9 @@ def stories(db, slot_col, section=None):
     return [dict(title=r["title"], url=r["url"], source=r["source"],
                  section=r["section"], age=age_label(r["published_at"]),
                  lang=cfg.LANG.get(r["source"]),
+                 # The tap-to-reveal gloss; see translate.py. Never a substitute
+                 # for the headline, which is why both travel to the template.
+                 title_en=r["title_en"],
                  on_front=r["is_current"] > 0) for r in rows]
 
 

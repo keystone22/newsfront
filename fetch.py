@@ -33,6 +33,7 @@ import xml.etree.ElementTree as ET
 import feedparser
 import nyt_print
 import sources as cfg
+import translate
 from store import connect
 
 # An honest user agent, deliberately not a spoofed browser string. Euractiv
@@ -653,6 +654,15 @@ def main():
         print(f"     {nyt_print.refresh(db)}")
     except Exception as ex:
         print(f"  !! NYT print        {ex}"[:200])
+
+    # English glosses for the Italian headlines now on the pages. Display only,
+    # after the draw, and fenced the same way: a translation service being down
+    # must never cost an edition.
+    print("\ntranslations")
+    try:
+        print(f"     {translate.refresh(db)}")
+    except Exception as ex:
+        print(f"  !! translations     {ex}"[:200])
 
     db.close()
     # Always zero. A thin section is a CONTENT problem and is surfaced three

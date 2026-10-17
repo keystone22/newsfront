@@ -306,6 +306,12 @@ RAI_VIDEO   = r"(/video/)"
 CATEGORY_EXCLUDE = {
     "Rai Politica": r"^Esteri$",
     "Rai Cronaca":  r"^Esteri$",
+    # Gazzetta del Sud, same trick for the same reason: its URLs are all
+    # /articoli/<slug> with no section in them, but every item carries a
+    # top-level <category>. Measured 2026-10-17 over its 120 items: cronaca 55,
+    # mondo 15, calcio 13, politica 11, economia 10, cultura 4, oroscopo 4.
+    # Dropping foreign news and the non-news channels leaves ~85 Italian ones.
+    "Gazzetta del Sud": r"^(calcio|sport|oroscopo|meteo|archivio|mondo|televisione)$",
 }
 
 # Sources published in ITALIAN. Tagged on the page so a headline is recognisable
@@ -358,6 +364,10 @@ LANG = {
     "ANSA Politica": "IT",
     "Rai Cronaca":   "IT",
     "Rai Politica":  "IT",
+    "Il Post":          "IT",
+    "Il Sole 24 Ore":   "IT",
+    "Gazzetta del Sud": "IT",
+    "La Stampa":        "IT",
 }
 
 # ---------------------------------------------------------------------------
@@ -430,6 +440,12 @@ TRIAL_SAME_EVENT = 0.2
 GLOBE = "https://www.bostonglobe.com/arc/outboundfeeds/rss/?outputType=xml"
 GLOBE_NATION = r"^https?://(?!www\.bostonglobe\.com/\d{4}/\d\d/\d\d/nation/)"
 GLOBE_METRO = r"^https?://(?!www\.bostonglobe\.com/\d{4}/\d\d/\d\d/metro/)"
+
+# La Stampa's "copertina" feed is its whole cover: measured 2026-10-17, of 76
+# items, esteri 15, cronaca 13, torino 10, sport 4, plus columns, magazine
+# pieces and a few archive items up to two years old. Include-only on its news
+# desks, anchored on the scheme so the lookahead can never match a title.
+LASTAMPA_IT = r"^https?://(?!www\.lastampa\.it/(cronaca|politica|economia|torino)/)"
 
 SOURCES = [
     # name,                section,           endpoint,                                                          cap, recency, exclude
@@ -553,7 +569,9 @@ SOURCES = [
     #     48-149h old, so a 48h window sat exactly on the newest item and the
     #     source contributed ~nothing. The Italian feed is live to the minute.
     ("ANSA English",       "Italy",           "https://www.ansa.it/english/english_rss.xml",                      1,  168,  NEWS_NOISE),
-    ("The Local Italy",    "Italy",           "https://feeds.thelocal.com/rss/it",                                1,  168,  NEWS_NOISE),
+    # The Local Italy was REMOVED 2026-10-17: Frank reports its articles now
+    # require a subscription, so the page was linking to a wall. It supplied 32
+    # items a week against Italy's 100+ days of supply, so nothing is lost.
     ("Wanted in Rome",     "Italy",           "https://www.wantedinrome.com/news?format=rss",                     1,   96,  NEWS_NOISE),
     ("Guardian Italy",     "Italy",           "https://www.theguardian.com/world/italy/rss",                      1,  168,  NEWS_NOISE),
     #     The Florentine publishes about twice a week: measured 2026-08-23 its
@@ -587,6 +605,29 @@ SOURCES = [
     #     17 of Rai's 40 items are VIDEO, which this is not a place for.
     ("Rai Cronaca",        "Italy",           "https://www.rainews.it/rss/cronaca",                               1,   48,  RAI_VIDEO),
     ("Rai Politica",       "Italy",           "https://www.rainews.it/rss/politica",                              1,   96,  RAI_VIDEO),
+    #     Four Italian papers added 2026-10-17, Frank's list, replacing The
+    #     Local. All verified that day; Repubblica was tested and REJECTED --
+    #     its feeds work, but a sample article returned 124 words behind
+    #     "isAccessibleForFree: false", the same subscription wall as The Local.
+    #     La Sicilia has no feed at all: none advertised on the site, the usual
+    #     addresses 404, and its sitemaps are .jsp pages a reader cannot parse.
+    #
+    #     Il Post is the one confirmed FREE to read (a sample came back whole,
+    #     ~700 words, marked freely accessible) and its prose is the cleanest
+    #     here for reading practice. Its whole-site /feed/ answers 403; the
+    #     per-section feeds answer 200, which is why this reads /italia/.
+    ("Il Post",            "Italy",           "https://www.ilpost.it/italia/feed/",                               1,   48,  NEWS_NOISE),
+    #     Il Sole's URLs are all /art/<slug> with no section, so the FEED is the
+    #     only scoping -- hence its own italia feed rather than the whole site.
+    ("Il Sole 24 Ore",     "Italy",           "https://www.ilsole24ore.com/rss/italia.xml",                       1,   48,  NEWS_NOISE),
+    #     The southern voice, Frank's call -- the counterpart to Globe Metro in
+    #     the US section. Its URLs carry no section either, so it is scoped by
+    #     the feed's own <category>: see CATEGORY_EXCLUDE above.
+    ("Gazzetta del Sud",   "Italy",           "https://gazzettadelsud.it/upload/assets/rss/producer-nazionale-homepage.xml", 1, 48, NEWS_NOISE),
+    #     48h, not longer: the cover feed carries archive items up to two years
+    #     old, and a tight window is what keeps them out. 53 of its 76 items
+    #     were inside 48h when measured.
+    ("La Stampa",          "Italy",           "https://www.lastampa.it/rss/copertina.xml",                        1,   48,  LASTAMPA_IT),
 
     # --- Finance: global markets, investing and the money story, as distinct
     #     from the EU business desks that sit in Europe. Frank asked for this

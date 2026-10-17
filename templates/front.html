@@ -46,6 +46,9 @@
           {% if a.lang %}<span class="lang" title="published in Italian">{{ a.lang }}</span>{% endif %}
         </div>
         <p class="hl"><a href="{{ a.url }}" target="_blank" rel="noopener noreferrer">{{ a.title }}</a></p>
+        {# Closed by default: these sources are for reading practice, so the
+           Italian comes first and the gloss is there when you want it. #}
+        {% if a.title_en %}<details class="xl"><summary title="machine translation">EN</summary><p>{{ a.title_en }}</p></details>{% endif %}
       </article>
       {% else %}
       <p class="empty">Nothing in the window. Run <code>fetch.py</code>.</p>
@@ -101,6 +104,8 @@
 
       <p class="foot">
         Random sample within cap. No ranking, no click data, no personalization.<br>
+        Italian headlines carry a tap-to-reveal <b>EN</b> gloss, machine-translated
+        by MyMemory &mdash; a crib, not the paper's own wording.<br>
         Phase {{ phase }} &middot; {{ source_count }} feeds &middot; {{ section_count }} sections &middot;
         {{ section_quota }} more behind each heading.
       </p>

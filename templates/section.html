@@ -47,6 +47,7 @@
           {% if a.on_front %}<span class="tag">on the front page</span>{% endif %}
         </div>
         <p class="hl"><a href="{{ a.url }}" target="_blank" rel="noopener noreferrer">{{ a.title }}</a></p>
+        {% if a.title_en %}<details class="xl"><summary title="machine translation">EN</summary><p>{{ a.title_en }}</p></details>{% endif %}
       </article>
       {% else %}
       <p class="empty">Nothing in the window. Run <code>fetch.py</code>.</p>
@@ -97,6 +98,8 @@
 
       <p class="foot">
         Random draw within the round-robin. No ranking, no click data, no personalization.<br>
+        Italian headlines carry a tap-to-reveal <b>EN</b> gloss, machine-translated
+        by MyMemory &mdash; a crib, not the paper's own wording.<br>
         Nothing here is marked as shown &mdash; the dedup window applies to the front page,
         so a story can sit in its section for as long as its source's window allows.<br>
         Phase {{ phase }} &middot; {{ source_count }} feeds &middot; {{ section_count }} sections.

@@ -19,6 +19,10 @@ MIGRATIONS = [
     # `articles` at twice the longest recency window -- under a thousand
     # rows -- so a scan costs less than the index would.
     ("articles", "section_slot", "INTEGER NOT NULL DEFAULT 0"),
+    # The tap-to-reveal English gloss on an Italian headline (translate.py).
+    # NULL means "not translated", which is also what a failed lookup leaves,
+    # so the next run simply tries again.
+    ("articles", "title_en",     "TEXT"),
 ]
 
 
